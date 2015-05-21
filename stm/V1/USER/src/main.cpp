@@ -129,6 +129,7 @@ int main()
 		Delay_Init(72);
 		CGlobalIOSet* g_IOset = CSingleton<CGlobalIOSet>::instance();
 		int initSetFlag = 0;
+		Delay_us(3);
 		PUT("press Entery key to stop system auto run ...\r\n")
 
 		//判断回车截止
@@ -169,7 +170,7 @@ int main()
 		{
 			//发送数据到子设备
 			
-			RSObject.TransWith("1234567890", "HELLO", 5, globalBuf,recLen,3);
+			RSObject.TransWith("0000000001", "HELLO", 5, globalBuf,recLen,3);
 			DBG_NPRINT_HEX(globalBuf, recLen)
 
 			Delay_ms(3000);
