@@ -60,9 +60,12 @@ int RS485Trans::Send(char* Addr, char* buf, int len)
 	//设置为输出
 	CGlobalIOSet* g_globalIOSet = CSingleton<CGlobalIOSet>::instance();
 	g_globalIOSet->m_OUT_485Direct->SetDigitalOut(HIGH);
-
+	Delay_ms(3);
 	usart2_write((char *)m_sendBuff,m_fillPos);
     DBG_NPRINT_HEX(m_sendBuff,m_fillPos)
+	//恢复输入
+	g_globalIOSet->m_OUT_485Direct->SetDigitalOut(LOW);
+	Delay_ms(3);
    return 1;
 }
 
@@ -109,6 +112,7 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 	//设置为输入
 	CGlobalIOSet* g_globalIOSet = CSingleton<CGlobalIOSet>::instance();
 	g_globalIOSet->m_OUT_485Direct->SetDigitalOut(LOW);
+	Delay_ms(3);
 	
 	while (overtime < 1000)
 	{
@@ -116,13 +120,16 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 		{
 			//判断包头
 			usart2_read((char*)m_recvBuff, 1);
-			DBG_PRN(("%02X",m_recvBuff[0]))
-			if(m_recvBuff[0] != '2')//包头不对，跳出
+			//DBG_PRN(("%02X",m_recvBuff[0]))
+			if(m_recvBuff[0] != 0x32)//包头不对，跳出
 			{
 				return 0;
 			}
 			m_recvPos++;
 			//进行地址匹配
+			//while(ser_can_read(UART2)<10);
+			if(waitLen(10,10)!=1)
+				return 0;
 			usart2_read((char *)m_recvBuff+m_recvPos, MAC_NUM_LEN);
 			if(strncmp((const char *)m_recvBuff+m_recvPos, m_addr,MAC_NUM_LEN )!=0)//地址不对 跳出
 			{
@@ -132,14 +139,22 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 			m_recvPos = m_recvPos+10;
 			
 			//将发送方地址传入到ADDR
+			//while(ser_can_read(UART2)<10);
+			if(waitLen(10,10)!=1)
+				return 0;
 			usart2_read((char *)m_recvBuff+m_recvPos, MAC_NUM_LEN);
 			memcpy(Addr,m_recvBuff+m_recvPos,MAC_NUM_LEN);
 			m_recvPos = m_recvPos+10;
 		
 			//数据总长度
+			//while(ser_can_read(UART2)<4);
+			if(waitLen(10,4)!=1)
+				return 0;
 			usart2_read((char *)m_recvBuff+m_recvPos, 4);
 			memcpy((char*)&packageLen,m_recvBuff+m_recvPos,4);
 			DBG_PRN(("%s len= %d","get packge",packageLen))
+			if(packageLen > sizeof(m_recvBuff))//数据长度错误
+				return 0;
 			m_recvPos = m_recvPos+4;
 			len = packageLen;					
 			int tmpRecLen = 0;			
@@ -153,7 +168,7 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 					if (tmpLen ==0)//超时过多接收不到包就跳出
 					{
 						overtime++;
-						Delay_ms(3);
+						Delay_ms(2);
 						if (overtime > 1000)
 						{
 							return -1;
@@ -182,10 +197,10 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 			}
 		}
 		overtime++;
-		Delay_ms(1);
+		Delay_ms(2);
 	}
+	return -1;
 
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -237,3 +252,22 @@ RS485Trans::RS485Trans()
 {
 	memset(m_addr,'0',sizeof(m_addr));
 }
+//在规定时间内没有接到给定的数据就返回
+int waitLen(int timeout,int len)
+{
+	while(ser_can_read(UART2)<len)
+	{
+		timeout--;
+		Delay_ms(10);
+		if(timeout==0)
+			return -1;
+		
+	}
+	return 1;
+	
+}
+
+
+
+
+

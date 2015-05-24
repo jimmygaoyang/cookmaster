@@ -72,6 +72,7 @@ public:
 	CIOObject *m_OUT_HOT;		//set the hot module run or close     
 	CIOObject *m_OUT_Light;		//set the Light module run or close 
 	CIOObject *m_OUT_485Direct;		//设置485读写方向
+	CIOObject *m_OUT_BlueLight;		//蓝灯指示
 
 	
 	

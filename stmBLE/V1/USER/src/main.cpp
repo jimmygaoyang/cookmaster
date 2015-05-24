@@ -129,7 +129,7 @@ int main()
 		Delay_Init(72);
 		CGlobalIOSet* g_IOset = CSingleton<CGlobalIOSet>::instance();
 		int initSetFlag = 0;
-		Delay_us(3);
+		Delay_ms(1000);
 		PUT("press Entery key to stop system auto run ...\r\n")
 
 		//Âà§Êñ≠ÂõûËΩ¶Êà™Ê≠¢
@@ -158,7 +158,7 @@ int main()
 		memset(tempBuf, 0, sizeof(tempBuf));
 		Flash_Read(MACHINE_NUM_ADRESS, (unsigned char*)tempBuf, MACHINE_NUM_LEN);
 		memset(showInfo, 0, sizeof(showInfo));
-		sprintf(showInfo,"Êú∫Âô®ÁºñÂè∑%s\r\n", tempBuf);
+		sprintf(showInfo,"ª˙∆˜±‡∫≈Œ™%s\r\n", tempBuf);
 		PUT(showInfo)
 	
 		RS485Trans RSObject;
@@ -166,14 +166,52 @@ int main()
 		char SrcMac[11];
 		memset(SrcMac,0,sizeof(SrcMac));
 		int recLen = 0;
+		int res = 0;
 		while(1)
 		{
 			//ÂèëÈÄÅÊï∞ÊçÆÂà∞Â≠êËÆæÂ§á
-			
-			RSObject.TransWith("0000000001", "HELLO", 5, globalBuf,recLen,3);
-			DBG_NPRINT_HEX(globalBuf, recLen)
+			res = 0;
+			while(res!= 1)
+			{
+					res = RSObject.TransWith("0000000001", "HELLO", 5, globalBuf,recLen,3);
+					DBG_PRN(("Ω” ’∑µªÿ%d",res))
+					Delay_ms(10000);
+					Delay_ms(10000);
+					Delay_ms(10000);
+					Delay_ms(10000);
+			}
 
-			Delay_ms(3000);
+			res = 0;
+			while(res!= 1)
+			{
+					res = RSObject.TransWith("0000000003", "HELLO", 5, globalBuf,recLen,3);
+					DBG_PRN(("Ω” ’∑µªÿ%d",res))
+					Delay_ms(10000);
+					Delay_ms(10000);
+					Delay_ms(10000);
+					Delay_ms(10000);
+			}
+
+//		  res = RSObject.TransWith("0000000003", "HELLO", 5, globalBuf,recLen,3);
+//			DBG_PRN(("Ω” ’∑µªÿ%d",res))
+//			Delay_ms(10000);
+//			Delay_ms(10000);
+//			Delay_ms(10000);
+//			Delay_ms(10000);
+//			Delay_ms(10000);
+//			delay_ms(3000);
+			
+//			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
+//			{
+//				DBG_PRN(("Ω” ’µΩ¿¥◊‘%sµƒ ˝æ›∞¸",SrcMac))
+//				DBG_NPRINT_HEX(globalBuf,recLen)
+
+//				Delay_ms(50);
+
+//				RSObject.Send(SrcMac,globalBuf,recLen);
+//				DBG_PRN(("œÚ%s∑¢ÀÕ¡À ˝æ›∞¸",SrcMac))
+//				DBG_NPRINT_HEX(globalBuf,recLen)
+//			}
 
 		}
 

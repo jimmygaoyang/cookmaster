@@ -9,6 +9,8 @@
 #if !defined(__Veg_RS485Operater_h)
 #define __Veg_RS485Operater_h
 #define MAC_NUM_LEN 10
+//在规定时间内没有接到给定的数据就返回
+int waitLen(int timeout,int len);
 
 class RS485Trans
 {

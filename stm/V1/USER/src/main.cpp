@@ -158,7 +158,7 @@ int main()
 		memset(tempBuf, 0, sizeof(tempBuf));
 		Flash_Read(MACHINE_NUM_ADRESS, (unsigned char*)tempBuf, MACHINE_NUM_LEN);
 		memset(showInfo, 0, sizeof(showInfo));
-		sprintf(showInfo,"æœºå™¨ç¼–å·%s\r\n", tempBuf);
+		sprintf(showInfo,"»úÆ÷±àºÅÎª%s\r\n", tempBuf);
 		PUT(showInfo)
 	
 		RS485Trans RSObject;
@@ -168,13 +168,18 @@ int main()
 		int recLen = 0;
 		while(1)
 		{
-			//å‘é€æ•°æ®åˆ°å­è®¾å¤‡
-			
-			RSObject.TransWith("0000000001", "HELLO", 5, globalBuf,recLen,3);
-			DBG_NPRINT_HEX(globalBuf, recLen)
-
-			Delay_ms(3000);
-
+			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
+			{
+				DBG_PRN(("½ÓÊÕµ½À´×Ô%sµÄÊý¾Ý°ü",SrcMac))
+				DBG_NPRINT_HEX(globalBuf,recLen)
+				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
+				Delay_ms(500);
+				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
+				RSObject.Send(SrcMac,globalBuf,recLen);
+				DBG_PRN(("Ïò%s·¢ËÍÁËÊý¾Ý°ü",SrcMac))
+				DBG_NPRINT_HEX(globalBuf,recLen)
+			}
+//			RSObject.TransWith("0000000002", "HELLO", 5, globalBuf,recLen,5);
 		}
 
 	
