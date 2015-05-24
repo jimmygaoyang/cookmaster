@@ -181,16 +181,16 @@ int main()
 					Delay_ms(10000);
 			}
 
-			res = 0;
-			while(res!= 1)
-			{
-					res = RSObject.TransWith("0000000003", "HELLO", 5, globalBuf,recLen,3);
-					DBG_PRN(("接收返回%d",res))
-					Delay_ms(10000);
-					Delay_ms(10000);
-					Delay_ms(10000);
-					Delay_ms(10000);
-			}
+//			res = 0;
+//			while(res!= 1)
+//			{
+//					res = RSObject.TransWith("0000000003", "HELLO", 5, globalBuf,recLen,3);
+//					DBG_PRN(("接收返回%d",res))
+//					Delay_ms(10000);
+//					Delay_ms(10000);
+//					Delay_ms(10000);
+//					Delay_ms(10000);
+//			}
 
 //		  res = RSObject.TransWith("0000000003", "HELLO", 5, globalBuf,recLen,3);
 //			DBG_PRN(("接收返回%d",res))
