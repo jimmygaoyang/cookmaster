@@ -4,7 +4,9 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model ID="{559B55A0-27C8-47DC-922E-84D81DF85CA1}" Name="CookMasterApp" Selected="Yes" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="CookMasterApp.oom"/>
+		<Model ID="{559B55A0-27C8-47DC-922E-84D81DF85CA1}" Loaded="No" Name="CookMasterApp" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="CookMasterApp.oom"/>
+		<Model Expanded="Yes" ID="{559B55A0-27C8-47DC-922E-84D81DF85CA1}" Name="CookMasterApp" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="CookMasterApp.oom"/>
+		<Model Expanded="Yes" ID="{3ED432E0-334A-4B74-A2E6-F47E46B0C2E5}" Name="CoolMaster" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="CoolMaster.oom"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
