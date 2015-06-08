@@ -492,6 +492,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\USER\src\stm32f10x_it.c</FilePath>
             </File>
+            <File>
+              <FileName>BLETrans.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\BLETrans.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -57,9 +57,9 @@ int CIOObject::ReadDigitalIn()
 
 CGlobalIOSet::CGlobalIOSet()
 {
-	m_IN_BLEState = new CIOObject(GPIOC,GPIO_Pin_6,RCC_APB2Periph_GPIOC);
+	m_IN_BLEState = new CIOObject(GPIOC,GPIO_Pin_7,RCC_APB2Periph_GPIOC);
 	m_IN_BLEState->SetMode(IN);
-	m_OUT_BLEEnable =  new CIOObject(GPIOC,GPIO_Pin_7,RCC_APB2Periph_GPIOC);
+	m_OUT_BLEEnable =  new CIOObject(GPIOC,GPIO_Pin_6,RCC_APB2Periph_GPIOC);
 	m_OUT_BLEEnable->SetMode(OUT); 
 	m_OUT_485Direct = new CIOObject(GPIOC,GPIO_Pin_12,RCC_APB2Periph_GPIOC);
 	m_OUT_485Direct->SetMode(OUT);

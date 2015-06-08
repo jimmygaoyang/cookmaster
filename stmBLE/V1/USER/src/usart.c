@@ -57,7 +57,8 @@ void uartReceiveChars(char nNum)
 	else if(nNum == UART2)
 		USARTx = USART2;
 	else if(nNum == UART3)
-		USARTx = USART3;	
+		USARTx = USART3;
+
 	while(1)
 	{
 		uBuf = uartRxBufGetNextOne(nNum, dev->uUartRxTail);
@@ -76,12 +77,22 @@ void uartReceiveChars(char nNum)
 	// 	USART_SendData(USART1, receiveChar);
 	// 	}
 		
-	//¹ıÂËring×Ö·û
+	//è¿‡æ»¤ringå­—ç¬¦
 //	memset(ringBuf,0,6);
 //	ringFilterBuf.AddNew((void *)(&ringFilterBuf),(char *)&receiveChar);
 //	ringFilterBuf.ReadAll((void *)(&ringFilterBuf),ringBuf,(unsigned int *)&res);
 //	if(!strncmp(ringBuf, "RING",4))
 //		ringFlag = 1;
+	//å‘é€æ¥æ”¶åˆ°çš„æ•°æ®åˆ°è“ç‰™æ¨¡å—
+	if(nNum == UART3){
+		USART_SendData(USART1, receiveChar);
+	 }
+	//æ˜¾ç¤ºæ¥è‡ªè“ç‰™æ¨¡å—çš„è¿”å›æ•°æ®
+	if (nNum == UART1)
+	{
+		USART_SendData(USART3, receiveChar);
+	}	
+
 	
 }
 
@@ -128,25 +139,25 @@ void usart1_open(unsigned int baudRate)
 	USART_InitTypeDef USART_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 	
-	//³õÊ¼»¯½ÓÊÕ»º³åÇø
+	//åˆå§‹åŒ–æ¥æ”¶ç¼“å†²åŒº
 	UART_DEV[UART1].pucUartRxBuf = Uart1RxBuffer;
 	uartBufferInit(UART1);
 
 		
-	//Ê¹ÄÜ´®¿Ú¡¢´®¿ÚËùÓÃµÄI/O¿ÚÒÔ¼°¶Ë¿Ú¸´ÓÃÊ±ÖÓ	
+	//ä½¿èƒ½ä¸²å£ã€ä¸²å£æ‰€ç”¨çš„I/Oå£ä»¥åŠç«¯å£å¤ç”¨æ—¶é’Ÿ	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_USART1|RCC_APB2Periph_AFIO, ENABLE);
 
-    //´®¿Ú1ÉèÖÃ
+    //ä¸²å£1è®¾ç½®
 	/* A9 USART1_Tx */	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;	
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; 	 //ÍÆÍìÊä³ö-TX	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; 	 //æ¨æŒ½è¾“å‡º-TX	
 	GPIO_Init(GPIOA,&GPIO_InitStructure);		
 	/* A10 USART1_Rx */	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//¸¡¿ÕÊäÈë-RX	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//æµ®ç©ºè¾“å…¥-RX	
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	//´®¿ÚÊôĞÔ
+	//ä¸²å£å±æ€§
 	USART_InitStructure.USART_BaudRate = baudRate;	
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;	
@@ -155,7 +166,7 @@ void usart1_open(unsigned int baudRate)
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	
 	USART_Init(USART1, &USART_InitStructure);
 
-	//Ê¹ÄÜÖĞ¶Ï
+	//ä½¿èƒ½ä¸­æ–­
 
 	/* Configure the NVIC Preemption Priority Bits */  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
@@ -164,9 +175,9 @@ void usart1_open(unsigned int baudRate)
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
-	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//Ê¹ÄÜUSART1½ÓÊÕÖĞ¶Ï
+	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//ä½¿èƒ½USART1æ¥æ”¶ä¸­æ–­
 
-	//Ê¹ÄÜ´®¿Ú1
+	//ä½¿èƒ½ä¸²å£1
 	USART_Cmd(USART1, ENABLE);
 	
 }
@@ -225,26 +236,26 @@ void usart2_open(unsigned int baudRate)
 	USART_InitTypeDef USART_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 
-	//³õÊ¼»¯½ÓÊÕ»º³åÇø
+	//åˆå§‹åŒ–æ¥æ”¶ç¼“å†²åŒº
 	UART_DEV[UART2].pucUartRxBuf = Uart2RxBuffer;
 	uartBufferInit(UART2);
 
 		
-	//Ê¹ÄÜ´®¿Ú¡¢´®¿ÚËùÓÃµÄI/O¿ÚÒÔ¼°¶Ë¿Ú¸´ÓÃÊ±ÖÓ	
+	//ä½¿èƒ½ä¸²å£ã€ä¸²å£æ‰€ç”¨çš„I/Oå£ä»¥åŠç«¯å£å¤ç”¨æ—¶é’Ÿ	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 	
-	//´®¿Ú2ÉèÖÃ
+	//ä¸²å£2è®¾ç½®
 	/* A2 USART2_Tx */	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;	
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; //ÍÆÍìÊä³ö-TX	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; //æ¨æŒ½è¾“å‡º-TX	
 	GPIO_Init(GPIOA,&GPIO_InitStructure);		
 	/* A3 USART2_Rx */	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//¸¡¿ÕÊäÈë-RX	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//æµ®ç©ºè¾“å…¥-RX	
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	//´®¿ÚÊôĞÔ
+	//ä¸²å£å±æ€§
 	USART_InitStructure.USART_BaudRate = baudRate;	
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;	
@@ -253,7 +264,7 @@ void usart2_open(unsigned int baudRate)
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	
 	USART_Init(USART2, &USART_InitStructure);
 
-	//Ê¹ÄÜÖĞ¶Ï
+	//ä½¿èƒ½ä¸­æ–­
 	
 	/* Configure the NVIC Preemption Priority Bits */  
 	/* Enable the USART2 Interrupt */
@@ -262,10 +273,10 @@ void usart2_open(unsigned int baudRate)
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 
-	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);//Ê¹ÄÜUSART2½ÓÊÕÖĞ¶Ï
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);//ä½¿èƒ½USART2æ¥æ”¶ä¸­æ–­
 
 
-	//Ê¹ÄÜ´®¿Ú2
+	//ä½¿èƒ½ä¸²å£2
 	USART_Cmd(USART2, ENABLE);
 
 
@@ -327,25 +338,25 @@ void usart3_open(unsigned int baudRate)
 	USART_InitTypeDef USART_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 
-	//³õÊ¼»¯½ÓÊÕ»º³åÇø
+	//åˆå§‹åŒ–æ¥æ”¶ç¼“å†²åŒº
 	UART_DEV[UART3].pucUartRxBuf = Uart3RxBuffer;
 	uartBufferInit(UART3);
 		
-	//Ê¹ÄÜ´®¿Ú¡¢´®¿ÚËùÓÃµÄI/O¿ÚÒÔ¼°¶Ë¿Ú¸´ÓÃÊ±ÖÓ	
+	//ä½¿èƒ½ä¸²å£ã€ä¸²å£æ‰€ç”¨çš„I/Oå£ä»¥åŠç«¯å£å¤ç”¨æ—¶é’Ÿ	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_AFIO, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	
-	//´®¿Ú3ÉèÖÃ
+	//ä¸²å£3è®¾ç½®
 	/* B10 USART3_Tx */	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;	
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; //ÍÆÍìÊä³ö-TX	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; //æ¨æŒ½è¾“å‡º-TX	
 	GPIO_Init(GPIOB,&GPIO_InitStructure);		
 	/* B11 USART3_Rx */	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//¸¡¿ÕÊäÈë-RX	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//æµ®ç©ºè¾“å…¥-RX	
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	//´®¿ÚÊôĞÔ
+	//ä¸²å£å±æ€§
 	USART_InitStructure.USART_BaudRate = baudRate;	
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;	
@@ -354,7 +365,7 @@ void usart3_open(unsigned int baudRate)
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	
 	USART_Init(USART3, &USART_InitStructure);
 
-	//Ê¹ÄÜÖĞ¶Ï
+	//ä½¿èƒ½ä¸­æ–­
 	/* Configure the NVIC Preemption Priority Bits */  
 	/* Enable the USART3 Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
@@ -363,10 +374,10 @@ void usart3_open(unsigned int baudRate)
 	NVIC_Init(&NVIC_InitStructure);
 
 
-	USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);//Ê¹ÄÜUSART3½ÓÊÕÖĞ¶Ï
+	USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);//ä½¿èƒ½USART3æ¥æ”¶ä¸­æ–­
 
 
-	//Ê¹ÄÜ´®¿Ú3
+	//ä½¿èƒ½ä¸²å£3
 	USART_Cmd(USART3, ENABLE);
 
 

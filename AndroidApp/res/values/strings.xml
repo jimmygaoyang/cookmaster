@@ -3,5 +3,7 @@
 
     <string name="app_name">CookMaster</string>
     <string name="hello_world">Hello world!</string>
+    <string name="ble">蓝牙</string>
+    <string name="net">网络</string>
 
 </resources>
