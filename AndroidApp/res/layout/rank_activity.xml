@@ -1,0 +1,315 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#eee">
+
+    <TextView
+        android:id="@+id/text"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ed4255"
+        android:layout_alignParentTop="true"
+        android:gravity="center"/>
+
+	   <RelativeLayout
+	       android:id="@+id/menu_rank"
+	       android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_below="@+id/text"
+	       android:background="@drawable/booder" >
+	
+	       <TextView
+	           android:id="@+id/menTop"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_alignParentLeft="true"
+	           android:layout_alignParentTop="true"
+	           android:text="菜谱Top5"
+	           android:textSize="16sp" />
+	
+	        <RelativeLayout 
+			     android:layout_width="155dp"
+			     android:layout_height="wrap_content"
+			     android:background="@drawable/booder_all"
+			     android:layout_alignParentLeft="true"
+			     android:layout_below="@+id/menTop"
+			     android:id="@+id/id_menu_rank1"
+			     android:layout_marginRight="5dp"
+			    >
+			 <TextView
+			     android:id="@+id/Tag0"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:layout_alignParentLeft="true"
+			     android:layout_alignParentTop="true"
+			     android:textSize="16sp"
+			     android:textStyle="bold"
+			     android:text="醋" />
+			
+			  <TextView
+			      android:id="@+id/top01"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/Tag0"
+			      android:textSize="14sp"
+			      android:text = "1 水塔" /> 
+			  <TextView
+			      android:id="@+id/top02"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top01"
+			      android:textSize="14sp"
+			      android:text = "2 宁化府" /> 
+			  <TextView
+			      android:id="@+id/top03"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top02"
+			      android:textSize="14sp"
+			      android:text = "3 镇江" /> 
+			  <TextView
+			      android:id="@+id/top04"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top03"
+			      android:textSize="14sp"
+			      android:text = "4 紫林" />
+			  <TextView
+			      android:id="@+id/top05"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top04"
+			      android:textSize="14sp"
+			      android:text = "5 老才臣" /> 
+			</RelativeLayout>
+  	        <RelativeLayout 
+			     android:layout_width="155dp"
+			     android:layout_height="wrap_content"
+			     android:background="@drawable/booder_all"
+			     android:layout_alignParentRight="true"
+			     android:id="@+id/id_menu_rank2"
+			     android:layout_below="@+id/menTop"
+			     android:layout_marginLeft="5dp"
+			    >
+			 <TextView
+			     android:id="@+id/Tag1"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:layout_alignParentLeft="true"
+			     android:layout_alignParentTop="true"
+			     android:textSize="16sp"
+			     android:textStyle="bold"
+			     android:text="醋" />
+			
+			  <TextView
+			      android:id="@+id/top11"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/Tag1"
+			      android:textSize="14sp"
+			      android:text = "1 水塔" /> 
+			  <TextView
+			      android:id="@+id/top12"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top11"
+			      android:textSize="14sp"
+			      android:text = "2 宁化府" /> 
+			  <TextView
+			      android:id="@+id/top13"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top12"
+			      android:textSize="14sp"
+			      android:text = "3 镇江" /> 
+			  <TextView
+			      android:id="@+id/top14"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top13"
+			      android:textSize="14sp"
+			      android:text = "4 紫林" />
+			  <TextView
+			      android:id="@+id/top15"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top14"
+			      android:textSize="14sp"
+			      android:text = "5 老才臣" /> 
+			</RelativeLayout>
+
+        <TextView
+            android:id="@+id/menu_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id_menu_rank2"
+            android:layout_alignParentRight="true"
+            android:text="更多"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+  	   <RelativeLayout
+	        android:id="@+id/brand_rank"
+	        android:layout_below="@+id/menu_rank"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/booder"
+	        android:layout_alignParentBottom="true"
+	         >
+	       <TextView
+	           android:id="@+id/brandTop"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_alignParentLeft="true"
+	           android:layout_alignParentTop="true"
+	           android:text="品牌Top5"
+	           android:textSize="16sp" />
+	
+	        <RelativeLayout 
+			     android:layout_width="155dp"
+			     android:layout_height="wrap_content"
+			     android:background="@drawable/booder_all"
+			     android:layout_alignParentLeft="true"
+			     android:layout_below="@+id/brandTop"
+			     android:id="@+id/id_brand_rank1"
+			     android:layout_marginRight="5dp"
+			    >
+			 <TextView
+			     android:id="@+id/Tag2"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:layout_alignParentLeft="true"
+			     android:layout_alignParentTop="true"
+			     android:textSize="16sp"
+			     android:textStyle="bold"
+			     android:text="醋" />
+			
+			  <TextView
+			      android:id="@+id/top21"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/Tag2"
+			      android:textSize="14sp"
+			      android:text = "1 水塔" /> 
+			  <TextView
+			      android:id="@+id/top22"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top21"
+			      android:textSize="14sp"
+			      android:text = "2 宁化府" /> 
+			  <TextView
+			      android:id="@+id/top23"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top22"
+			      android:textSize="14sp"
+			      android:text = "3 镇江" /> 
+			  <TextView
+			      android:id="@+id/top24"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top23"
+			      android:textSize="14sp"
+			      android:text = "4 紫林" />
+			  <TextView
+			      android:id="@+id/top25"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top24"
+			      android:textSize="14sp"
+			      android:text = "5 老才臣" /> 
+			</RelativeLayout>
+  	        <RelativeLayout 
+			     android:layout_width="155dp"
+			     android:layout_height="wrap_content"
+			     android:background="@drawable/booder_all"
+			     android:layout_alignParentRight="true"
+			     android:id="@+id/id_brand_rank2"
+			     android:layout_below="@+id/brandTop"
+			     android:layout_marginLeft="5dp"
+			    >
+			 <TextView
+			     android:id="@+id/Tag3"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:layout_alignParentLeft="true"
+			     android:layout_alignParentTop="true"
+			     android:textSize="16sp"
+			     android:textStyle="bold"
+			     android:text="醋" />
+			
+			  <TextView
+			      android:id="@+id/top31"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/Tag3"
+			      android:textSize="14sp"
+			      android:text = "1 水塔" /> 
+			  <TextView
+			      android:id="@+id/top32"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top31"
+			      android:textSize="14sp"
+			      android:text = "2 宁化府" /> 
+			  <TextView
+			      android:id="@+id/top33"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top32"
+			      android:textSize="14sp"
+			      android:text = "3 镇江" /> 
+			  <TextView
+			      android:id="@+id/top34"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top33"
+			      android:textSize="14sp"
+			      android:text = "4 紫林" />
+			  <TextView
+			      android:id="@+id/top35"
+			      android:layout_width="wrap_content"
+			      android:layout_height="wrap_content"
+			      android:layout_alignParentLeft="true"
+			      android:layout_below="@+id/top34"
+			      android:textSize="14sp"
+			      android:text = "5 老才臣" /> 
+			</RelativeLayout>
+
+        <TextView
+            android:id="@+id/brand_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id_brand_rank2"
+            android:layout_alignParentRight="true"
+            android:text="更多"
+            android:textSize="16sp" />
+   
+    </RelativeLayout>
+
+
+    	
+    	
+</RelativeLayout>

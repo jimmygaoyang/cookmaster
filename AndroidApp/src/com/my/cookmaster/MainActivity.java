@@ -8,10 +8,17 @@ import org.apache.http.Header;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.bluetooth.BluetoothDevice;
 
 import com.my.cookmaster.alogrithm.Alogrithm;
@@ -19,10 +26,17 @@ import com.my.cookmaster.bus.BTtranse;
 import com.my.cookmaster.bus.HttpTranse;
 import com.my.cookmaster.view.listview.viewprovider.*;
 import com.my.cookmaster.view.listview.viewprovider.impl.*;
+import com.my.cookmaster.view.viewpagerindicator.BaseFragment;
+import com.my.cookmaster.view.viewpagerindicator.IconPagerAdapter;
+import com.my.cookmaster.view.viewpagerindicator.IconTabPageIndicator;
 import com.my.cookmaster.bean.bus_bean.*;
+import com.my.cookmaster.bean.pro_bean.GetMenuBean;
+import com.my.cookmaster.bean.pro_bean.menuBean;
 import com.loopj.android.http.*;
+import com.my.cookmaster.R;
+import com.alibaba.fastjson.JSON;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 	private BTtranse bttrans =new BTtranse();
 	private List<BluetoothDevice> devList =null;
 //	static AsyncHttpClient client = new AsyncHttpClient();
@@ -30,27 +44,32 @@ public class MainActivity extends Activity {
 //	Button NetBtn;
 	private ListView mListView;
 	private List<IItemBean> mList = new ArrayList<IItemBean>();
+	private ViewPager mViewPager;  
+    private IconTabPageIndicator mIndicator;  
+    private TextView mTitleTextView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+	//super.setTitle("标题");
+		
 //		BleBtn = (Button)findViewById(R.id.ble);
 //		NetBtn = (Button)findViewById(R.id.net);
 		createData();
-		mListView = (ListView) findViewById(R.id.my_listview);
-		//不同之处在于多了一个provider集合，提供所有期望显示类型的provider class
-		//getView的实现在provider中实现，和在adapter中用法一样
-		List<Class<? extends IViewProvider>> providers = new ArrayList<Class<? extends IViewProvider>>();
-		providers.add(FlightOrderViewProvider.class);
-		providers.add(SticketOrderViewProvider.class);
-		providers.add(ImageViewProvider.class);
-		
-		MiltilViewListAdapter adpater = new MiltilViewListAdapter(getApplication(), mList, providers);
-		mListView.setAdapter(adpater);
-		MyScrollListener scrollListener = new MyScrollListener(adpater);
-		mListView.setOnScrollListener(scrollListener);
-		bttrans.open();
-		devList = bttrans.getCookDevice();
+//		mListView = (ListView) findViewById(R.id.my_listview);
+//		//不同之处在于多了一个provider集合，提供所有期望显示类型的provider class
+//		//getView的实现在provider中实现，和在adapter中用法一样
+//		List<Class<? extends IViewProvider>> providers = new ArrayList<Class<? extends IViewProvider>>();
+//		providers.add(FlightOrderViewProvider.class);
+//		providers.add(SticketOrderViewProvider.class);
+//		providers.add(ImageViewProvider.class);
+//		
+//		MiltilViewListAdapter adpater = new MiltilViewListAdapter(getApplication(), mList, providers);
+//		mListView.setAdapter(adpater);
+//		MyScrollListener scrollListener = new MyScrollListener(adpater);
+//		mListView.setOnScrollListener(scrollListener);
+//		bttrans.open();
+//		devList = bttrans.getCookDevice();
 		
 //		BleBtn.setOnClickListener(new View.OnClickListener(){
 //
@@ -85,35 +104,23 @@ public class MainActivity extends Activity {
 //			}});
 //		loop_thread.start();
 
-//			client.get("http://192.168.28.86/index.php/api/process", new AsyncHttpResponseHandler() {
-//				@Override
-//			    public void onStart() {
-//			        // called before request is started
-//			    }
-//
-//			    @Override
-//			    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-//			        // called when response HTTP status is "200 OK"
-//			    	String text = new String(response);
-//			    	Log.d("cook",text);
-//			    }
-//
-//			    @Override
-//			    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-//			        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-//			    	Log.d("cook",errorResponse.toString());
-//			    }
-//
-//			    @Override
-//			    public void onRetry(int retryNo) {
-//			        // called when request is retried
-//				}
-//			});
 
+		initViews();
+		
 
 		
 	}
 	
+	private void initViews() {
+		// TODO Auto-generated method stub
+		mViewPager = (ViewPager) findViewById(R.id.view_pager);  
+        mIndicator = (IconTabPageIndicator) findViewById(R.id.indicator);  
+        List<BaseFragment> fragments = initFragments();  
+        FragmentAdapter adapter = new FragmentAdapter(fragments, getSupportFragmentManager());  
+        mViewPager.setAdapter(adapter);  
+        mIndicator.setViewPager(mViewPager);  
+	}
+
 	Thread loop_thread = new Thread()
 	{
 		public void run()
@@ -134,6 +141,8 @@ public class MainActivity extends Activity {
 		
 		}
 	};
+	
+	
 	
 	private void createData(){
 		Random random = new Random();
@@ -191,4 +200,62 @@ public class MainActivity extends Activity {
 //			}
 //		}
 	}
+	
+    private List<BaseFragment> initFragments() {
+        List<BaseFragment> fragments = new ArrayList<BaseFragment>();
+
+        MenuActivity MenuFragment = new MenuActivity();
+        MenuFragment.setTitle("菜谱");
+        MenuFragment.setIconId(R.drawable.tab_menu_selector);
+        fragments.add(MenuFragment);
+
+        RankActivity RankFragment = new RankActivity();
+        RankFragment.setTitle("排行榜");
+        RankFragment.setIconId(R.drawable.tab_rank_selector);
+        fragments.add(RankFragment);
+
+        BaseFragment contactFragment = new BaseFragment();
+        contactFragment.setTitle("做菜");
+        contactFragment.setIconId(R.drawable.tab_cook_selector);
+        fragments.add(contactFragment);
+
+        UserActivity UserFragment = new UserActivity();
+        UserFragment.setTitle("我的");
+        UserFragment.setIconId(R.drawable.tab_user_selector);
+        fragments.add(UserFragment);
+
+        return fragments;
+    }
+	class FragmentAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
+        private List<BaseFragment> mFragments;
+
+        public FragmentAdapter(List<BaseFragment> fragments, FragmentManager fm) {
+            super(fm);
+            mFragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return mFragments.get(i);
+        }
+
+        @Override
+        public int getIconResId(int index) {
+            return mFragments.get(index).getIconId();
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragments.get(position).getTitle();
+        }
+    }
+	
+
+	
+	
 }

@@ -1,0 +1,36 @@
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+	android:background="#ed4255" 
+	android:layout_height="35dp"
+	android:layout_width="match_parent" >
+ 
+    <TextView 
+    	android:id="@+id/text_title" 
+    	android:layout_height="match_parent" 
+    	android:layout_width="wrap_content"
+    	android:layout_centerInParent="true"
+    	android:layout_centerVertical="true"
+    	android:textAppearance="@android:style/TextAppearance.Large"
+    	android:text="标题栏" 
+    	android:gravity="center"
+		/>
+      <Button 
+    		android:gravity="center" 
+    		android:layout_alignParentLeft="true"
+    		android:id="@+id/button_backward" 
+    		android:layout_height="match_parent" 
+    		android:layout_width="60dp" 
+    		android:background="@drawable/back_arrow">
+    </Button>
+    	<TextView   
+    		android:layout_alignParentRight="true"
+    		android:id="@+id/button_forward" 
+    		android:layout_height="match_parent" 
+    		android:layout_width="wrap_content"
+    		android:layout_centerVertical="true"
+    		android:textAppearance="@android:style/TextAppearance.Large"
+    		android:gravity="center"
+    		android:text="提交" >
+    	</TextView>
+</RelativeLayout>

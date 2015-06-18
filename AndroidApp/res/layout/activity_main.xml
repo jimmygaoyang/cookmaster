@@ -1,15 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FFFFFF"
-    >
-    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyActivity">
+<!--     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
-<!--    <Button
+        --> 
+        <!--    <Button
         android:id="@+id/ble"
         android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
@@ -22,11 +21,31 @@
 		android:text="@string/net" 
       />
 --> 
-        <ListView
+<!--          <ListView
 	    android:id="@+id/my_listview"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" 
 	    >
 	  </ListView>
+-->	
+<!--      <include layout="@layout/title_bar"
+        android:id="@+id/title"
+        android:layout_alignParentTop="true"/>
+-->
+    <com.my.cookmaster.view.viewpagerindicator.IconTabPageIndicator  
+        android:id="@+id/indicator"  
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content"/>  
+        
+    <android.support.v4.view.ViewPager  
+        android:id="@+id/view_pager"  
+        android:layout_above="@id/indicator"
+        android:layout_width="match_parent"  
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"/>
+ 		
+    
 
-</LinearLayout>
+
+</RelativeLayout>

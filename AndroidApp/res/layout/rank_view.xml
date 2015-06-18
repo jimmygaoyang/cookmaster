@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:background="@drawable/booder_all"
+    >"
+
+ <TextView
+     android:id="@+id/Tag"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentTop="true"
+     android:textSize="20sp"
+     android:textStyle="bold"
+     android:text="醋" />
+
+  <TextView
+      android:id="@+id/top1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_below="@+id/Tag"
+      android:textSize="14sp"
+      android:text = "1 水塔" /> 
+  <TextView
+      android:id="@+id/top2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_below="@+id/top1"
+      android:textSize="14sp"
+      android:text = "2 宁化府" /> 
+  <TextView
+      android:id="@+id/top3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_below="@+id/top2"
+      android:textSize="14sp"
+      android:text = "3 镇江" /> 
+  <TextView
+      android:id="@+id/top4"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_below="@+id/top3"
+      android:textSize="14sp"
+      android:text = "4 紫林" />
+  <TextView
+      android:id="@+id/top5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_below="@+id/top4"
+      android:textSize="14sp"
+      android:text = "5 老才臣" /> 
+      
+
+</RelativeLayout>
