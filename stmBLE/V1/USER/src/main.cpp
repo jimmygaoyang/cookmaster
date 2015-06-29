@@ -175,17 +175,17 @@ int main()
 		while(1)
 		{
 
-			if(bleObj.Receive(globalBuf,recLen) == 1)
-			{
-				DBG_PRN(("%s","接收到蓝牙数据包"))
-				DBG_NPRINT_HEX(globalBuf,recLen)
+//			if(bleObj.Receive(globalBuf,recLen) == 1)
+//			{
+//				DBG_PRN(("%s","接收到蓝牙数据包"))
+//				DBG_NPRINT_HEX(globalBuf,recLen)
 
-				Delay_ms(50);
+//				Delay_ms(50);
 
-				bleObj.Send("7654321",7);
-				DBG_PRN(("%s","发送了蓝牙数据包"))
-				DBG_NPRINT_HEX(globalBuf,recLen)
-			}
+//				bleObj.Send("7654321",7);
+//				DBG_PRN(("%s","发送了蓝牙数据包"))
+//				DBG_NPRINT_HEX(globalBuf,recLen)
+//			}
 
 //		 res = 0;
 //		 while(res!= 1)
@@ -209,6 +209,18 @@ int main()
 //					Delay_ms(10000);
 //			}
 
+
+			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
+			{
+				DBG_PRN(("接收到%s发来的数据包",SrcMac))
+				DBG_NPRINT_HEX(globalBuf,recLen)
+				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
+				Delay_ms(500);
+				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
+				RSObject.Send(SrcMac,globalBuf,recLen);
+				DBG_PRN(("向%s发送了数据包",SrcMac))
+				DBG_NPRINT_HEX(globalBuf,recLen)
+			}
 			
 //			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
 //			{

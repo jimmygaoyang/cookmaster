@@ -14,6 +14,28 @@
     <string name="my_tool">我的厨具</string>
     <string name="tool">设置</string>
     <string name="main_stuff">主料</string>
+    <string name="sub_stuff">辅料</string>
+    <string name="flavor">调料</string>
+    <string name="step_title">步骤</string>
+    <string name="user_name">用户名</string>
+    <string name="user_pass">密码</string>
+    <string name="namehint">请输入手机号</string>
+    <string name="passhint">请输入至少6位密码</string>
+    <string name="signup">注册</string>
+    <string name="signin">登录</string>
+    <string name="addbox">添加调料盒</string>
+    <string name="mactitle">盒子编号</string>
+    <string name="flavortitle">调料名称</string>
+    <string name="flavor_brand">调料品牌</string>
+    <string name="addboxbtn">添加</string>
+    <string name="cancelbtn">取消</string>
+    <string name="fla_name">调料名称</string>
+    <string name="fla_kind">调料类目</string>
+    <string name="brand_mame">品牌名称</string>
+    <string name="corpor_name">公司名称</string>
+    <string name="corpor_tel">公司电话</string>
+    <string name="corpor_addr">公司地址</string>
+    <string name="corpor_url">公司网址</string>
     
 
 </resources>

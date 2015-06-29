@@ -120,7 +120,7 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 		{
 			//判断包头
 			usart2_read((char*)m_recvBuff, 1);
-			//DBG_PRN(("%02X",m_recvBuff[0]))
+			DBG_PRN(("%02X",m_recvBuff[0]))
 			if(m_recvBuff[0] != 0x32)//包头不对，跳出
 			{
 				return 0;

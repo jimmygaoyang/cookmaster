@@ -21,12 +21,12 @@ public class MiltilViewListAdapter extends BaseAdapter  {
 	private HashMap<String, Object> mProvidersMap = new HashMap<String, Object>();
 	private Context mContext;
 	private LayoutInflater mInflater;
-	public List<? extends IItemBean> mItemBeanList;
+	public List<IItemBean> mItemBeanList;
 	public LoadImage loadImage;
 	
 	 
 	public MiltilViewListAdapter(Context c,
-			List<? extends IItemBean> itemBeanList, List<Class<? extends IViewProvider>> providers) {
+			List<IItemBean> itemBeanList, List<Class<? extends IViewProvider>> providers) {
 		this.mContext = c;
 		mInflater = LayoutInflater.from(c);
 		mItemBeanList = itemBeanList;

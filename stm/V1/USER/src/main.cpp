@@ -166,20 +166,30 @@ int main()
 		char SrcMac[11];
 		memset(SrcMac,0,sizeof(SrcMac));
 		int recLen = 0;
+		int res=0;
 		while(1)
 		{
-			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
+//			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
+//			{
+//				DBG_PRN(("接收到来自%s的数据包",SrcMac))
+//				DBG_NPRINT_HEX(globalBuf,recLen)
+//				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
+//				Delay_ms(500);
+//				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
+//				RSObject.Send(SrcMac,globalBuf,recLen);
+//				DBG_PRN(("向%s发送了数据包",SrcMac))
+//				DBG_NPRINT_HEX(globalBuf,recLen)
+//			}
+			res = 0;
+			while(res!= 1)
 			{
-				DBG_PRN(("接收到来自%s的数据包",SrcMac))
-				DBG_NPRINT_HEX(globalBuf,recLen)
-				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
-				Delay_ms(500);
-				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
-				RSObject.Send(SrcMac,globalBuf,recLen);
-				DBG_PRN(("向%s发送了数据包",SrcMac))
-				DBG_NPRINT_HEX(globalBuf,recLen)
+					res = RSObject.TransWith("0000000001", "HELLO", 5, globalBuf,recLen,4);
+					DBG_PRN(("接收返回值%d",res))
+					Delay_ms(10000);
+					Delay_ms(10000);
+					Delay_ms(10000);
+					Delay_ms(10000);
 			}
-//			RSObject.TransWith("0000000002", "HELLO", 5, globalBuf,recLen,5);
 		}
 
 	

@@ -69,12 +69,13 @@ public class HttpTranse {
 	public int TranseWithServer(Context context,String url,String sendBuf,AsyncHttpResponseHandler responseHandler){
          StringEntity stringEntity = null;
          try {
-        	 stringEntity = new StringEntity(sendBuf);
+        	 String utf8String = new String(sendBuf.getBytes("utf-8"),"utf-8");
+        	 stringEntity = new StringEntity(utf8String,"UTF-8");
              } catch (UnsupportedEncodingException e)
              { 
             	 e.printStackTrace();
              } 
-		client.post(context, url, stringEntity, "application/json", responseHandler);		
+		client.post(context, url, stringEntity, "application/json;charset=UTF-8", responseHandler);		
 		return 0;
 		
 	};

@@ -63,6 +63,9 @@ CGlobalIOSet::CGlobalIOSet()
 	m_OUT_BLEEnable->SetMode(OUT); 
 	m_OUT_485Direct = new CIOObject(GPIOC,GPIO_Pin_12,RCC_APB2Periph_GPIOC);
 	m_OUT_485Direct->SetMode(OUT);
+		m_OUT_BlueLight = new CIOObject(GPIOC,GPIO_Pin_13,RCC_APB2Periph_GPIOC);
+	m_OUT_BlueLight->SetMode(OUT);
+	
 }
 
 

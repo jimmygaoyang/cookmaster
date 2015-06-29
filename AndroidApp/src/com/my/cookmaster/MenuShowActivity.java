@@ -7,9 +7,15 @@ import org.apache.http.Header;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.my.cookmaster.bean.bus_bean.flavor;
+import com.my.cookmaster.bean.bus_bean.flavorTitle;
 import com.my.cookmaster.bean.bus_bean.mainStuff;
 import com.my.cookmaster.bean.bus_bean.menuCover;
 import com.my.cookmaster.bean.bus_bean.menuIntro;
+import com.my.cookmaster.bean.bus_bean.step;
+import com.my.cookmaster.bean.bus_bean.stepTitle;
+import com.my.cookmaster.bean.bus_bean.subStuff;
+import com.my.cookmaster.bean.bus_bean.subStuffTitle;
 import com.my.cookmaster.bean.pro_bean.AdMenuListBean;
 import com.my.cookmaster.bean.pro_bean.GetMenuBean;
 import com.my.cookmaster.bean.pro_bean.menuBean;
@@ -19,9 +25,15 @@ import com.my.cookmaster.view.listview.viewprovider.IViewProvider;
 import com.my.cookmaster.view.listview.viewprovider.MiltilViewListAdapter;
 import com.my.cookmaster.view.listview.viewprovider.MyScrollListener;
 import com.my.cookmaster.view.listview.viewprovider.impl.AdMenuProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.flavorProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.flavorTitleProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.mainStuffProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.menuCoverProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.menuIntroProider;
+import com.my.cookmaster.view.listview.viewprovider.impl.stepProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.stepTitleProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.subStuffProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.subStuffTitleProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -65,13 +77,19 @@ public class MenuShowActivity extends Activity {
 		bean.setMenuID(menuID+"");
 		String sendDat = JSON.toJSONString(bean);
 		HttpTranse Http = new HttpTranse();			
-		Http.TranseWithServer(MenuShowActivity.this,"http://192.168.28.86/index.php/api/process", sendDat,responseHandler);
+		Http.TranseWithServer(MenuShowActivity.this,"http://"+CookMasterApp.ServerIP+"/index.php/api/process", sendDat,responseHandler);
         
 		
 		List<Class<? extends IViewProvider>> providers = new ArrayList<Class<? extends IViewProvider>>();
 		providers.add(menuCoverProvider.class);
 		providers.add(menuIntroProider.class);
 		providers.add(mainStuffProvider.class);
+		providers.add(subStuffTitleProvider.class);
+		providers.add(subStuffProvider.class);
+		providers.add(flavorTitleProvider.class);
+		providers.add(flavorProvider.class);
+		providers.add(stepTitleProvider.class);
+		providers.add(stepProvider.class);
 		
 		adpater = new MiltilViewListAdapter(this.getApplication(), mList, providers);
 		menuShowList.setAdapter(adpater);
@@ -156,6 +174,46 @@ public class MenuShowActivity extends Activity {
 		mainStuff mainStuffBean = new mainStuff();
 		mainStuffBean.setMainStuff(recMenuBean.getMainStuff().get(0));
 		mList.add(mainStuffBean);
+		
+		if(recMenuBean.getMainStuff().size()>1)
+		{
+			subStuffTitle subStuffTitleBean = new subStuffTitle();
+			mList.add(subStuffTitleBean);//添加辅料标题
+			for(int i=1;i<recMenuBean.getMainStuff().size();i++)
+			{
+				subStuff subStuffBean = new subStuff();
+				subStuffBean.setSubStuff(recMenuBean.getMainStuff().get(i));
+				mList.add(subStuffBean);
+			}
+			
+		}
+		if(recMenuBean.getOtherStuff().size() > 0)
+		{
+			flavorTitle flavorTitleBean = new flavorTitle();
+			mList.add(flavorTitleBean);
+			for(int i=0;i<recMenuBean.getOtherStuff().size();i++)
+			{
+				flavor flavorBean = new flavor();
+				flavorBean.setFlavor(recMenuBean.getOtherStuff().get(i));
+				mList.add(flavorBean);
+			}
+			
+		}
+		
+		if(recMenuBean.getSteps().size() > 0)
+		{
+			stepTitle stepTitleBean = new stepTitle();
+			mList.add(stepTitleBean);
+			for(int i=0; i<recMenuBean.getSteps().size();i++)
+			{
+				step stepBean = new step();
+				stepBean.setPhotoURL(recMenuBean.getSteps().get(i).getStepPhoto());
+				stepBean.setIntro(recMenuBean.getSteps().get(i).getIntro());
+				stepBean.setStepNo(i+1);
+				mList.add(stepBean);
+				
+			}
+		}
 		
 		
 	}

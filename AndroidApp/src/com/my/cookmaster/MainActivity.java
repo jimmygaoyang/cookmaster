@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.my.cookmaster.alogrithm.Alogrithm;
 import com.my.cookmaster.bus.BTtranse;
@@ -106,7 +108,12 @@ public class MainActivity extends FragmentActivity {
 
 
 		initViews();
-		
+        CookMasterApp app =  CookMasterApp.getInstance();
+        Context con = MainActivity.this;
+		SharedPreferences sysPre = con.getSharedPreferences(app.APPNAME,con.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sysPre.edit();
+ 		editor.putBoolean(app.LogInState, false);
+ 		editor.commit();
 
 		
 	}

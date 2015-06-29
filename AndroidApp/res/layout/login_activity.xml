@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+  <include layout="@layout/title_bar"
+      android:id="@+id/layout_titlebar"
+      />
+  <LinearLayout
+      android:id="@+id/login_namebar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/layout_titlebar"
+      android:layout_centerHorizontal="true"
+      >
+      <TextView
+          android:layout_width="50dp"
+          android:layout_height="wrap_content"
+          android:textSize="16sp"
+          android:gravity="left"
+          android:text="@string/user_name"
+          />"
+        <EditText
+      android:id="@+id/name"
+      android:layout_width="200dp"
+      android:layout_height="wrap_content"
+      android:textSize="16sp"
+      android:hint="@string/namehint"   
+      />
+  </LinearLayout>
+    <LinearLayout
+      android:id="@+id/login_passbar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/login_namebar"
+      android:layout_centerHorizontal="true"
+      >
+      <TextView
+          android:layout_width="50dp"
+          android:layout_height="wrap_content"
+          android:textSize="16sp"
+          android:gravity="left"
+          android:text="@string/user_pass"
+          />
+        <EditText
+      android:id="@+id/pass"
+      android:layout_width="200dp"
+      android:layout_height="wrap_content"
+      android:textSize="16sp"
+      android:hint="@string/passhint"   
+      />
+  </LinearLayout>
+  <LinearLayout 
+      android:id="@+id/login_btnbar"
+      android:layout_width="250dp"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/login_passbar"
+      android:layout_centerHorizontal="true"
+      >
+      <Button
+          android:id="@+id/sign_up"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14sp"
+          android:text="@string/signup"
+          />
+            <Button
+          android:id="@+id/sign_in"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="14sp"
+          android:text="@string/signin"
+          />
+      
+  </LinearLayout>
+
+</RelativeLayout>

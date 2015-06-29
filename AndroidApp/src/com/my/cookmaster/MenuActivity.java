@@ -125,7 +125,7 @@ public class MenuActivity extends BaseFragment{
 				GetAdvertiseMenu sendBean = new GetAdvertiseMenu();
 				String sendDat = JSON.toJSONString(sendBean);
 				HttpTranse Http = new HttpTranse();			
-				Http.TranseWithServer(this.getActivity().getApplicationContext(),"http://192.168.28.86/index.php/api/process", sendDat,responseHandler);	
+				Http.TranseWithServer(this.getActivity().getApplicationContext(),"http://"+CookMasterApp.ServerIP+"/index.php/api/process", sendDat,responseHandler);	
 			
 			}
 
