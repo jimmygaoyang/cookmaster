@@ -7,6 +7,8 @@ public class CookMasterApp extends Application {
 	public final String APPNAME = "SystemSet";
 	public final String LogInState = "loginState";
 	public final String UserId = "UserId";
+	public final String UserName = "UserName";
+	public final String PassWord = "PassWord";
 	public static final String ServerIP = "192.168.28.86";
 	public static CookMasterApp getInstance()
 	{

@@ -8,8 +8,12 @@ import org.apache.http.Header;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.my.cookmaster.bean.bus_bean.brandView;
 import com.my.cookmaster.bean.bus_bean.materialView;
 import com.my.cookmaster.bean.bus_bean.subStuff;
+import com.my.cookmaster.bean.pro_bean.BrandBean;
+import com.my.cookmaster.bean.pro_bean.FindBrandBean;
+import com.my.cookmaster.bean.pro_bean.FindBrandRspBean;
 import com.my.cookmaster.bean.pro_bean.FindMaterialBean;
 import com.my.cookmaster.bean.pro_bean.FindMaterialRspBean;
 import com.my.cookmaster.bean.pro_bean.GetMenuBean;
@@ -22,6 +26,7 @@ import com.my.cookmaster.view.listview.viewprovider.IItemBean;
 import com.my.cookmaster.view.listview.viewprovider.IViewProvider;
 import com.my.cookmaster.view.listview.viewprovider.MiltilViewListAdapter;
 import com.my.cookmaster.view.listview.viewprovider.MyScrollListener;
+import com.my.cookmaster.view.listview.viewprovider.impl.brandProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.materialProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.menuCoverProvider;
 import com.my.cookmaster.view.util.MisposFuction;
@@ -54,17 +59,27 @@ public class ToolAddActivity extends Activity {
 	private Button backBtn;
 	private TextView makeMenu;	
 	private ListView  flavorList;
+	private ListView  brandList;
 	private addBoxRspBean rspBean;
 	private FindMaterialRspBean materialRspBean;
+	private FindBrandRspBean brandRspBean;
 	private String flavorKey;
+	private String brandKey;
 	
 	private materialView Bean = new materialView();
 	MiltilViewListAdapter adpater;
 	private List<IItemBean> mList = new ArrayList<IItemBean>();
 	
+	private brandView brandBean = new brandView();
+	MiltilViewListAdapter brandAdpater;
+	private List<IItemBean> brandSearchList = new ArrayList<IItemBean>();
+	
+	
 	private MaterialBean selectedMaterial;
+	private BrandBean selectedBrand;
 	
 	private boolean nameFoucs;
+	private boolean brandFoucs;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -76,6 +91,7 @@ public class ToolAddActivity extends Activity {
 		backBtn = (Button)findViewById(R.id.button_backward);
 		makeMenu = (TextView)findViewById(R.id.button_forward);
 		flavorList = (ListView)findViewById(R.id.flavorList);
+		brandList = (ListView)findViewById(R.id.brandList);
 		
 		
 		CurTile.setText("调料盒添加");
@@ -107,6 +123,18 @@ public class ToolAddActivity extends Activity {
 		flavorList.setAdapter(adpater);
 		MyScrollListener scrollListener = new MyScrollListener(adpater);
 		flavorList.setOnScrollListener(scrollListener);
+		
+		
+		
+		List<Class<? extends IViewProvider>> brandproviders = new ArrayList<Class<? extends IViewProvider>>();
+		brandproviders.add(brandProvider.class);
+		
+		brandAdpater = new MiltilViewListAdapter(this.getApplication(), brandSearchList, brandproviders);
+		brandList.setAdapter(brandAdpater);
+		brandList.setOnScrollListener(new MyScrollListener(brandAdpater));
+		
+		
+		
 		
 		FlavorName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
 
@@ -162,6 +190,59 @@ public class ToolAddActivity extends Activity {
 			
 		});
 		
+		FlavorBrand.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// TODO Auto-generated method stub
+				if(hasFocus)
+				{
+					Log.d("cook","  得到焦点");
+					brandFoucs = true;
+				}
+				else
+				{
+					Log.d("cook","  失去焦点");
+					brandFoucs = false;
+				}
+			}	
+		});
+		
+		FlavorBrand.addTextChangedListener(new TextWatcher(){
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				brandKey = FlavorBrand.getText().toString();
+				if(brandKey!=null && !"".equals(brandKey.trim())&&brandFoucs)
+				{
+					//向后台发送根据名称查品牌名的信息
+					//List<String> nameLst = ;
+					FindBrandBean bean = new FindBrandBean();
+					bean.setBrandName(brandKey);
+					String sendDat = JSON.toJSONString(bean);
+					HttpTranse Http = new HttpTranse();			
+					Http.TranseWithServer(ToolAddActivity.this,"http://"+CookMasterApp.ServerIP+"/index.php/brand_manager/fuzzy_find_by_name", sendDat,findbrandRspHandler);
+				}
+				
+			}
+			
+		});
+		
 		
 		addBtn.setOnClickListener(new View.OnClickListener() {
 			
@@ -207,6 +288,25 @@ public class ToolAddActivity extends Activity {
 			
 		});
 		
+		brandList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Log.d("cook","点击第"+arg2+"个项目");
+				selectedBrand = brandRspBean.getBrandList().get(arg2);
+				FlavorBrand.clearFocus();
+				FlavorBrand.setText(selectedBrand.getName());
+				
+				brandSearchList.clear();
+				brandAdpater.notifyDataSetChanged();	
+				
+				
+			}
+			
+		});
+		
 	}
 	
 	AsyncHttpResponseHandler responseHandler = new AsyncHttpResponseHandler(){
@@ -215,7 +315,7 @@ public class ToolAddActivity extends Activity {
 		public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 				Throwable arg3) {
 			// TODO Auto-generated method stub
-			String text = new String(arg2);
+
 			Log.d("cook","与后台通信错");
 			
 			
@@ -241,17 +341,22 @@ public class ToolAddActivity extends Activity {
             int msgId = msg.what;
             switch (msgId) {
                 case 1:
-                	MisposFuction.ShowMessage("添加调料成功",ToolAddActivity.this);
+                	MisposFuction.ShowMessage("添加盒子成功",ToolAddActivity.this);
                     break;
                 case 2: 
                 	fillMaterialList(materialRspBean);
                 	adpater.notifyDataSetChanged();	
-
+                	break;
+                case 3: 
+                	fillBrandList(brandRspBean);
+                	brandAdpater.notifyDataSetChanged();	
                 	break;
                 default:
                     break;
             }
         }
+
+
 	};
 	
 	
@@ -262,7 +367,6 @@ public class ToolAddActivity extends Activity {
 		public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 				Throwable arg3) {
 			// TODO Auto-generated method stub
-			String text = new String(arg2);
 			Log.d("cook","与后台通信错");
 			
 		}
@@ -281,6 +385,33 @@ public class ToolAddActivity extends Activity {
 		
 	};
 	
+	
+	AsyncHttpResponseHandler findbrandRspHandler = new AsyncHttpResponseHandler(){
+
+		@Override
+		public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+				Throwable arg3) {
+			// TODO Auto-generated method stub
+			Log.d("cook","与后台通信错");
+			
+		}
+
+		@Override
+		public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+			// TODO Auto-generated method stub
+			String text = new String(arg2);			
+			brandRspBean =  JSON.parseObject(text, FindBrandRspBean.class);
+	    	Log.d("cook",text);
+            Message message = new Message();
+            message.what = 3;
+            doActionHandler.sendMessage(message);	
+			
+		}
+		
+	};
+
+	
+	
 	private void fillMaterialList(FindMaterialRspBean bean)
 	{
 		mList.clear();
@@ -291,6 +422,21 @@ public class ToolAddActivity extends Activity {
 			Viewbean.setMaterialName(bean.getMaterialList().get(i).getName());
 			Viewbean.setMaterialRef(bean.getMaterialList().get(i).getRef()+"");
 			mList.add(Viewbean);
+		}
+	}
+	
+	
+	private void fillBrandList(FindBrandRspBean brandRspBean) {
+		// TODO Auto-generated method stub
+		brandSearchList.clear();
+		for(int i=0;i<brandRspBean.getBrandList().size();i++)
+		{
+			brandView Viewbean = new brandView();
+			BrandBean  bean = brandRspBean.getBrandList().get(i);
+			Viewbean.setBrandName(bean.getName());
+			Viewbean.setCorporName(bean.getCorpor_name());
+			Viewbean.setBrandRef(bean.getRef()+"");
+			brandSearchList.add(Viewbean);
 		}
 	}
 }

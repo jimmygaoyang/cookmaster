@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.my.cookmaster.alogrithm.Alogrithm;
@@ -49,6 +50,12 @@ public class MainActivity extends FragmentActivity {
 	private ViewPager mViewPager;  
     private IconTabPageIndicator mIndicator;  
     private TextView mTitleTextView;
+    private int whichPage;
+    private List<BaseFragment> fragments =null;
+    private boolean firstCreateflag = false;
+    
+
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,32 +95,18 @@ public class MainActivity extends FragmentActivity {
 //				
 //			}});
 //		
-//		NetBtn.setOnClickListener(new View.OnClickListener(){
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				HttpTranse Http = new HttpTranse();
-//				byte [] sendBuf = "12345678".getBytes();			
-//				int res = Http.TranseWithServer(MainActivity.this,"http://192.168.28.86/index.php/api/process", sendBuf);
-//				if(res == 0)
-//				{
-//					String text = new String(Http.getRespData());
-//					Log.d("cook",text);
-//				}
-//				
-//				
-//			}});
-//		loop_thread.start();
 
 
-		initViews();
-        CookMasterApp app =  CookMasterApp.getInstance();
-        Context con = MainActivity.this;
+      CookMasterApp app =  CookMasterApp.getInstance();
+      Context con = MainActivity.this;
 		SharedPreferences sysPre = con.getSharedPreferences(app.APPNAME,con.MODE_PRIVATE);
+		whichPage = sysPre.getInt("whichPage", 0);	
 		SharedPreferences.Editor editor = sysPre.edit();
- 		editor.putBoolean(app.LogInState, false);
- 		editor.commit();
+		editor.putInt("whichPage", 0);
+		editor.commit();
+		initViews();
+		firstCreateflag= true;
+
 
 		
 	}
@@ -122,10 +115,14 @@ public class MainActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		mViewPager = (ViewPager) findViewById(R.id.view_pager);  
         mIndicator = (IconTabPageIndicator) findViewById(R.id.indicator);  
-        List<BaseFragment> fragments = initFragments();  
+        fragments = initFragments();  
         FragmentAdapter adapter = new FragmentAdapter(fragments, getSupportFragmentManager());  
         mViewPager.setAdapter(adapter);  
-        mIndicator.setViewPager(mViewPager);  
+        mIndicator.setViewPager(mViewPager); 
+        mViewPager.setCurrentItem(whichPage);
+        
+        
+        
 	}
 
 	Thread loop_thread = new Thread()
@@ -221,10 +218,10 @@ public class MainActivity extends FragmentActivity {
         RankFragment.setIconId(R.drawable.tab_rank_selector);
         fragments.add(RankFragment);
 
-        BaseFragment contactFragment = new BaseFragment();
-        contactFragment.setTitle("做菜");
-        contactFragment.setIconId(R.drawable.tab_cook_selector);
-        fragments.add(contactFragment);
+        BaseFragment cookFragment = new CookActivity();
+        cookFragment.setTitle("做菜");
+        cookFragment.setIconId(R.drawable.tab_cook_selector);
+        fragments.add(cookFragment);
 
         UserActivity UserFragment = new UserActivity();
         UserFragment.setTitle("我的");

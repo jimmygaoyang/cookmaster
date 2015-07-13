@@ -492,6 +492,26 @@
               <FileType>1</FileType>
               <FilePath>..\..\USER\src\stm32f10x_it.c</FilePath>
             </File>
+            <File>
+              <FileName>BaseProtocol.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\BaseProtocol.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Executor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\Executor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>OutputPro.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\OutputPro.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>BLETrans.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\BLETrans.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

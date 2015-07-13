@@ -3,6 +3,7 @@ package com.my.cookmaster.bean.pro_bean;
 public class MaterialBean {
 	private Long material_id;
 	private Long material_kind_id;
+	private String material_kind_name;
 	private String name;
 	private Long brand_id;
 	private String brand_name;
@@ -42,6 +43,12 @@ public class MaterialBean {
 	}
 	public void setRef(Long ref) {
 		this.ref = ref;
+	}
+	public String getMaterial_kind_name() {
+		return material_kind_name;
+	}
+	public void setMaterial_kind_name(String material_kind_name) {
+		this.material_kind_name = material_kind_name;
 	}
 	
 } 

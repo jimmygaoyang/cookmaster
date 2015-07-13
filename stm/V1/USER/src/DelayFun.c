@@ -1,22 +1,22 @@
 #include "DelayFun.h" 
 
-// void delay_us(u16 time) {
-//	u16 i=0;      
-//	while(time--)    
-//	{        
-//		i=10;  //自己定义       
-//		while(i--)	{}	
-//	} 
-//}
+ void delay_us(u16 time) {
+	u16 i=0;      
+	while(time--)    
+	{        
+		i=10;  //自己定义       
+		while(i--)	{}	
+	} 
+}
 //
-//void delay_ms(u16 time) {
-//	u16 i=0;      
-//	while(time--)    
-//	{        
-//		i=10000;  //自己定义       
-//		while(i--)	{}	
-//	} 
-//}
+void delay_ms(u16 time) {
+	u16 i=0;      
+	while(time--)    
+	{        
+		i=10000;  //自己定义       
+		while(i--)	{}	
+	} 
+}
     
 static unsigned char   fac_us=0;//us延时倍乘数 
 static unsigned short fac_ms=0;//ms延时倍乘数 

@@ -184,28 +184,39 @@ public class BTtranse {
 	   int recLen = 0;
 	   while(recLen < len)
 	   {
+		   
 		   try {
-			tmpRecLen = is.read(bleBuf,pos,len-recLen);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		   pos +=tmpRecLen;
-		   recLen +=tmpRecLen;
+			   tmpRecLen = is.available();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		   if(tmpRecLen == 0)
 		   {
 			   try {
 				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			   timeout--;
 				if(timeout < 0)
 				{
 					erroStr = "接收命令超时";
 					return -1;
 				}		
+		   }
+		   else
+		   {
+			   try {
+				tmpRecLen = is.read(bleBuf,pos,len-recLen);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			   pos +=tmpRecLen;
+			   recLen +=tmpRecLen;
 		   }
 	   }
 	   return 0;
@@ -232,9 +243,10 @@ public class BTtranse {
    }
    
    /** 获取成功返回的数据 */
-   public int getRspData() {
+   public byte[] getRspData() {
       // TODO: implement
-      return 0;
+	   
+      return bleBuf;
    }
    
    private void closeSocket()

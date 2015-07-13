@@ -30,13 +30,19 @@
             android:textSize="18sp"
             />
     </LinearLayout>
+    <ListView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/flavor_list"
+        android:layout_below="@+id/flavor_name_bar"
+         />  
         <LinearLayout 
         android:id="@+id/flavor_kind_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:layout_below="@+id/flavor_name_bar"
+        android:layout_below="@+id/flavor_list"
         >
         <TextView 
             android:layout_width="100dp"
@@ -53,13 +59,19 @@
             android:textSize="18sp"
             />
     </LinearLayout>
+        <ListView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/flavor_kind_list"
+        android:layout_below="@+id/flavor_kind_bar"
+         />  
             <LinearLayout 
         android:id="@+id/button_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:layout_below="@+id/flavor_kind_bar"
+        android:layout_below="@+id/flavor_kind_list"
         >
         <Button 
             android:id="@+id/add_btn"

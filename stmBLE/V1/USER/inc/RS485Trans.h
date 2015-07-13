@@ -33,11 +33,11 @@ protected:
 private:
 	char m_addr[MAC_NUM_LEN];
 	// buffer to receive data
-    unsigned char m_recvBuff[256];
+    unsigned char *m_recvBuff;
 	// recvCount;
 	int m_recvPos;
 	// buffer to send data
-	unsigned char m_sendBuff[256]; 
+	unsigned char *m_sendBuff; 
 	//fillCount
 	int m_fillPos;
 

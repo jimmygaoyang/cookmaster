@@ -23,11 +23,12 @@ public class MiltilViewListAdapter extends BaseAdapter  {
 	private LayoutInflater mInflater;
 	public List<IItemBean> mItemBeanList;
 	public LoadImage loadImage;
+	private Callback mCallback = null;
 	
 	 
 	public MiltilViewListAdapter(Context c,
 			List<IItemBean> itemBeanList, List<Class<? extends IViewProvider>> providers) {
-		this.mContext = c;
+		this.setmContext(c);
 		mInflater = LayoutInflater.from(c);
 		mItemBeanList = itemBeanList;
 		if(providers == null || providers.size() < 1){
@@ -104,7 +105,7 @@ public class MiltilViewListAdapter extends BaseAdapter  {
 			e.printStackTrace();
 		}
 		//ÉèÖÃ¸ÃproviderÊôÐÔ
-		viewProvider.setAdapter(this, position);
+		viewProvider.setAdapter(this, position, this.getmCallback());
 		convertView = viewProvider
 				.getItemView(convertView,mInflater, itemBean);
 
@@ -143,6 +144,22 @@ public class MiltilViewListAdapter extends BaseAdapter  {
 	public int getViewTypeCount() {
 		int typeSize = mProviders.size();
 		return typeSize <= 0 ? 1 : typeSize;
+	}
+
+	public Context getmContext() {
+		return mContext;
+	}
+
+	public void setmContext(Context mContext) {
+		this.mContext = mContext;
+	}
+
+	public Callback getmCallback() {
+		return mCallback;
+	}
+
+	public void setmCallback(Callback mCallback) {
+		this.mCallback = mCallback;
 	}
 
 }

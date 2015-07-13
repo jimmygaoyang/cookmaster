@@ -51,7 +51,7 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//finish();
+				finish();
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
@@ -159,6 +159,9 @@ public class LoginActivity extends Activity {
              		SharedPreferences.Editor editor = sysPre.edit();
              		editor.putBoolean(app.LogInState, true);
              		editor.putLong(app.UserId, rspBean.getUserID());
+             		editor.putString(app.UserName, nameEdt.getText().toString());
+             		editor.putString(app.PassWord, passEdt.getText().toString());
+             		editor.putInt("whichPage", 3);
              		editor.commit();
                 	break;
                 default:

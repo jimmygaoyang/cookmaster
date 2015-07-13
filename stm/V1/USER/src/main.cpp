@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include "GlobalIOSet.h"
 #include "RS485Trans.h"
+#include "BLETrans.h"
+#include "Executor.h"
 
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
@@ -25,7 +27,7 @@ typedef enum {
 
 
 
-int WaitFor_Enter(unsigned int i)          //å»¶æ—¶å‡½æ•°
+int WaitFor_Enter(unsigned int i)          
 {
 	char recChar = 0;
 	unsigned int recLen= 0;
@@ -49,7 +51,7 @@ int WaitFor_Enter(unsigned int i)          //å»¶æ—¶å‡½æ•°
 	 }
 	return 0;
 }
-//å…¨å±€å‚æ•°è®¾ç½®å‡½æ•°
+
 void GolobalArgSetProcess()
 {
 	char tmpBuf[64];
@@ -64,20 +66,20 @@ void GolobalArgSetProcess()
 	GLOBAL_INIT_STATUS status = MACHINE_NUM ;
 	memset(recBuf, 0,sizeof(recBuf));
 	
-	//è®¾ç½®æœºå™¨ç¼–å·
+
 	PUT("Enter the machine number...\r\n");
 
 
 	while(1)
 	{
-		//æ¥æ”¶æ•°æ®è¿‡ç¨‹
+		
 		while(1)
 		{
 			if(usart3_read(&recChar, 1) == 1)
 			{
 				usart3_write(&recChar, 1);
 
-				if(recChar != 0x08)  //å¦‚æœæ¥æ”¶åˆ°çš„æ˜¯é€€æ ¼(ASCIIç ä¸º0x08)
+				if(recChar != 0x08) 
 	   				recBuf[recLen++] = recChar;
 			      else
 			    		recLen = (recLen -1 >=0 ? recLen -1 : 0);
@@ -95,15 +97,12 @@ void GolobalArgSetProcess()
 		switch(status)
 		{
 			case MACHINE_NUM:
-				//åˆ¤æ–­æœºå™¨ç¼–å·é•¿åº¦
 				if(strlen(recBuf) != 10)
 				{
-					//è®¾ç½®æœºå™¨ç¼–å·
 					PUT("machine munber must be 10 bytes!Please input again ...\r\n");
 				}
 				else
 				{
-					//è®¾ç½®æœºå™¨ç¼–å·
 					Flash_Write(MACHINE_NUM_ADRESS, (unsigned char*)recBuf, MACHINE_NUM_LEN);
 					PUT("Enter the Vegetable file length...\r\n");
 					status = INIT_OVER;
@@ -128,11 +127,12 @@ int main()
 		usart3_open(115200);
 		Delay_Init(72);
 		CGlobalIOSet* g_IOset = CSingleton<CGlobalIOSet>::instance();
+		g_IOset->m_OUT_BLEEnable->SetDigitalOut(HIGH);
+		g_IOset->m_OUT_485Direct->SetDigitalOut(LOW);
 		int initSetFlag = 0;
-		Delay_us(3);
 		PUT("press Entery key to stop system auto run ...\r\n")
 
-		//åˆ¤æ–­å›è½¦æˆªæ­¢
+		//
 		for(int i=3; i>0; i--)
 		{
 			memset(showInfo, 0, sizeof(showInfo));
@@ -144,20 +144,18 @@ int main()
 				break;
 			}	
 		}
-		//è¿›è¡Œåˆå§‹åŒ–è®¾ç½®æœºå™¨ç¼–å·ï¼Œåˆå§‹åŒ–æ ‡å¿—
 		if (initSetFlag == 1)
 		{
 			PUT("start set global arguments...\r\n")
-			//å›ºæ€å­˜å‚¨å™¨è®¾ç½®è¿‡ç¨‹
 			GolobalArgSetProcess();
 		}
 
 	
 		
-		//è¯»å–æœºå™¨ç¼–å·
 		memset(tempBuf, 0, sizeof(tempBuf));
 		Flash_Read(MACHINE_NUM_ADRESS, (unsigned char*)tempBuf, MACHINE_NUM_LEN);
 		memset(showInfo, 0, sizeof(showInfo));
+		memcpy(tempBuf,"0000000001",10);
 		sprintf(showInfo,"»úÆ÷±àºÅÎª%s\r\n", tempBuf);
 		PUT(showInfo)
 	
@@ -167,29 +165,51 @@ int main()
 		memset(SrcMac,0,sizeof(SrcMac));
 		int recLen = 0;
 		int res=0;
+//		BLETrans *bleObj =  new BLETrans();
+		Executor exeObj(tempBuf);
+			char tmpbuf[2];
+			tmpbuf[0]= 0x55;
+			tmpbuf[1]= 0xAA;
+		g_IOset->m_OUT_485Direct->SetDigitalOut(LOW);
 		while(1)
 		{
-//			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
+			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
+			{
+				DBG_PRN(("½ÓÊÕµ½À´×Ô%sµÄ485Êı¾İ",SrcMac))
+				DBG_NPRINT_HEX(globalBuf,recLen)
+				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
+				Delay_ms(100);
+				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
+				RSObject.Send(SrcMac,globalBuf,recLen);
+				DBG_PRN(("Ïò%s·¢ËÍÁËÊı¾İ",SrcMac))
+				DBG_NPRINT_HEX(globalBuf,recLen)
+
+			}
+			
+//		DBG_PRN(("%s","»î×Å"))
+//			exeObj.processing();
+//			if(bleObj.Receive(globalBuf,recLen) == 1)
 //			{
-//				DBG_PRN(("½ÓÊÕµ½À´×Ô%sµÄÊı¾İ°ü",SrcMac))
+//				DBG_PRN(("%s","½ÓÊÕµ½À¶ÑÀÊı¾İ"))
+//				DBG_NPRINT_HEX(globalBuf,recLen)
+
+//				bleObj.Send("7654321",7);
+//				DBG_PRN(("%s","·µ»ØÁËÀ¶ÑÀÊı¾İ"))
 //				DBG_NPRINT_HEX(globalBuf,recLen)
 //				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
-//				Delay_ms(500);
+//				Delay_ms(1000);
 //				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
-//				RSObject.Send(SrcMac,globalBuf,recLen);
-//				DBG_PRN(("Ïò%s·¢ËÍÁËÊı¾İ°ü",SrcMac))
-//				DBG_NPRINT_HEX(globalBuf,recLen)
 //			}
-			res = 0;
-			while(res!= 1)
-			{
-					res = RSObject.TransWith("0000000001", "HELLO", 5, globalBuf,recLen,4);
-					DBG_PRN(("½ÓÊÕ·µ»ØÖµ%d",res))
-					Delay_ms(10000);
-					Delay_ms(10000);
-					Delay_ms(10000);
-					Delay_ms(10000);
-			}
+//			res = 0;
+//			while(res!= 1)
+//			{
+//					res = RSObject.TransWith("0000000001", "HELLO", 5, globalBuf,recLen,4);
+//					DBG_PRN(("½ÓÊÕ·µ»ØÖµ%d",res))
+//					Delay_ms(10000);
+//					Delay_ms(10000);
+//					Delay_ms(10000);
+//					Delay_ms(10000);
+//			}
 		}
 
 	

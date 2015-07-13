@@ -3,7 +3,7 @@
  * Author:  Thinkpad
  * Modified: 2015-04-29 14:40:23
  * Purpose: Declaration of the class BLETrans
- * Comment: BLETransæ“ä½œç±»
+ * Comment: BLETrans²Ù×÷Àà
  ***********************************************************************/
 
 #if !defined(__Veg_BLETrans_h)
@@ -14,16 +14,16 @@
 class BLETrans
 {
 public:
-   /* å‘æŒ‡å®šåœ°å€å‘é€æ•°æ® */
+   /* ÏòÖ¸¶¨µØÖ··¢ËÍÊı¾İ */
    int Send(char* buf, int len);
-   /* åˆå§‹åŒ– */
+   /* ³õÊ¼»¯ */
    int Init();
-   /* æ¥æ”¶æ•°æ® */
+  /* ½ÓÊÕÊı¾İ */
    int Receive(char *buf, int &len);
-   /* å…³é—­BLE */
+   /* ¹Ø±ÕBLE */
    int Close();
 
-   //åœ¨è§„å®šæ—¶é—´å†…æ²¡æœ‰æ¥åˆ°ç»™å®šçš„æ•°æ®å°±è¿”å›
+   //ÔÚ¹æ¶¨Ê±¼äÄÚÃ»ÓĞ½Óµ½¸ø¶¨µÄÊı¾İ¾Í·µ»Ø
    int waitLen(int timeout,int len);
    
    int TransWith(char* inputBuf, int len, char* outputBuf, int &outlen,int timeout);
@@ -35,11 +35,11 @@ protected:
 private:
 
 	// buffer to receive data
-    unsigned char m_recvBuff[256];
+    unsigned char *m_recvBuff;
 	// recvCount;
 	int m_recvPos;
 	// buffer to send data
-	unsigned char m_sendBuff[256]; 
+	unsigned char *m_sendBuff; 
 	//fillCount
 	int m_fillPos;
 

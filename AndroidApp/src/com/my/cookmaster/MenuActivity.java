@@ -81,6 +81,7 @@ public class MenuActivity extends BaseFragment{
 	        mListView = (ListView)view.findViewById(R.id.menu_listview);
 	        menuName = (EditText)view.findViewById(R.id.menu_name_Edt);
 	        menuFind = (Button)view.findViewById(R.id.menu_find_Btn);
+	        
 	        textView.setText(getTitle());
 			mViewFlow = (ViewFlow) view.findViewById(R.id.viewflow);
 			mFlowIndicator = (CircleFlowIndicator) view.findViewById(R.id.viewflowindic);
@@ -107,7 +108,6 @@ public class MenuActivity extends BaseFragment{
 			titleList.add("仿手机QQ网络状态条的显示与消失 ");
 			titleList.add("Android循环滚动广告条的完美实现 ");
 			initBanner(imageUrlList);
-//	        createData();
 			//不同之处在于多了一个provider集合，提供所有期望显示类型的provider class
 			//getView的实现在provider中实现，和在adapter中用法一样
 			List<Class<? extends IViewProvider>> providers = new ArrayList<Class<? extends IViewProvider>>();
@@ -145,48 +145,7 @@ public class MenuActivity extends BaseFragment{
 	            adMenuData.setRecipeId(bean.getRecipeId()); 
 	            mList.add(adMenuData);
 	        }
-//			ImageOder img = new ImageOder();
-//			img.ImgURL = "http://recipe1.hoto.cn/pic/recipe/l/5b/b3/832347_53f806.jpg";
-//			mList.add(img);
-//			ImageOder img1 = new ImageOder();
-//			img1.ImgURL = "http://avatar1.hoto.cn/f1/65/1992177_185.jpg?v=8";
-//			mList.add(img1);
-//			ImageOder img2 = new ImageOder();
-//			img2.ImgURL = "http://recipe1.hoto.cn/pic/step/g_800/ff/4c/3362047.jpg";
-//			mList.add(img2);
-//			ImageOder img3 = new ImageOder();
-//			img3.ImgURL = "http://recipe0.hoto.cn/pic/step/g_800/00/4d/3362048.jpg";
-//			mList.add(img3);
-//			ImageOder img4 = new ImageOder();
-//			img4.ImgURL = "http://recipe1.hoto.cn/pic/step/g_800/01/4d/3362049.jpg";
-//			mList.add(img4);
-//			ImageOder img5 = new ImageOder();
-//			img5.ImgURL = "http://recipe0.hoto.cn/pic/step/g_800/02/4d/3362050.jpg";
-//			mList.add(img5);
-//			ImageOder img6 = new ImageOder();
-//			img6.ImgURL = "http://recipe1.hoto.cn/pic/step/g_800/03/4d/3362051.jpg";
-//			mList.add(img6);
-//			ImageOder img7 = new ImageOder();
-//			img7.ImgURL = "http://recipe0.hoto.cn/pic/step/g_800/04/4d/3362052.jpg";
-//			mList.add(img7);
-			
-			
-//			for(int i=0; i < 15; i++){
-//				int r = random.nextInt();
-//				if(r%2 == 0 ){
-//					FlightOrder f = new FlightOrder();
-//					f.airline = "东方航空-BS" + i;
-//					f.from = "北京";
-//					f.to = "杭州";
-//					mList.add(f);
-//				}else{
-//					TicketOrder t = new TicketOrder();
-//					t.expireDate = "有效时间：2014-1-1至2014-5-5";
-//					t.type = "类型：电子票";
-//					t.title = "大裤衩" + i;
-//					mList.add(t);
-//				}
-//			}
+
 		}
 	 
 
@@ -247,6 +206,13 @@ public class MenuActivity extends BaseFragment{
 	        }
 		};
 		
+		
+		
+		@Override
+	    public void refreshData()
+	    {
+	    
+	    }
 		
 		
 		

@@ -19,6 +19,7 @@
 //#define NO_POS_DEBUG
 #include "pos_debug.h"
 
+static unsigned char rs485Buf[256];
 ////////////////////////////////////////////////////////////////////////
 // Name:       RS485Operater::Send(int Addr, int buf, int len, int errStr)
 // Purpose:    Implementation of RS485Operater::Send()
@@ -60,12 +61,14 @@ int RS485Trans::Send(char* Addr, char* buf, int len)
 	//设置为输出
 	CGlobalIOSet* g_globalIOSet = CSingleton<CGlobalIOSet>::instance();
 	g_globalIOSet->m_OUT_485Direct->SetDigitalOut(HIGH);
-	Delay_ms(3);
+	Delay_ms(1);
 	usart2_write((char *)m_sendBuff,m_fillPos);
-    DBG_NPRINT_HEX(m_sendBuff,m_fillPos)
 	//恢复输入
+	Delay_ms(1);
 	g_globalIOSet->m_OUT_485Direct->SetDigitalOut(LOW);
-	Delay_ms(3);
+    DBG_NPRINT_HEX(m_sendBuff,m_fillPos)
+
+	
    return 1;
 }
 
@@ -109,10 +112,8 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 	int tmpLen;
 	unsigned short crc=0;
 	m_recvPos = 0;
-	//设置为输入
 	CGlobalIOSet* g_globalIOSet = CSingleton<CGlobalIOSet>::instance();
 	g_globalIOSet->m_OUT_485Direct->SetDigitalOut(LOW);
-	Delay_ms(3);
 	
 	while (overtime < 1000)
 	{
@@ -153,7 +154,7 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 			usart2_read((char *)m_recvBuff+m_recvPos, 4);
 			memcpy((char*)&packageLen,m_recvBuff+m_recvPos,4);
 			DBG_PRN(("%s len= %d","get packge",packageLen))
-			if(packageLen > sizeof(m_recvBuff))//数据长度错误
+			if(packageLen > 256)//数据长度错误
 				return 0;
 			m_recvPos = m_recvPos+4;
 			len = packageLen;					
@@ -168,19 +169,17 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 					if (tmpLen ==0)//超时过多接收不到包就跳出
 					{
 						overtime++;
-						Delay_ms(2);
+						Delay_ms(1);
 						if (overtime > 1000)
 						{
 							return -1;
 						}
 					}
 				}
-				DBG_NPRINT_HEX(m_recvBuff,m_recvPos)
 				//成功接收完一包数据 开始crc校验
 				crc = cal_crc(m_recvBuff, m_recvPos);
 				DBG_PRN(("crc = %04x",crc))
 				//crc = (crc&0x00FF)*256 + (crc&0xFF00)/256;
-				DBG_NPRINT_HEX(((char *)&crc),2)
 				//接收最后的校验位
 				usart2_read((char*)(m_recvBuff+m_recvPos), 2);
 				m_recvPos+=2;
@@ -197,7 +196,7 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 			}
 		}
 		overtime++;
-		Delay_ms(2);
+		Delay_us(20);
 	}
 	return -1;
 
@@ -224,6 +223,7 @@ int RS485Trans::TransWith(char* Addr, char* inputBuf, int len, char* outputBuf, 
 	Send(Addr, inputBuf,len);
 	DBG_PRN(("已向%s发送485包",Addr))
 	DBG_NPRINT_HEX(inputBuf,len)
+//	Delay_ms(500);
 	while(timeout>0)
 	{
 		if(Receive(tempDesAddr, outputBuf, outlen) == 1)
@@ -231,6 +231,7 @@ int RS485Trans::TransWith(char* Addr, char* inputBuf, int len, char* outputBuf, 
 			break;
 		}
 		timeout--;
+		Delay_ms(100);
 		if(timeout==0)
 		{
 			return -1;
@@ -251,6 +252,17 @@ int RS485Trans::TransWith(char* Addr, char* inputBuf, int len, char* outputBuf, 
 RS485Trans::RS485Trans()
 {
 	memset(m_addr,'0',sizeof(m_addr));
+	m_recvBuff = rs485Buf;
+	m_sendBuff = rs485Buf;
+		//设置为输入
+	CGlobalIOSet* g_globalIOSet = CSingleton<CGlobalIOSet>::instance();
+	g_globalIOSet->m_OUT_485Direct->SetDigitalOut(LOW);
+	Delay_ms(3);
+}
+
+RS485Trans::~RS485Trans()
+{
+
 }
 //在规定时间内没有接到给定的数据就返回
 int waitLen(int timeout,int len)

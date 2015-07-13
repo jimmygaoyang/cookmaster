@@ -3,7 +3,7 @@
  * Author:  Thinkpad
  * Modified: 2015-04-29 14:40:23
  * Purpose: Implementation of the class BLETrans
- * Comment: BLETransæ“ä½œç±»
+ * Comment: BLETrans²Ù×÷Àà
  ***********************************************************************/
 
 #include "BLETrans.h"
@@ -19,10 +19,12 @@
 //#define NO_POS_DEBUG
 #include "pos_debug.h"
 
+static unsigned char bleBuf[256];
+
 ////////////////////////////////////////////////////////////////////////
 // Name:       BLETrans::Send(int buf, int len)
 // Purpose:    Implementation of BLETrans::Send()
-// Comment:    å‘æŒ‡å®šåœ°å€å‘é€æ•°æ®
+// Comment:    ÏòÖ¸¶¨µØÖ··¢ËÍÊı¾İ
 // Parameters:
 // - Addr
 // - buf
@@ -36,21 +38,21 @@ int BLETrans::Send(char* buf, int len)
    // TODO : implement
    unsigned short crc=0;
    m_fillPos = 0;
-   //åŒ…å¤´
+   //°üÍ·
    m_sendBuff[0] = 0x1B;
    m_fillPos++;
    m_sendBuff[1] = 0x10;
    m_fillPos++;
-   //ä¿¡æ¯å†…å®¹é•¿åº¦
+   //ĞÅÏ¢ÄÚÈİ³¤¶È
    //memcpy(m_sendBuff + m_fillPos,(char *)&len,2);
 	m_sendBuff[2] = (len&0x0ff00)>>8;
 	m_sendBuff[3] = (len&0x00ff);
    m_fillPos += 2;
-   //ä¿¡æ¯å†…å®¹
+   //ĞÅÏ¢ÄÚÈİ
    memcpy(m_sendBuff + m_fillPos,buf,len);
    m_fillPos += len;
 
-   	//crcæ ¡éªŒ
+   	//crcĞ£Ñé
 	crc = cal_crc(m_sendBuff, m_fillPos);
 	DBG_PRN(("crc = %04x",crc))
 	*(m_sendBuff + m_fillPos++) =  ((unsigned char*)&crc)[1];
@@ -63,7 +65,7 @@ int BLETrans::Send(char* buf, int len)
 ////////////////////////////////////////////////////////////////////////
 // Name:       BLETrans::Init()
 // Purpose:    Implementation of BLETrans::Init()
-// Comment:    åˆå§‹åŒ–
+// Comment:    ³õÊ¼»¯
 // Parameters:
 // - Addr
 // - errStr
@@ -81,11 +83,12 @@ int BLETrans::Init()
 ////////////////////////////////////////////////////////////////////////
 // Name:       BLETrans::Receive(int Addr, int buf, int len, std::string errStr)
 // Purpose:    Implementation of BLETrans::Receive()
-// Comment:    æ¥æ”¶æ•°æ®
+// Comment:    ½ÓÊÕÊı¾İ
 // Parameters:
-// [in/out] Addr è¿”å›å‘é€æ–¹åœ°å€	
-// [out] buf	 è¿”å›æ¥æ”¶æ•°æ®é¦–åœ°å€
-// [in/out] len  è¿”å›æ¥æ”¶åˆ°çš„æ•°æ®é•¿åº¦
+// [in/out] Addr ·µ»Ø·¢ËÍ·½µØÖ·	
+// [out] buf	 ·µ»Ø½ÓÊÕÊı¾İÊ×µØÖ·
+// [in/out] len  ·µ»Ø½ÓÊÕµ½µÄÊı¾İ³¤¶È
+
 // - errStr
 // Return:     int
 ////////////////////////////////////////////////////////////////////////
@@ -94,7 +97,7 @@ int BLETrans::Receive(char *buf, int &len)
 {
    // TODO : implement
    	int overtime = 0;
-	int packageLen = 0; //åŒ…é•¿åº¦
+	int packageLen = 0; //°ü³¤¶È
 	int tmpLen;
 	unsigned short crc=0;
 	m_recvPos = 0;
@@ -103,25 +106,25 @@ int BLETrans::Receive(char *buf, int &len)
 	{
 		if (ser_can_read(UART1)> 0)
 		{
-			//åˆ¤æ–­åŒ…å¤´
+			//ÅĞ¶Ï°üÍ·
 			if(waitLen(10,2)!=1)
 				return 0;
 			usart1_read((char*)m_recvBuff, 2);
 			
-			if(m_recvBuff[0] != 0x1B || m_recvBuff[1] != 0x10)//åŒ…å¤´ä¸å¯¹ï¼Œè·³å‡º
+			if(m_recvBuff[0] != 0x1B || m_recvBuff[1] != 0x10)//Êı¾İ³¤¶È´íÎó
 			{
 				return 0;
 			}
 			m_recvPos+=2;
 
-			//æ•°æ®æ€»é•¿åº¦
+			//Êı¾İ×Ü³¤¶È
 			if(waitLen(10,2)!=1)
 				return 0;
 			usart1_read((char *)m_recvBuff+m_recvPos, 2);
 			packageLen =m_recvBuff[m_recvPos]*256 +m_recvBuff[m_recvPos+1];
 //			memcpy((char*)&packageLen,m_recvBuff+m_recvPos,2);
 			DBG_PRN(("%s len= %d","get packge",packageLen))
-			if(packageLen > sizeof(m_recvBuff))//æ•°æ®é•¿åº¦é”™è¯¯
+			if(packageLen > 256)//³¬Ê±¹ı¶à½ÓÊÕ²»µ½°ü¾ÍÌø³ö
 				return 0;
 			m_recvPos = m_recvPos+2;
 			len = packageLen;					
@@ -133,7 +136,7 @@ int BLETrans::Receive(char *buf, int &len)
 					tmpLen =  usart1_read((char*)(m_recvBuff+m_recvPos), packageLen-tmpRecLen);
 					tmpRecLen+=tmpLen;
 					m_recvPos += tmpLen;
-					if (tmpLen ==0)//è¶…æ—¶è¿‡å¤šæ¥æ”¶ä¸åˆ°åŒ…å°±è·³å‡º
+					if (tmpLen ==0)//³¬Ê±¹ı¶à½ÓÊÕ²»µ½°ü¾ÍÌø³ö
 					{
 						overtime++;
 						Delay_ms(2);
@@ -144,18 +147,18 @@ int BLETrans::Receive(char *buf, int &len)
 					}
 				}
 				DBG_NPRINT_HEX(m_recvBuff,m_recvPos)
-				//æˆåŠŸæ¥æ”¶å®Œä¸€åŒ…æ•°æ® å¼€å§‹crcæ ¡éªŒ
+				//³É¹¦½ÓÊÕÍêÒ»°üÊı¾İ ¿ªÊ¼crcĞ£Ñé
 				crc = cal_crc(m_recvBuff, m_recvPos);
 				DBG_PRN(("crc = %04x",crc))
 				crc = (crc&0x00FF)*256 + (crc&0xFF00)/256;
 				DBG_NPRINT_HEX(((char *)&crc),2)
-				//æ¥æ”¶æœ€åçš„æ ¡éªŒä½
+				//½ÓÊÕ×îºóµÄĞ£ÑéÎ»
 				usart1_read((char*)(m_recvBuff+m_recvPos), 2);
 				m_recvPos+=2;
 				DBG_NPRINT_HEX(m_recvBuff,m_recvPos)
 				if(strncmp((const char*)m_recvBuff+m_recvPos-2,(char *)&crc, 2))
 				{
-					DBG_PRN(("æ•°æ®æ ¡éªŒé”™è¯¯"))
+					DBG_PRN(("Êı¾İĞ£Ñé´íÎó"))
 					return 0;
 				}
 				
@@ -174,7 +177,7 @@ int BLETrans::Receive(char *buf, int &len)
 ////////////////////////////////////////////////////////////////////////
 // Name:       RS485Operater::Close(std::string errStr)
 // Purpose:    Implementation of RS485Operater::Close()
-// Comment:    å…³é—­485
+// Comment:    ¹Ø±Õ485
 // Parameters:
 // - errStr
 // Return:     int
@@ -188,7 +191,7 @@ int BLETrans::Close()
 int BLETrans::TransWith(char* inputBuf, int len, char* outputBuf, int &outlen,int timeout)
 {
 	Send(inputBuf,len);
-	DBG_PRN(("%s","å‘é€è“ç‰™æ•°æ®åŒ…"))
+	DBG_PRN(("%s","·¢ËÍÀ¶ÑÀÊı¾İ°ü"))
 	DBG_NPRINT_HEX(inputBuf,len)
 	Delay_ms(50);
 	while(timeout>0)
@@ -205,7 +208,7 @@ int BLETrans::TransWith(char* inputBuf, int len, char* outputBuf, int &outlen,in
 		}
 	}
 
-	DBG_PRN(("%s","æ¥æ”¶åˆ°è“ç‰™æ•°æ®åŒ…"))
+	DBG_PRN(("%s","½ÓÊÕµ½À¶ÑÀÊı¾İ°ü"))
 	DBG_NPRINT_HEX(outputBuf,outlen)
 	return 1;
 
@@ -216,8 +219,16 @@ int BLETrans::TransWith(char* inputBuf, int len, char* outputBuf, int &outlen,in
 BLETrans::BLETrans()
 {
 	//usart1_open(9600);
+	m_recvBuff = bleBuf;
+	m_sendBuff = bleBuf;
 }
-//åœ¨è§„å®šæ—¶é—´å†…æ²¡æœ‰æ¥åˆ°ç»™å®šçš„æ•°æ®å°±è¿”å›
+
+BLETrans::~BLETrans()
+{
+	m_recvBuff = NULL;
+	m_sendBuff = NULL;
+}
+//ÔÚ¹æ¶¨Ê±¼äÄÚÃ»ÓĞ½Óµ½¸ø¶¨µÄÊı¾İ¾Í·µ»Ø
 int BLETrans::waitLen(int timeout,int len)
 {
 	while(ser_can_read(UART1)<len)

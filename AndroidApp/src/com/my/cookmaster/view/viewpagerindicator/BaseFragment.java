@@ -34,6 +34,10 @@ public class BaseFragment extends Fragment {
     public void setIconId(int iconId) {
         this.iconId = iconId;
     }
+    public void refreshData()
+    {
+    	
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

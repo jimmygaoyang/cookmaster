@@ -36,6 +36,8 @@
     <string name="corpor_tel">公司电话</string>
     <string name="corpor_addr">公司地址</string>
     <string name="corpor_url">公司网址</string>
+    <string name="output">出料</string>
+    <string name="del_box">删除</string>
     
 
 </resources>

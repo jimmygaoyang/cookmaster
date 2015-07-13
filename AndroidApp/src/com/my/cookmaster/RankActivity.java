@@ -75,4 +75,10 @@ public class RankActivity extends BaseFragment{
     	bean3.setTop5Str("ª∆∂π÷Ì ÷");
     	beanList.add(bean3);
     }
+	
+	@Override
+    public void refreshData()
+    {
+    
+    }
 }

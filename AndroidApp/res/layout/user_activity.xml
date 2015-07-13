@@ -3,20 +3,17 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#eee">
-    <TextView
-        android:id="@+id/text"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ed4255"
-        android:layout_alignParentTop="true"
-        android:gravity="center"/>
+    
+    <include layout="@layout/title_bar"
+      android:id="@+id/layout_titlebar"
+      android:layout_alignParentTop="true"
+      />
     <RelativeLayout 
         android:id="@+id/logBox"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
         android:layout_above="@+id/myMenuBox"
-        android:layout_below="@+id/text"
+        android:layout_below="@+id/layout_titlebar"
         android:background="@drawable/booder"
         >
         <TextView
