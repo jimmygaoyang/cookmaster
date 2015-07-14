@@ -38,7 +38,7 @@
             
             />  
     </TableRow>
-	<FrameLayout
+<!--  	<FrameLayout
 	    android:layout_below="@+id/menu_search_bar" 
 	    android:id="@+id/framelayout"
         android:layout_width="fill_parent"
@@ -73,11 +73,12 @@
 	    
 	    
 	</FrameLayout>
+	-->
      <ListView
        	android:id="@+id/menu_listview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="match_parent" 
-	    android:layout_below="@+id/framelayout"
+	    android:layout_below="@+id/menu_search_bar"
 	    />
       
     	

@@ -102,8 +102,6 @@ int BLETrans::Receive(char *buf, int &len)
 	unsigned short crc=0;
 	m_recvPos = 0;
 	
-	while (overtime < 1000)
-	{
 		if (ser_can_read(UART1)> 0)
 		{
 			//判断包头
@@ -139,7 +137,7 @@ int BLETrans::Receive(char *buf, int &len)
 					if (tmpLen ==0)//超时过多接收不到包就跳出
 					{
 						overtime++;
-						Delay_ms(2);
+						Delay_ms(1);
 						if (overtime > 1000)
 						{
 							return -1;
@@ -167,9 +165,6 @@ int BLETrans::Receive(char *buf, int &len)
 				return 1;
 			}
 		}
-		overtime++;
-		Delay_ms(2);
-	}
 	return -1;
 
 }

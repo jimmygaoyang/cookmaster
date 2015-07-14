@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/booder_all"
+        android:focusable="true" 
+	android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"
+
+
+            >
+
+            <TextView
+            	android:id="@+id/text_mount"
+                android:layout_width="wrap_content"
+				android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginBottom="15dp"
+                android:singleLine="true"
+                android:text=" 请输入调料出量g或ml" />
+
+            <EditText
+                android:id="@+id/ed_mount"
+                style="@style/input_edit_style"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edittext_selector" 
+                android:imeOptions="flagNoExtractUi"
+                android:hint="请输入500以内数字"
+                android:padding="5dip"  
+                android:textSize="20sp"
+                android:numeric="decimal"
+                android:maxLength="4" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:background="@drawable/booder_all"
+            android:text="出料" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/booder_all"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:text="取消" />
+    </LinearLayout>
+
+</LinearLayout>

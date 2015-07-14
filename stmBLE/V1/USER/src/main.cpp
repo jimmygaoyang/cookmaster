@@ -174,7 +174,7 @@ int main()
 		while(1)
 		{
 //		DBG_PRN(("%s","活着"))
-//			exeObj.processing();
+			exeObj.processing();
 //			if(bleObj.Receive(globalBuf,recLen) == 1)
 //			{
 //				DBG_PRN(("%s","接收到蓝牙数据"))
@@ -194,21 +194,21 @@ int main()
 //			//恢复输入
 //			Delay_ms(2);
 //			g_IOset->m_OUT_485Direct->SetDigitalOut(LOW);
-		 res = 0;
-		 while(res!= 1)
-		 {
+//		 res = 0;
+//		 while(res!= 1)
+//		 {
 //			 RSObject.Send("0000000001", tmpbuf, 2);
-				res = RSObject.TransWith("0000000001", tmpbuf, 2, globalBuf,recLen,4);
-				Delay_ms(500); 
-			 Delay_ms(500); 
-			 Delay_ms(500); 
-			 res = RSObject.TransWith("0000000002", tmpbuf, 2, globalBuf,recLen,4);
+//				res = RSObject.TransWith("0000000001", tmpbuf, 2, globalBuf,recLen,4);
+//				Delay_ms(500); 
+//			 Delay_ms(500); 
+//			 Delay_ms(500); 
+//			 res = RSObject.TransWith("0000000002", tmpbuf, 2, globalBuf,recLen,4);
 			 
 //				DBG_PRN(("接收返回值%d",res))
 //				Delay_ms(1000);
 //				Delay_ms(10000);
 
-		 }
+//		 }
 
 //		 res = 0;
 //		 while(res!= 1)

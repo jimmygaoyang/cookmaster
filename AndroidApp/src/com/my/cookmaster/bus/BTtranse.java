@@ -172,7 +172,7 @@ public class BTtranse {
 			Log.d("cook", String.format("%02x", bleBuf[i]));
 		}
 	   closeSocket();
-
+	   
 	   return 1;
 	   
    }
@@ -245,8 +245,10 @@ public class BTtranse {
    /** 获取成功返回的数据 */
    public byte[] getRspData() {
       // TODO: implement
-	   
-      return bleBuf;
+	   int datLen = bleBuf[2]*256+bleBuf[3];
+	   byte [] resDat = new byte[datLen];
+	   System.arraycopy(bleBuf, 4, resDat, 0, datLen);
+      return resDat;
    }
    
    private void closeSocket()

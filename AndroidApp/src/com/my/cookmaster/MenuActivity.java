@@ -39,6 +39,7 @@ import com.my.cookmaster.bean.bus_bean.AdMenu;
 import com.my.cookmaster.bean.bus_bean.FlightOrder;
 import com.my.cookmaster.bean.bus_bean.ImageOder;
 import com.my.cookmaster.bean.bus_bean.TicketOrder;
+import com.my.cookmaster.bean.bus_bean.advertiseView;
 import com.my.cookmaster.bean.pro_bean.AdMenuBean;
 import com.my.cookmaster.bean.pro_bean.AdMenuListBean;
 import com.my.cookmaster.bean.pro_bean.GetAdvertiseMenu;
@@ -56,6 +57,7 @@ import com.my.cookmaster.view.listview.viewprovider.impl.AdMenuProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.FlightOrderViewProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.ImageViewProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.SticketOrderViewProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.advertiseProvider;
 import com.my.cookmaster.view.viewpagerindicator.BaseFragment;
 
 public class MenuActivity extends BaseFragment{
@@ -63,8 +65,8 @@ public class MenuActivity extends BaseFragment{
 	private List<IItemBean> mList = new ArrayList<IItemBean>();
 	private EditText menuName;
 	private Button menuFind;
-	private ViewFlow mViewFlow;
-	private CircleFlowIndicator mFlowIndicator;
+//	private ViewFlow mViewFlow;
+//	private CircleFlowIndicator mFlowIndicator;
 	private ArrayList<String> imageUrlList = new ArrayList<String>();
 	ArrayList<String> linkUrlArray= new ArrayList<String>();
 	ArrayList<String> titleList= new ArrayList<String>();
@@ -83,8 +85,8 @@ public class MenuActivity extends BaseFragment{
 	        menuFind = (Button)view.findViewById(R.id.menu_find_Btn);
 	        
 	        textView.setText(getTitle());
-			mViewFlow = (ViewFlow) view.findViewById(R.id.viewflow);
-			mFlowIndicator = (CircleFlowIndicator) view.findViewById(R.id.viewflowindic);
+//			mViewFlow = (ViewFlow) view.findViewById(R.id.viewflow);
+//			mFlowIndicator = (CircleFlowIndicator) view.findViewById(R.id.viewflowindic);
 			imageUrlList.clear();
 			imageUrlList
 			.add("http://b.hiphotos.baidu.com/image/pic/item/d01373f082025aaf95bdf7e4f8edab64034f1a15.jpg");
@@ -112,6 +114,7 @@ public class MenuActivity extends BaseFragment{
 			//getView的实现在provider中实现，和在adapter中用法一样
 			List<Class<? extends IViewProvider>> providers = new ArrayList<Class<? extends IViewProvider>>();
 			providers.add(AdMenuProvider.class);
+			providers.add(advertiseProvider.class);
 			
 			adpater = new MiltilViewListAdapter(this.getActivity().getApplication(), mList, providers);
 			mListView.setAdapter(adpater);
@@ -135,7 +138,12 @@ public class MenuActivity extends BaseFragment{
 	 
 	 private void loadAdMenuData(AdMenuListBean AdMenuList){
 		 	mList.clear();
+		 	advertiseView adBean = new advertiseView();
 		 	
+		 	adBean.setImageUrlList(imageUrlList);
+		 	adBean.setLinkUrlArray(linkUrlArray);
+		 	adBean.setTitleList(titleList);
+		 	mList.add(adBean);
 	        for (int i=0; i < AdMenuList.getAd_menu().size(); i++) {
 	            AdMenu adMenuData = new AdMenu();
 	            AdMenuBean bean= AdMenuList.getAd_menu().get(i);
@@ -151,15 +159,15 @@ public class MenuActivity extends BaseFragment{
 
 		private void initBanner(ArrayList<String> imageUrlList) {
 			
-			mViewFlow.setAdapter(new ImagePagerAdapter(this.getActivity().getApplication(), imageUrlList,
-					linkUrlArray, titleList).setInfiniteLoop(true));
-			mViewFlow.setmSideBuffer(imageUrlList.size()); // 实际图片张数，
-															// 我的ImageAdapter实际图片张数为3
-
-			mViewFlow.setFlowIndicator(mFlowIndicator);
-			mViewFlow.setTimeSpan(4500);
-			mViewFlow.setSelection(imageUrlList.size() * 1000); // 设置初始位置
-			mViewFlow.startAutoFlowTimer(); // 启动自动播放
+//			mViewFlow.setAdapter(new ImagePagerAdapter(this.getActivity().getApplication(), imageUrlList,
+//					linkUrlArray, titleList).setInfiniteLoop(true));
+//			mViewFlow.setmSideBuffer(imageUrlList.size()); // 实际图片张数，
+//															// 我的ImageAdapter实际图片张数为3
+//
+//			mViewFlow.setFlowIndicator(mFlowIndicator);
+//			mViewFlow.setTimeSpan(4500);
+//			mViewFlow.setSelection(imageUrlList.size() * 1000); // 设置初始位置
+//			mViewFlow.startAutoFlowTimer(); // 启动自动播放
 		}
 	
 		

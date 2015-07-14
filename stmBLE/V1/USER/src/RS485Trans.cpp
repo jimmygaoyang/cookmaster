@@ -114,13 +114,11 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 	m_recvPos = 0;
 
 	
-	while (overtime < 1000)
-	{
 		if (ser_can_read(UART2)> 0)
 		{
 			//判断包头
 			usart2_read((char*)m_recvBuff, 1);
-	//		DBG_PRN(("%02X",m_recvBuff[0]))
+			DBG_PRN(("%02X",m_recvBuff[0]))
 			if(m_recvBuff[0] != 0x32)//包头不对，跳出
 			{
 				return 0;
@@ -168,7 +166,7 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 					if (tmpLen ==0)//超时过多接收不到包就跳出
 					{
 						overtime++;
-						Delay_ms(2);
+						Delay_ms(1);
 						if (overtime > 1000)
 						{
 							return -1;
@@ -196,9 +194,6 @@ int RS485Trans::Receive(char* Addr, char *buf, int &len)
 				return 1;
 			}
 		}
-		overtime++;
-		Delay_ms(2);
-	}
 	return -1;
 
 }
