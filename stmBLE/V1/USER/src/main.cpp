@@ -156,6 +156,7 @@ int main()
 		memset(tempBuf, 0, sizeof(tempBuf));
 		Flash_Read(MACHINE_NUM_ADRESS, (unsigned char*)tempBuf, MACHINE_NUM_LEN);
 		memset(showInfo, 0, sizeof(showInfo));
+//		memcpy(tempBuf,"0000000002",10);
 		sprintf(showInfo,"»úÆ÷±àºÅÎª%s\r\n", tempBuf);
 		PUT(showInfo)
 	

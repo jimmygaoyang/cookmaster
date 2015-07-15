@@ -57,6 +57,11 @@ public class ImageFileCache {
         }
         String filename =convertUrlToFileName(url);
         String dir = getDirectory();
+        File fd = new File(dir);//没有文件就创建
+		if(!fd.exists()){
+			fd.mkdirs();
+		}
+
         File file = new File(dir +"/" + filename);
         try {
         file.createNewFile();

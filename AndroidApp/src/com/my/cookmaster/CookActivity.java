@@ -324,7 +324,7 @@ public class CookActivity extends BaseFragment{
 							//MyDialog.show(CookActivity.this.getActivity(),"出料成功");
 						}
 						else{
-							Toast.makeText(CookActivity.this.getActivity(), "出料失败", Toast.LENGTH_SHORT).show();
+							Toast.makeText(CookActivity.this.getActivity(), "出料失败:"+err, Toast.LENGTH_SHORT).show();
 							//MyDialog.show(CookActivity.this.getActivity(),"出料失败:" + err.toString());
 						}
 					}

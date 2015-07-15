@@ -21,7 +21,10 @@ public abstract class Command {
 		baseBean = bean;
 		bttrans.open();
 		devList = bttrans.getCookDevice();
-		selectedDev = devList.get(0);
+		if(devList.size()==0)
+			selectedDev = null;
+		else
+			selectedDev = devList.get(0);
 	}
 	
 	
@@ -38,18 +41,24 @@ public abstract class Command {
 	public int execute()
 	{
 		byte [] sendDat = construct();
+		if(selectedDev == null)
+		{
+			setTransErr("未发现调料盒蓝牙连接");
+			return FALURE;
+		}
+
 		int res = bttrans.transeWithDevice(selectedDev, sendDat);
 		if(res == 1)
 		{
 			baseBean = parse(bttrans.getRspData());
-			return 1;
+			return SUCCESS;
 		}
 		else
 		{
 			setTransErr("通信错误");
 		}
 			
-			return 0;
+			return FALURE;
 	}
 
 
