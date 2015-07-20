@@ -8,6 +8,8 @@
 #include "RS485Trans.h"
 #include "BLETrans.h"
 #include "Executor.h"
+#include "KeyPadCtrl.h"
+#include "MotorDriver.h"
 
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
@@ -159,7 +161,9 @@ int main()
 //		memcpy(tempBuf,"0000000002",10);
 		sprintf(showInfo,"机器编号为%s\r\n", tempBuf);
 		PUT(showInfo)
-	
+
+		KeyPadCtrl keyCtrl;
+		int keyValue=0;
 		RS485Trans RSObject;
 		RSObject.Init(tempBuf);
 		char SrcMac[11];
@@ -168,72 +172,23 @@ int main()
 		int res = 0;
 //		BLETrans *bleObj =  new BLETrans();
 		Executor exeObj(tempBuf);
-			char tmpbuf[2];
-			tmpbuf[0]= 0x55;
-			tmpbuf[1]= 0xAA;
 		g_IOset->m_OUT_485Direct->SetDigitalOut(LOW);
 		while(1)
 		{
-//		DBG_PRN(("%s","活着"))
-			exeObj.processing();
-//			if(bleObj.Receive(globalBuf,recLen) == 1)
+//			exeObj.processing();
+//			keyValue = keyCtrl.getKeyValue();
+//			if(keyValue>0)
 //			{
-//				DBG_PRN(("%s","接收到蓝牙数据"))
-//				DBG_NPRINT_HEX(globalBuf,recLen)
-
-//				bleObj.Send("7654321",7);
-//				DBG_PRN(("%s","返回了蓝牙数据"))
-//				DBG_NPRINT_HEX(globalBuf,recLen)
-//				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
-//				Delay_ms(1000);
-//				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
-//			}
-
-//				g_IOset->m_OUT_485Direct->SetDigitalOut(HIGH);
-//			Delay_ms(1);
-//			usart2_write((char *)tmpbuf,2);
-//			//恢复输入
-//			Delay_ms(2);
-//			g_IOset->m_OUT_485Direct->SetDigitalOut(LOW);
-//		 res = 0;
-//		 while(res!= 1)
-//		 {
-//			 RSObject.Send("0000000001", tmpbuf, 2);
-//				res = RSObject.TransWith("0000000001", tmpbuf, 2, globalBuf,recLen,4);
-//				Delay_ms(500); 
-//			 Delay_ms(500); 
-//			 Delay_ms(500); 
-//			 res = RSObject.TransWith("0000000002", tmpbuf, 2, globalBuf,recLen,4);
-			 
-//				DBG_PRN(("接收返回值%d",res))
-//				Delay_ms(1000);
-//				Delay_ms(10000);
-
-//		 }
-
-//		 res = 0;
-//		 while(res!= 1)
-//		 {
-//				res = RSObject.TransWith("0000000002", tmpbuf, 2, globalBuf,recLen,4);
-////				DBG_PRN(("接收返回值%d",res))
-////				Delay_ms(10000);
-////				Delay_ms(10000);
-
-//		 }
-
-
-//			if(RSObject.Receive(SrcMac,globalBuf,recLen) == 1)
-//			{
-//				DBG_PRN(("接收到来自%s的485数据",SrcMac))
-//				DBG_NPRINT_HEX(globalBuf,recLen)
-////				g_IOset->m_OUT_BlueLight->SetDigitalOut(LOW);
-////				Delay_ms(500);
-////				g_IOset->m_OUT_BlueLight->SetDigitalOut(HIGH);
-//				RSObject.Send(SrcMac,globalBuf,recLen);
-//				DBG_PRN(("向%s发送了数据",SrcMac))
-//				DBG_NPRINT_HEX(globalBuf,recLen)
+//				//有按键事件
+//				DBG_PRN(("按下的按键值为 %d",keyValue))
 //			}
 			
+		MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+		g_motor->rotateP(500*10);
+//		Delay_ms(1000);
+//		g_motor->rotateN(50*10);
+		
+			DBG_PRN(("活着"))
 
 			
 
