@@ -21,7 +21,7 @@ int KeyPadCtrl::getKeyValue(void)
 {
 	int KeyValue = 0;
    // TODO : implement
-   if(g_IOSet->m_IN_4067->ReadDigitalIn())
+   if(g_IOSet->m_IN_Output_Key->ReadDigitalIn())
    	KeyValue = KEY_BUTTON_OUTPUT;
 
    return KeyValue;

@@ -20,6 +20,7 @@ private:
 public:		
    void rotateP(int steps);
    void rotateN(int steps);
+   void reset();
 private:
 	void setIOState(char data);
 

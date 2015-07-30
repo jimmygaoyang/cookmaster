@@ -562,6 +562,16 @@
               <FileType>8</FileType>
               <FilePath>..\..\USER\src\State.cpp</FilePath>
             </File>
+            <File>
+              <FileName>LCDDriver.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\LCDDriver.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WeightMeasure.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\WeightMeasure.cpp</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

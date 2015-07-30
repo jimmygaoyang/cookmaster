@@ -8,7 +8,9 @@
 
 #include "ReadyState.h"
 #include "Context.h"
-#include "UnitState.h"
+#include "MotorDriver.h"
+#include <string.h>
+#include "DelayFun.h" 
 
 ////////////////////////////////////////////////////////////////////////
 // Name:       ReadyState::handle(Context context)
@@ -25,16 +27,31 @@ void ReadyState::handle(void *context)
 	switch(pContext->key)
 	{
 		case KEY_BUTTON_OUTPUT:
-			//³öÁÏ
-			break;
+			{
+				MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+				g_motor->rotateP(700);
+				Delay_ms(1000);
+				g_motor->rotateN(700);
+				Delay_ms(1000);			
+				break;
+			}
 		case KEY_BUTTON_OK:
 			break;
 	
 		default:
-		{
-			delete pContext->state; 
-			pContext->state = new UnitState();
-		}	
-			break;
+
+		 pContext->ChangeState(UNIT_STATE);
+		break;
 	}
+}
+
+void ReadyState::refresh(void *context)
+{
+	char lcdBuf[32];
+	Context* pContext = (Context *)context;
+	memset(lcdBuf,' ',sizeof(lcdBuf));
+	memcpy(lcdBuf,"Ready",strlen("Ready"));
+	memcpy(lcdBuf+16,pContext->amount,3);
+	LCDOperate.SetFrame(lcdBuf);
+	LCDOperate.Show();
 }

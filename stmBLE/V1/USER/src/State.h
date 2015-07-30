@@ -14,6 +14,7 @@
 #if !defined(__cmstm_State_h)
 #define __cmstm_State_h
 #include "KeyPadCtrl.h"
+#include "LCDDriver.h"
 
 class State
 {
@@ -21,9 +22,12 @@ public:
 	State();
 	~State();
    virtual void handle(void *context) =0;
+   virtual void refresh(void *context) =0;
 
 protected:
 private:
+public:
+	LCDDriver LCDOperate;
 
 
 };

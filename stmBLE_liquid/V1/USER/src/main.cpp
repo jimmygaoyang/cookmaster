@@ -175,22 +175,31 @@ int main()
 		Executor exeObj(tempBuf);
 		g_IOset->m_OUT_485Direct->SetDigitalOut(LOW);
 		AmountCtrl amount;
+		MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+		g_motor->reset();
 		while(1)
 		{
-//			exeObj.processing();
-//			keyValue = keyCtrl.getKeyValue();
-//			if(keyValue>0)
-//			{
-//				//有按键事件
-//				DBG_PRN(("按下的按键值为 %d",keyValue))
-//			}
+			exeObj.processing();
+			keyValue = keyCtrl.getKeyValue();
+			if(keyValue>0)
+			{
+				//有按键事件
+				DBG_PRN(("按下的按键值为 %d",keyValue))
+				MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+				g_motor->rotateP(700);
+				Delay_ms(1000);
+				g_motor->rotateN(700);
+				Delay_ms(1000);
+				
+			}
 			
 //		MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
-//		g_motor->rotateP(500*10);
-		Delay_ms(1000);
-//		g_motor->rotateN(50*10);
+//		g_motor->rotateP(400);
+//		Delay_ms(1000);
+//		g_motor->rotateN(400);
+//		Delay_ms(1000);
 		
-			DBG_PRN(("出料量 = %d",amount.GetAmount()))
+//			DBG_PRN(("出料量 = %d",amount.GetAmount()))
 
 			
 

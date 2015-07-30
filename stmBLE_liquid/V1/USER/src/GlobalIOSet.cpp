@@ -85,8 +85,8 @@ CGlobalIOSet::CGlobalIOSet()
 
 	m_IN_4067 = new CIOObject(GPIOC,GPIO_Pin_4,RCC_APB2Periph_GPIOC);
 	m_IN_4067->SetMode(IN);
-	m_OUT_OutputBtn = new CIOObject(GPIOC,GPIO_Pin_5,RCC_APB2Periph_GPIOC);
-	m_OUT_OutputBtn->SetMode(OUT);
+	m_IN_Output_Key = new CIOObject(GPIOC,GPIO_Pin_5,RCC_APB2Periph_GPIOC);
+	m_IN_Output_Key->SetMode(IN);
 	
 	
 }

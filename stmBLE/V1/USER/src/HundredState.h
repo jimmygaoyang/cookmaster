@@ -20,6 +20,7 @@ class HundredState : public State
 {
 public:
    void handle(void *context);
+   void refresh(void *context);
 
 protected:
 private:

@@ -9,14 +9,22 @@
 #include "BuffType.h"
 #include "DelayFun.h"
 
+#define LQUID_TYPE    //×¢ÊÍµôÎª¹ÌÌå
+
+
 
 static char rotateNBuf[8] = {0x01,0x05,0x04,0x06,0x02,0x0a,0x08,0x09};
 static char rotateBig[4] = {0x01,0x02,0x04,0x08};
 MotorDriver::MotorDriver()
 {
 	g_IOset = CSingleton<CGlobalIOSet>::instance();
-//	cycBuf = new MotorCycleBuf(rotateNBuf,sizeof(rotateNBuf));
-	cycBuf = new MotorCycleBuf(rotateBig,sizeof(rotateBig));
+	#ifdef LQUID_TYPE
+		cycBuf = new MotorCycleBuf(rotateNBuf,sizeof(rotateNBuf));
+	#else
+		cycBuf = new MotorCycleBuf(rotateBig,sizeof(rotateBig));
+	#endif
+	
+	
 	
 }
 ////////////////////////////////////////////////////////////////////////
@@ -34,8 +42,14 @@ void MotorDriver::rotateP(int steps)
 	for(int i=0; i<steps;i++)
 	{
 		setIOState(cycBuf->getNext());
-		Delay_ms(2);
+		#ifdef LQUID_TYPE
+			Delay_ms(10);
+		#else
+			Delay_ms(2);
+		#endif
+		
 	}
+	setIOState(0);
 
 }
 
@@ -53,8 +67,21 @@ void MotorDriver::rotateN(int steps)
    	for(int i=0; i<steps;i++)
 	{
 		setIOState(cycBuf->getPre());
-		Delay_ms(2);
+		#ifdef LQUID_TYPE
+			Delay_ms(10);
+		#else
+			Delay_ms(2);
+		#endif
 	}
+	setIOState(0);
+}
+
+void  MotorDriver::reset()
+{
+#ifdef LQUID_TYPE
+	rotateN(500);
+#endif
+	setIOState(0);
 }
 
 

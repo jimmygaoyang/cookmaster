@@ -34,8 +34,9 @@ void MotorDriver::rotateP(int steps)
 	for(int i=0; i<steps;i++)
 	{
 		setIOState(cycBuf->getNext());
-		Delay_ms(1000);
+		Delay_ms(10);
 	}
+	setIOState(0);
 
 }
 
@@ -53,8 +54,15 @@ void MotorDriver::rotateN(int steps)
    	for(int i=0; i<steps;i++)
 	{
 		setIOState(cycBuf->getPre());
-		Delay_ms(1000);
+		Delay_ms(10);
 	}
+	setIOState(0);
+}
+
+void  MotorDriver::reset()
+{
+	rotateN(500);
+	setIOState(0);
 }
 
 

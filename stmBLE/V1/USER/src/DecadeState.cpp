@@ -7,9 +7,9 @@
  ***********************************************************************/
 
 #include "DecadeState.h"
-#include "HundredState.h"
 #include "Context.h"
-#include "ReadyState.h"
+#include "MotorDriver.h"
+#include "DelayFun.h"
 
 ////////////////////////////////////////////////////////////////////////
 // Name:       DecadeState::handle(Context context)
@@ -27,13 +27,17 @@ void DecadeState::handle(void *context)
 	{
 		case KEY_BUTTON_OUTPUT:
 		{
-
+			MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+			g_motor->rotateP(700);
+			Delay_ms(1000);
+			g_motor->rotateN(700);
+			Delay_ms(1000);			
+			break;
 		}
 
 		case KEY_BUTTON_OK:
 		{
-			delete pContext->state; 
-			pContext->state = new ReadyState();
+			pContext->ChangeState(READY_STATE);
 			break;	
 		}
 		case KEY_BUTTON_UP:
@@ -41,22 +45,37 @@ void DecadeState::handle(void *context)
 			if(pContext->amount[1]=='9')
 				pContext->amount[1]='0';
 			else	
-				pContext->amount[1]+1;
+				pContext->amount[1]+=1;
+			refresh(pContext);
+			break;
 		}
 		case KEY_BUTTON_DOWN:
 		{
 			if(pContext->amount[1]=='0')
 				pContext->amount[1]='9';
 			else	
-				pContext->amount[1]-1;
+				pContext->amount[1]-=1;
+			refresh(pContext);
+			break;
 		}
 		case KEY_BUTTON_SELECT:
 		{
-			delete pContext->state; 
-			pContext->state = new HundredState();
+			pContext->ChangeState(HUNDRED_STATE);
+			break;	
 		}
 	
 		default:
 			break;
 	}
+}
+
+void DecadeState::refresh(void *context)
+{
+	char lcdBuf[32];
+	Context* pContext = (Context *)context;
+	memset(lcdBuf,' ',sizeof(lcdBuf));
+	memcpy(lcdBuf,"Set Decade",strlen("Set Decade"));
+	memcpy(lcdBuf+16,pContext->amount,3);
+	LCDOperate.SetFrame(lcdBuf);
+	LCDOperate.Show();
 }

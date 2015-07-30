@@ -10,6 +10,9 @@
 #include "Executor.h"
 #include "KeyPadCtrl.h"
 #include "MotorDriver.h"
+#include "Context.h"
+#include "WeightMeasure.h"
+#include "AmountCtrl.h"
 
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
@@ -173,23 +176,39 @@ int main()
 //		BLETrans *bleObj =  new BLETrans();
 		Executor exeObj(tempBuf);
 		g_IOset->m_OUT_485Direct->SetDigitalOut(LOW);
+		AmountCtrl amount;
+		MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+		g_motor->reset();
+		Context CurWin;
+		WeightMeasure weight;
 		while(1)
 		{
 //			exeObj.processing();
-//			keyValue = keyCtrl.getKeyValue();
-//			if(keyValue>0)
-//			{
-//				//有按键事件
-//				DBG_PRN(("按下的按键值为 %d",keyValue))
-//			}
-			
-		MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
-		g_motor->rotateP(500*10);
-//		Delay_ms(1000);
-//		g_motor->rotateN(50*10);
-		
-			DBG_PRN(("活着"))
+			keyValue = keyCtrl.getKeyValue();
+			if(keyValue>0)
+			{
+				//有按键事件
+				DBG_PRN(("按下的按键值为 %d",keyValue))
+				CurWin.request(keyValue);
 
+			}
+			long dat = weight.read();
+			memset(showInfo, 0, sizeof(showInfo));
+			sprintf(showInfo,"重%d\r\n", dat);
+			PUT(showInfo);
+			double weightDat = weight.GetWeight();
+			memset(showInfo, 0, sizeof(showInfo));
+			sprintf(showInfo,"%f\r\n", weightDat);
+			PUT(showInfo);
+			Delay_ms(1000);
+//			DBG_PRN(("重量为%d",weightDat))
+//		MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+//		g_motor->rotateP(500*10);
+//		Delay_ms(1000);
+
+		
+//			DBG_PRN(("活着"))
+//			DBG_PRN(("出料量 = %d",amount.GetAmount()))
 			
 
 		}

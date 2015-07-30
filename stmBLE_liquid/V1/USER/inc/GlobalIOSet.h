@@ -84,7 +84,7 @@ public:
 	CIOObject *m_OUT_SelectD;	// 四选一D
 
 	CIOObject *m_IN_4067;	// 4067输入端
-	CIOObject *m_OUT_OutputBtn;	// 出料按键
+	CIOObject *m_IN_Output_Key;	//出料按键
 
 	
 

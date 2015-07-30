@@ -36,10 +36,11 @@ public:
 	*@brief SetMode() 设置IO口的方向
 	*
 	*@param int diretor 设置为宏IN即输入 OUT即输出
+	*@param int mode  设置开漏输出--1
 	*
 	*@return void 
 	*/
-	void SetMode(int director);
+	void SetMode(int director, int mode = 0);
 	/**
 	*@brief SetDigitalOut() 设置数字输出电平状态
 	*
@@ -84,7 +85,31 @@ public:
 	CIOObject *m_OUT_SelectD;	// 四选一D
 
 	CIOObject *m_IN_4067;	// 4067输入端
-	CIOObject *m_OUT_OutputBtn;	// 出料按键
+
+
+	CIOObject *m_OUT_LCD_RS;	// lcd_RS
+	CIOObject *m_OUT_LCD_EN;	// lcd_EN
+
+	CIOObject *m_OUT_LCD_DB0;	
+	CIOObject *m_OUT_LCD_DB1;
+	CIOObject *m_OUT_LCD_DB2;
+	CIOObject *m_OUT_LCD_DB3;
+	CIOObject *m_OUT_LCD_DB4;
+	CIOObject *m_OUT_LCD_DB5;
+	CIOObject *m_OUT_LCD_DB6;
+	CIOObject *m_OUT_LCD_DB7;
+
+	CIOObject *m_OUT_HX711_SCK;
+	CIOObject *m_IN_HX711_DA;
+
+	CIOObject *m_IN_Output_Key;	// 出料按键
+	CIOObject *m_IN_Mode_Key;	
+	CIOObject *m_IN_Up_Key;		
+	CIOObject *m_IN_Down_Key;	
+	CIOObject *m_IN_OK_Key;	
+
+	
+	
 
 	
 

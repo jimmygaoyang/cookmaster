@@ -7,9 +7,9 @@
  ***********************************************************************/
 
 #include "HundredState.h"
-#include "UnitState.h"
 #include "Context.h"
-#include "ReadyState.h"
+#include "MotorDriver.h"
+#include "DelayFun.h"
 
 ////////////////////////////////////////////////////////////////////////
 // Name:       HundredState::handle(Context context)
@@ -27,36 +27,57 @@ void HundredState::handle(void *context)
 	{
 		case KEY_BUTTON_OUTPUT:
 		{
-
+			MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
+			g_motor->rotateP(700);
+			Delay_ms(1000);
+			g_motor->rotateN(700);
+			Delay_ms(1000);			
+			break;
 		}
 
 		case KEY_BUTTON_OK:
 		{
-			delete pContext->state; 
-			pContext->state = new ReadyState();
+
+			pContext->ChangeState(READY_STATE);
 			break;	
+
 		}
 		case KEY_BUTTON_UP:
 		{
 			if(pContext->amount[2]=='9')
 				pContext->amount[2]='0';
 			else	
-				pContext->amount[2]+1;
+				pContext->amount[2]+=1;
+			refresh(pContext);
+			break;
 		}
 		case KEY_BUTTON_DOWN:
 		{
 			if(pContext->amount[2]=='0')
 				pContext->amount[2]='9';
 			else	
-				pContext->amount[2]-1;
+				pContext->amount[2]-=1;
+			refresh(pContext);
+			break;
 		}
 		case KEY_BUTTON_SELECT:
 		{
-			delete pContext->state; 
-			pContext->state = new UnitState();
+			pContext->ChangeState(UNIT_STATE);
+			break;	
 		}
 	
 		default:
 			break;
 	}
+}
+
+void HundredState::refresh(void *context)
+{
+	char lcdBuf[32];
+	Context* pContext = (Context *)context;
+	memset(lcdBuf,' ',sizeof(lcdBuf));
+	memcpy(lcdBuf,"Set Hundred",strlen("Set Hundred"));
+	memcpy(lcdBuf+16,pContext->amount,3);
+	LCDOperate.SetFrame(lcdBuf);
+	LCDOperate.Show();
 }
