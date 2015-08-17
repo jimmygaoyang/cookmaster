@@ -1,4 +1,5 @@
 #include "GlobalIOSet.h"
+#define GPIO_Remap_SWJ_JTAGDisable  ((uint32_t)0x00300200)  /*!< JTAG-DP Disabled and SW-DP Enabled */
 
 
 CIOObject::CIOObject(GPIO_TypeDef * IOGroup, unsigned short IOnum, unsigned int IOrcc)
@@ -60,8 +61,9 @@ int CIOObject::ReadDigitalIn()
 
 CGlobalIOSet::CGlobalIOSet()
 {
-	m_IN_BLEState = new CIOObject(GPIOC,GPIO_Pin_7,RCC_APB2Periph_GPIOC);
-	m_IN_BLEState->SetMode(IN);
+	
+
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE); 
 	m_OUT_BLEEnable =  new CIOObject(GPIOC,GPIO_Pin_6,RCC_APB2Periph_GPIOC);
 	m_OUT_BLEEnable->SetMode(OUT); 
 	m_OUT_485Direct = new CIOObject(GPIOC,GPIO_Pin_12,RCC_APB2Periph_GPIOC);
@@ -78,39 +80,39 @@ CGlobalIOSet::CGlobalIOSet()
 	m_OUT_MotorBN->SetMode(OUT);
 
 	m_OUT_SelectA = new CIOObject(GPIOC,GPIO_Pin_8,RCC_APB2Periph_GPIOC);
-	m_OUT_SelectA->SetMode(OUT);
+	m_OUT_SelectA->SetMode(OUT,1);
 	m_OUT_SelectB = new CIOObject(GPIOC,GPIO_Pin_9,RCC_APB2Periph_GPIOC);
-	m_OUT_SelectB->SetMode(OUT);
+	m_OUT_SelectB->SetMode(OUT,1);
 	m_OUT_SelectC = new CIOObject(GPIOC,GPIO_Pin_10,RCC_APB2Periph_GPIOC);
-	m_OUT_SelectC->SetMode(OUT);
+	m_OUT_SelectC->SetMode(OUT,1);
 	m_OUT_SelectD= new CIOObject(GPIOC,GPIO_Pin_11,RCC_APB2Periph_GPIOC);
-	m_OUT_SelectD->SetMode(OUT);
+	m_OUT_SelectD->SetMode(OUT,1);
 
-	m_IN_4067 = new CIOObject(GPIOC,GPIO_Pin_4,RCC_APB2Periph_GPIOC);
+	m_IN_4067 = new CIOObject(GPIOC,GPIO_Pin_7,RCC_APB2Periph_GPIOC);
 	m_IN_4067->SetMode(IN);
 
 
 	m_OUT_LCD_RS = new CIOObject(GPIOB,GPIO_Pin_12,RCC_APB2Periph_GPIOB);
 	m_OUT_LCD_RS->SetMode(OUT); 
 	m_OUT_LCD_EN = new CIOObject(GPIOB,GPIO_Pin_13,RCC_APB2Periph_GPIOB);
-	m_OUT_LCD_EN->SetMode(OUT);
+	m_OUT_LCD_EN->SetMode(OUT,1);
 
 	m_OUT_LCD_DB0 = new CIOObject(GPIOB,GPIO_Pin_0,RCC_APB2Periph_GPIOB);
 	m_OUT_LCD_DB0->SetMode(OUT); 
 	m_OUT_LCD_DB1 = new CIOObject(GPIOB,GPIO_Pin_1,RCC_APB2Periph_GPIOB);
 	m_OUT_LCD_DB1->SetMode(OUT);
 	m_OUT_LCD_DB2 = new CIOObject(GPIOB,GPIO_Pin_2,RCC_APB2Periph_GPIOB);
-	m_OUT_LCD_DB2->SetMode(OUT);
+	m_OUT_LCD_DB2->SetMode(OUT,1);
 	m_OUT_LCD_DB3 = new CIOObject(GPIOB,GPIO_Pin_3,RCC_APB2Periph_GPIOB);
 	m_OUT_LCD_DB3->SetMode(OUT);
 	m_OUT_LCD_DB4 = new CIOObject(GPIOB,GPIO_Pin_4,RCC_APB2Periph_GPIOB);
-	m_OUT_LCD_DB4->SetMode(OUT);
+	m_OUT_LCD_DB4->SetMode(OUT,1);
 	m_OUT_LCD_DB5 = new CIOObject(GPIOB,GPIO_Pin_5,RCC_APB2Periph_GPIOB);
 	m_OUT_LCD_DB5->SetMode(OUT);
 	m_OUT_LCD_DB6 = new CIOObject(GPIOB,GPIO_Pin_8,RCC_APB2Periph_GPIOB);
-	m_OUT_LCD_DB6->SetMode(OUT);
+	m_OUT_LCD_DB6->SetMode(OUT,1);
 	m_OUT_LCD_DB7 = new CIOObject(GPIOB,GPIO_Pin_9,RCC_APB2Periph_GPIOB);
-	m_OUT_LCD_DB7->SetMode(OUT);
+	m_OUT_LCD_DB7->SetMode(OUT,1);
 
 	
 	m_OUT_HX711_SCK = new CIOObject(GPIOB,GPIO_Pin_14,RCC_APB2Periph_GPIOB);
