@@ -13,6 +13,7 @@
 #include "Context.h"
 #include "WeightMeasure.h"
 #include "AmountCtrl.h"
+#include "E2PROMDriver.h"
 
 #include "LOGCTRL.h"
 //#define NO_POS_DEBUG
@@ -108,7 +109,9 @@ void GolobalArgSetProcess()
 				}
 				else
 				{
-					Flash_Write(MACHINE_NUM_ADRESS, (unsigned char*)recBuf, MACHINE_NUM_LEN);
+					E2PROMDriver *g_E2PROM = CSingleton<E2PROMDriver>::instance();
+					g_E2PROM->MultiByteWrite((unsigned char*)recBuf, 0, MACHINE_NUM_LEN);
+//					Flash_Write(MACHINE_NUM_ADRESS, (unsigned char*)recBuf, MACHINE_NUM_LEN);
 					PUT("Enter the Vegetable file length...\r\n");
 					status = INIT_OVER;
 				}
@@ -157,11 +160,12 @@ int main()
 		}
 
 	
-		
-		memset(tempBuf, 0, sizeof(tempBuf));
-		Flash_Read(MACHINE_NUM_ADRESS, (unsigned char*)tempBuf, MACHINE_NUM_LEN);
+		E2PROMDriver *g_E2PROM = CSingleton<E2PROMDriver>::instance();
+		memset(tempBuf, 0, sizeof(tempBuf));	
+		g_E2PROM->MultiByteRead((unsigned char*)tempBuf, 0, MACHINE_NUM_LEN);
+//		Flash_Read(MACHINE_NUM_ADRESS, (unsigned char*)tempBuf, MACHINE_NUM_LEN);
 		memset(showInfo, 0, sizeof(showInfo));
-		memcpy(tempBuf,"0000000002",10);
+//		memcpy(tempBuf,"0000000002",10);
 		sprintf(showInfo,"机器编号为%s\r\n", tempBuf);
 		PUT(showInfo)
 
@@ -183,28 +187,28 @@ int main()
 		WeightMeasure weight;
 		while(1)
 		{
-			exeObj.processing();
-			keyValue = keyCtrl.getKeyValue();
-			if(keyValue>0)
-			{
-				//有按键事件
-				DBG_PRN(("按下的按键值为 %d",keyValue))
-				CurWin.request(keyValue);
+//			exeObj.processing();
+//			keyValue = keyCtrl.getKeyValue();
+//			if(keyValue>0)
+//			{
+//				//有按键事件
+//				DBG_PRN(("按下的按键值为 %d",keyValue))
+//				CurWin.request(keyValue);
 
-			}
-//			long dat = weight.read();
-//			memset(showInfo, 0, sizeof(showInfo));
-//			sprintf(showInfo,"重%d\r\n", dat);
-//			PUT(showInfo);
+//			}
+			long dat = weight.read();
+			memset(showInfo, 0, sizeof(showInfo));
+			sprintf(showInfo,"%d\r\n", dat);
+			PUT(showInfo);
 //			double weightDat = weight.GetWeight();
 //			memset(showInfo, 0, sizeof(showInfo));
 //			sprintf(showInfo,"%f\r\n", weightDat);
 //			PUT(showInfo);
-//			Delay_ms(1000);
+			Delay_ms(25);
 //			DBG_PRN(("重量为%d",weightDat))
 //		MotorDriver *g_motor =  CSingleton<MotorDriver>::instance();
 //		g_motor->rotateP(500*10);
-//		Delay_ms(1000);
+//		Delay_ms(10);
 
 		
 //			DBG_PRN(("活着"))

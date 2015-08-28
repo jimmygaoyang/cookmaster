@@ -57,15 +57,20 @@ bool WeightMeasure::is_ready() {
 
 long WeightMeasure::read() {
     long val = 0;
-	int timeout = 100;
-	
-    while (!is_ready())
-	{
-		timeout--;
-		Delay_ms(10);
-		if(timeout<0)
-			return 0;
-	}
+//	int timeout = 1000;
+//	g_IOset->m_IN_HX711_DA->SetDigitalOut(HIGH);
+	g_IOset->m_OUT_HX711_SCK->SetDigitalOut(LOW);
+	do{
+			;
+	}while(!is_ready());
+//    while (!is_ready())
+//	{
+//		timeout--;
+//		Delay_ms(10);
+//		if(timeout<0)
+//			return 0;
+//		;
+//	}
     for (int i = 0; i < 24; i++) {
         g_IOset->m_OUT_HX711_SCK->SetDigitalOut(HIGH);
 			Delay_us(1);

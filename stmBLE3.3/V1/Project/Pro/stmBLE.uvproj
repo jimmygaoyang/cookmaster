@@ -442,6 +442,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f10x_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_i2c.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -571,6 +576,11 @@
               <FileName>WeightMeasure.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\USER\src\WeightMeasure.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>E2PROMDriver.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\USER\src\E2PROMDriver.cpp</FilePath>
             </File>
           </Files>
         </Group>
