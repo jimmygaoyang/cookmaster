@@ -16,8 +16,8 @@ WeightMeasure::WeightMeasure()
     COEFFICIENT = 1;
 	
 	g_IOset->m_OUT_HX711_SCK->SetDigitalOut(LOW);
-	set_co(0.0005585);
-	set_offset(1163654);
+	set_co(0.0006135);
+	set_offset(8021000);
 	
 	read();
 	Delay_ms(400);
@@ -49,7 +49,8 @@ void WeightMeasure::set_amp(char amp) {
 
 bool WeightMeasure::is_ready() {
 	if(g_IOset->m_IN_HX711_DA->ReadDigitalIn() == LOW)
-    	return true;
+
+	return true;
 	else 
 		return false;
 	

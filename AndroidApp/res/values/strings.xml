@@ -38,6 +38,9 @@
     <string name="corpor_url">公司网址</string>
     <string name="output">出料</string>
     <string name="del_box">删除</string>
+    <string name="my_upload">我的作品</string>
+    <string name="my_download">我的收藏</string>
+    
     
 
 </resources>

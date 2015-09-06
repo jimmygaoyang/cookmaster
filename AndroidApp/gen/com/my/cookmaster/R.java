@@ -352,13 +352,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int login_activity=0x7f03001e;
         public static final int menu_activity=0x7f03001f;
         public static final int menu_show=0x7f030020;
-        public static final int my_tool_activity=0x7f030021;
-        public static final int rank_activity=0x7f030022;
-        public static final int rank_view=0x7f030023;
-        public static final int tab_view=0x7f030024;
-        public static final int title_activity=0x7f030025;
-        public static final int title_bar=0x7f030026;
-        public static final int user_activity=0x7f030027;
+        public static final int my_menu_activity=0x7f030021;
+        public static final int my_tool_activity=0x7f030022;
+        public static final int rank_activity=0x7f030023;
+        public static final int rank_view=0x7f030024;
+        public static final int tab_view=0x7f030025;
+        public static final int title_activity=0x7f030026;
+        public static final int title_bar=0x7f030027;
+        public static final int user_activity=0x7f030028;
     }
     public static final class string {
         public static final int addbox=0x7f070016;
@@ -382,8 +383,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int loginHint=0x7f070007;
         public static final int mactitle=0x7f070017;
         public static final int main_stuff=0x7f07000c;
+        public static final int my_download=0x7f070026;
         public static final int my_menu=0x7f070009;
         public static final int my_tool=0x7f07000a;
+        public static final int my_upload=0x7f070025;
         public static final int namehint=0x7f070012;
         public static final int net=0x7f070003;
         public static final int output=0x7f070023;
