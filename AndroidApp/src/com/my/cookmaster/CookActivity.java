@@ -251,7 +251,8 @@ public class CookActivity extends BaseFragment{
 			// TODO Auto-generated method stub
 			outputMaterial();
 			selectedMacNum = (String)v.getTag();
-			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(),Toast.LENGTH_SHORT).show();
+			
+			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(1,),Toast.LENGTH_SHORT).show();
 		}
 			
 	};

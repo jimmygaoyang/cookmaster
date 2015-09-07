@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 
 public class UserActivity extends BaseFragment{
 
+	private RelativeLayout MenuBar;
 	private RelativeLayout setBar;
 	private RelativeLayout toolBar;
 	private Button loginBtn;
@@ -116,6 +117,19 @@ public class UserActivity extends BaseFragment{
         setBar = (RelativeLayout)view.findViewById(R.id.mysetBox);
         backBtn.setVisibility(View.INVISIBLE);
         
+        MenuBar = (RelativeLayout)view.findViewById(R.id.myMenuBox);
+        
+        MenuBar.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(UserActivity.this.getActivity(), MyMenuActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				UserActivity.this.getActivity().startActivity(intent);
+			}
+		});
         
         setBar.setOnClickListener(new View.OnClickListener() {
 			

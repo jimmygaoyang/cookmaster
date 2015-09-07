@@ -30,6 +30,9 @@
         <activity android:name="BoxShowActivity"/>
         <activity android:name="BrandSetActivity"/>
         <activity android:name="FlavorSetActivity"/>
+        <activity android:name="MyMenuActivity"/>
+        <activity android:name="MakeMenuActivity"/>
+        
         
         
         
