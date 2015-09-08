@@ -100,8 +100,7 @@ public class FlavorSetActivity extends Activity{
 		
 		
 		List<Class<? extends IViewProvider>> providers = new ArrayList<Class<? extends IViewProvider>>();
-		providers.add(materialProvider.class);
-		
+		providers.add(materialProvider.class);		
 		FlavorAdpater = new MiltilViewListAdapter(this.getApplication(), FlavorSearchList, providers);
 		FlavorList.setAdapter(FlavorAdpater);
 		MyScrollListener scrollListener = new MyScrollListener(FlavorAdpater);

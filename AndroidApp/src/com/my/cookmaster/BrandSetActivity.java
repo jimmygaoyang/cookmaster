@@ -63,6 +63,7 @@ public class BrandSetActivity extends Activity {
 	private List<IItemBean> brandSearchList = new ArrayList<IItemBean>();
 	private BrandBean selectedBrand;
 	private String selectedBoxMac;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

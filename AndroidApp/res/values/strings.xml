@@ -43,6 +43,12 @@
     <string name="edit_menu_title">输入菜谱名称，最多15个字符</string>
     <string name="material">食材</string>
     <string name="amount">用量</string>
+    <string name="stuff_name">食材名称</string>
+    <string name="stuff_kind">食材种类</string>
+    <string name="stuff_brand">食材品牌</string>
+    
+    
+    
     
 
 </resources>
