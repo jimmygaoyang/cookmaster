@@ -6,14 +6,20 @@ import java.util.List;
 import com.my.cookmaster.CookActivity.buttonClick;
 import com.my.cookmaster.bean.bus_bean.MkMenuMainStuff;
 import com.my.cookmaster.bean.bus_bean.MkMenuMenuTitle;
+import com.my.cookmaster.bean.bus_bean.MkMenuSubStuff;
+import com.my.cookmaster.bean.bus_bean.StuffAdd;
+import com.my.cookmaster.bean.bus_bean.subStuffTitle;
 import com.my.cookmaster.bean.pro_bean.MaterialBean;
 import com.my.cookmaster.view.listview.viewprovider.Callback;
 import com.my.cookmaster.view.listview.viewprovider.IItemBean;
 import com.my.cookmaster.view.listview.viewprovider.IViewProvider;
 import com.my.cookmaster.view.listview.viewprovider.MiltilViewListAdapter;
 import com.my.cookmaster.view.listview.viewprovider.MyScrollListener;
+import com.my.cookmaster.view.listview.viewprovider.impl.MkMenuAddStuffProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.MkMenuMainStuffProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.MkMenuMenuTitleProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.SubStuffEditProvider;
+import com.my.cookmaster.view.listview.viewprovider.impl.subStuffTitleProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +36,9 @@ public class MakeMenuActivity extends Activity {
 	private Button backBtn;
 	private TextView makeMenu;
 	private ListView makeMenuList;
+	public boolean hasNextPage =false;//标识已经有下一个activity了
 	
+	List<Class<? extends IViewProvider>> providers;
 	MiltilViewListAdapter adpater;
 	public static List<IItemBean> mList = null;
 	
@@ -49,12 +57,25 @@ public class MakeMenuActivity extends Activity {
 		
 
 		
-		List<Class<? extends IViewProvider>> providers = new ArrayList<Class<? extends IViewProvider>>();
+		providers = new ArrayList<Class<? extends IViewProvider>>();
 		providers.add(MkMenuMenuTitleProvider.class);
 		providers.add(MkMenuMainStuffProvider.class);
+		providers.add(subStuffTitleProvider.class);
+		providers.add(SubStuffEditProvider.class);
+		providers.add(MkMenuAddStuffProvider.class);
 		
 		CurTile.setText("发布菜谱");
 		makeMenu.setText("下一步");
+		backBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+//				Intent intent = new Intent(MakeMenuActivity.this, MyMenuActivity.class);
+//				MakeMenuActivity.this.startActivity(intent);
+			}
+		});
 		makeMenu.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -70,13 +91,9 @@ public class MakeMenuActivity extends Activity {
 				}
 				
 		});
-		
-		mList = new ArrayList<IItemBean>();
-		adpater = new MiltilViewListAdapter(this.getApplication(), mList, providers);
-		adpater.setmCallback(new buttonClick());
-		makeMenuList.setAdapter(adpater);
-		MyScrollListener scrollListener = new MyScrollListener(adpater);
-		makeMenuList.setOnScrollListener(scrollListener);
+		if(mList == null)//防止重写
+			mList = new ArrayList<IItemBean>();
+
 		
 		
 //        Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent  
@@ -87,7 +104,8 @@ public class MakeMenuActivity extends Activity {
 //        	MkMenuMainStuff data = (MkMenuMainStuff)mList.get(editPosition);
 //        	data.setMaterial(bean);
 //        }
-		loadMenuData();
+		if(mList.size() == 0)//防止重写
+			loadMenuData();
 		
 		instance = this;
 	};
@@ -95,6 +113,11 @@ public class MakeMenuActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		adpater = new MiltilViewListAdapter(this.getApplication(), mList, providers);
+		adpater.setmCallback(new buttonClick());
+		makeMenuList.setAdapter(adpater);
+		MyScrollListener scrollListener = new MyScrollListener(adpater);
+		makeMenuList.setOnScrollListener(scrollListener);
 		adpater.notifyDataSetChanged();		
 		
 
@@ -120,6 +143,12 @@ public class MakeMenuActivity extends Activity {
 		mList.add(titleBean);
 		MkMenuMainStuff mainStuf = new MkMenuMainStuff();
 		mList.add(mainStuf);
+		subStuffTitle subStuffTitleBean = new subStuffTitle();
+		mList.add(subStuffTitleBean);//添加辅料标题
+		MkMenuSubStuff subStuff = new MkMenuSubStuff();
+		mList.add(subStuff);
+		StuffAdd stuffAdd = new StuffAdd();
+		mList.add(stuffAdd);
 	};
 	
 	class buttonClick implements Callback
@@ -127,10 +156,15 @@ public class MakeMenuActivity extends Activity {
 		@Override
 		public void click(View v) {
 			// TODO Auto-generated method stub
-			Intent intent = new Intent(MakeMenuActivity.this, StuffSelectActivity.class);
-			editPosition = (Integer)v.getTag();
-			intent.putExtra("pos",editPosition);
-			MakeMenuActivity.this.startActivity(intent);
+			if(hasNextPage == false)//若正有下一及页面，择不重复生成
+			{
+				Intent intent = new Intent(MakeMenuActivity.this, StuffSelectActivity.class);
+				editPosition = (Integer)v.getTag();
+				intent.putExtra("pos",editPosition);
+				MakeMenuActivity.this.startActivity(intent);
+				hasNextPage = true;
+			}
+
 			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(1,),Toast.LENGTH_SHORT).show();
 		}
 			

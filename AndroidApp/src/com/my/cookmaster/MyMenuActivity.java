@@ -34,7 +34,7 @@ public class MyMenuActivity extends Activity{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MyMenuActivity.this, MakeMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				MyMenuActivity.this.startActivity(intent);
 			}
 		});

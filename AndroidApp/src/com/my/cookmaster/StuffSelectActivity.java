@@ -8,6 +8,7 @@ import org.apache.http.Header;
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.my.cookmaster.bean.bus_bean.MkMenuMainStuff;
+import com.my.cookmaster.bean.bus_bean.MkMenuSubStuff;
 import com.my.cookmaster.bean.bus_bean.brandView;
 import com.my.cookmaster.bean.bus_bean.materialKind;
 import com.my.cookmaster.bean.bus_bean.materialView;
@@ -355,9 +356,11 @@ public class StuffSelectActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(StuffSelectActivity.this, MakeMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				StuffSelectActivity.this.startActivity(intent);
+//				Intent intent = new Intent(StuffSelectActivity.this, MakeMenuActivity.class);
+//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				StuffSelectActivity.this.startActivity(intent);
+				MakeMenuActivity.instance.hasNextPage = false;
+				finish();
 			}
 		});
 		
@@ -374,10 +377,15 @@ public class StuffSelectActivity extends Activity {
 					selectedMaterial.setMaterial_kind_name(StuffKind.getText().toString());
 					selectedMaterial.setBrand_name(StuffBrand.getText().toString());
 				}
-				((MkMenuMainStuff)MakeMenuActivity.instance.mList.get(position)).setMaterial(selectedMaterial);
+				MakeMenuActivity.instance.hasNextPage = false;
+				if(MakeMenuActivity.instance.mList.get(position) instanceof MkMenuMainStuff)
+					((MkMenuMainStuff)MakeMenuActivity.instance.mList.get(position)).setMaterial(selectedMaterial);
+				if(MakeMenuActivity.instance.mList.get(position) instanceof MkMenuSubStuff)
+					((MkMenuSubStuff)MakeMenuActivity.instance.mList.get(position)).setMaterial(selectedMaterial);
+				finish();
 //				Intent intent = new Intent(StuffSelectActivity.this, MakeMenuActivity.class);
 //				StuffSelectActivity.this.startActivity(intent);
-				StuffSelectActivity.this.finish();
+				
 			}
 		});
 		

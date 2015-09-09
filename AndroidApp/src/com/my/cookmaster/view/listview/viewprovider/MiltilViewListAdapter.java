@@ -24,6 +24,7 @@ public class MiltilViewListAdapter extends BaseAdapter  {
 	public List<IItemBean> mItemBeanList;
 	public LoadImage loadImage;
 	private Callback mCallback = null;
+	private int focusIndex;
 	
 	 
 	public MiltilViewListAdapter(Context c,
@@ -160,6 +161,14 @@ public class MiltilViewListAdapter extends BaseAdapter  {
 
 	public void setmCallback(Callback mCallback) {
 		this.mCallback = mCallback;
+	}
+
+	public int getFocusIndex() {
+		return focusIndex;
+	}
+
+	public void setFocusIndex(int focusIndex) {
+		this.focusIndex = focusIndex;
 	}
 
 }
