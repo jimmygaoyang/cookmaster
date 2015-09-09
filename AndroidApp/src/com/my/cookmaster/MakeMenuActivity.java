@@ -156,14 +156,12 @@ public class MakeMenuActivity extends Activity {
 		@Override
 		public void click(View v) {
 			// TODO Auto-generated method stub
-			if(hasNextPage == false)//若正有下一及页面，择不重复生成
-			{
-				Intent intent = new Intent(MakeMenuActivity.this, StuffSelectActivity.class);
-				editPosition = (Integer)v.getTag();
-				intent.putExtra("pos",editPosition);
-				MakeMenuActivity.this.startActivity(intent);
-				hasNextPage = true;
-			}
+			Intent intent = new Intent(MakeMenuActivity.this, StuffSelectActivity.class);
+			editPosition = (Integer)v.getTag();
+			intent.putExtra("pos",editPosition);
+			MakeMenuActivity.this.startActivity(intent);
+			hasNextPage = true;
+
 
 			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(1,),Toast.LENGTH_SHORT).show();
 		}

@@ -16,7 +16,7 @@
 		     android:layout_weight="1"
 		     android:layout_width = "wrap_content"
 		     android:layout_height="wrap_content"
-		     android:textColor="#CB5B26"
+		     android:textColor="#61d1fa"
 		     android:textSize="18sp"
 		     android:hint="@string/material"
 		     />
@@ -31,9 +31,9 @@
 		     android:textSize="18sp"/>
     	          <ImageView 
 	         android:id="@+id/del_stuff"
-	         android:layout_width="20dp"
+	         android:layout_width="30dp"
 	         android:layout_weight="1"
-	         android:layout_height="24dp"
+	         android:layout_height="30dp"
 	         android:background="@drawable/del_box"
 	         android:layout_gravity="center_vertical|right"
          />  

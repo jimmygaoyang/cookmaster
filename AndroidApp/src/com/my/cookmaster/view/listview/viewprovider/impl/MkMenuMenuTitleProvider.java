@@ -4,8 +4,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,7 +62,24 @@ public class MkMenuMenuTitleProvider extends IViewProvider {
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
-		
+		holder.menuTitle.setOnTouchListener(new OnTouchListener()
+		{
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                	adapter.setFocusIndex(position);
+                }
+				return false;
+			}
+			
+		} );
+		holder.menuTitle.clearFocus();
+        if(adapter.getFocusIndex()!= -1 && adapter.getFocusIndex() == position) {
+               // 如果当前的行下标和点击事件中保存的index一致，手动为EditText设置焦点。
+        	holder.menuTitle.requestFocus();
+        }
 		return convertView;
 	}
 	
