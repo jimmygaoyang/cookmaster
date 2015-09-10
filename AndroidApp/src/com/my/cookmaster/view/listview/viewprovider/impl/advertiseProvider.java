@@ -1,10 +1,13 @@
 package com.my.cookmaster.view.listview.viewprovider.impl;
 
+import android.app.ActionBar.LayoutParams;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.my.cookmaster.Constant;
 import com.my.cookmaster.R;
 import com.my.cookmaster.bean.bus_bean.advertiseView;
 import com.my.cookmaster.view.bannerview.CircleFlowIndicator;
@@ -24,6 +27,12 @@ public class advertiseProvider extends IViewProvider{
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.item_view_advertise, null);
 			holder = new ViewHolderImage();
+			holder.frame = (FrameLayout) convertView.findViewById(R.id.framelayout);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+            		Constant.displayWidth,
+                    (int) (Constant.displayWidth * 0.3f + 0.5f));
+            holder.frame.setLayoutParams(params);
+    
 			holder.mViewFlow = (ViewFlow) convertView.findViewById(R.id.viewflow);
 			holder.mFlowIndicator = (CircleFlowIndicator) convertView.findViewById(R.id.viewflowindic);
 	
@@ -44,6 +53,7 @@ public class advertiseProvider extends IViewProvider{
 	}
 	
 	class ViewHolderImage{
+		private FrameLayout frame;
 		private ViewFlow mViewFlow;
 		private CircleFlowIndicator mFlowIndicator;
 

@@ -9,14 +9,14 @@
     
     <LinearLayout 
         android:id="@+id/flavor_name_bar"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_titlebar"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         >
         <TextView 
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:textSize="18sp"
@@ -24,28 +24,29 @@
             />
         <EditText 
             android:id="@+id/name_flavor"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="left"
             android:textSize="18sp"
             />
     </LinearLayout>
     <ListView
-        android:layout_width="300dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/flavor_list"
         android:layout_below="@+id/flavor_name_bar"
          />  
         <LinearLayout 
         android:id="@+id/flavor_kind_bar"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         android:layout_below="@+id/flavor_list"
         >
         <TextView 
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:textSize="18sp"
@@ -53,14 +54,15 @@
             />
         <EditText 
             android:id="@+id/flavor_kind"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="left"
             android:textSize="18sp"
             />
     </LinearLayout>
         <ListView
-        android:layout_width="300dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/flavor_kind_list"
         android:layout_below="@+id/flavor_kind_bar"

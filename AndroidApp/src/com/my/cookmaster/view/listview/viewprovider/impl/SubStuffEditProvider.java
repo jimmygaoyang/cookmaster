@@ -148,8 +148,11 @@ public class SubStuffEditProvider extends IViewProvider{
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			Log.d("cook",String.format("要删除的调料盒pos = %d", pos));
-			adapter.mItemBeanList.remove(pos);
-			adapter.notifyDataSetChanged();
+			pos = pos + (1<<16);
+			v.setTag(pos);
+			mCallback.click(v);
+//			adapter.mItemBeanList.remove(pos);
+//			adapter.notifyDataSetChanged();
 		}
 	}
 }

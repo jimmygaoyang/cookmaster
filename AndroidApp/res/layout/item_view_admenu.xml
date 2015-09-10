@@ -4,10 +4,11 @@
     android:layout_height="wrap_content">"
      <ImageView
         android:id="@+id/admenu_photo"
-        android:layout_width="fill_parent"
-        android:layout_height="180dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/ic_launcher" />
      <TextView
          android:id="@+id/admenu_title"

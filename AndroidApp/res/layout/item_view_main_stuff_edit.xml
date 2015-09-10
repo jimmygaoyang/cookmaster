@@ -25,7 +25,8 @@
 		     android:layout_width = "wrap_content"
 		     android:layout_height="wrap_content"
 		     android:textColor="#CB5B26"
-		     android:background="#FFFFFF"
+		     android:background="@drawable/booder_right"
+		     android:layout_marginRight="10dp"
 		     android:textSize="18sp"
 		     android:hint="@string/material"
 		     />
@@ -36,7 +37,7 @@
 		     android:layout_width = "wrap_content"
 		     android:layout_height="wrap_content"
 		     android:textColor="#B2B2B2"
-		     android:background="#FFFFFF"
+		     android:background="@drawable/booder_right"
 		     android:hint="@string/amount"
 		     android:textSize="18sp"/>
      </LinearLayout>

@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -96,9 +97,15 @@ public class MainActivity extends FragmentActivity {
 //			}});
 //		
 
-
+			//»ñÈ¡ÆÁÄ»¿í¸ß
+	      DisplayMetrics displayMetrics = new DisplayMetrics();
+	      getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+	      Constant.displayWidth = displayMetrics.widthPixels;
+	      Constant.displayHeight = displayMetrics.heightPixels;
+	      
       CookMasterApp app =  CookMasterApp.getInstance();
       Context con = MainActivity.this;
+
 		SharedPreferences sysPre = con.getSharedPreferences(app.APPNAME,con.MODE_PRIVATE);
 		whichPage = sysPre.getInt("whichPage", 0);	
 		SharedPreferences.Editor editor = sysPre.edit();

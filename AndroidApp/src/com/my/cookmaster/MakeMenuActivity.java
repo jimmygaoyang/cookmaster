@@ -1,6 +1,7 @@
 package com.my.cookmaster;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.my.cookmaster.CookActivity.buttonClick;
@@ -10,6 +11,7 @@ import com.my.cookmaster.bean.bus_bean.MkMenuSubStuff;
 import com.my.cookmaster.bean.bus_bean.StuffAdd;
 import com.my.cookmaster.bean.bus_bean.subStuffTitle;
 import com.my.cookmaster.bean.pro_bean.MaterialBean;
+import com.my.cookmaster.bean.pro_bean.UploadMenuBean;
 import com.my.cookmaster.view.listview.viewprovider.Callback;
 import com.my.cookmaster.view.listview.viewprovider.IItemBean;
 import com.my.cookmaster.view.listview.viewprovider.IViewProvider;
@@ -36,6 +38,7 @@ public class MakeMenuActivity extends Activity {
 	private Button backBtn;
 	private TextView makeMenu;
 	private ListView makeMenuList;
+	private UploadMenuBean uploadMenuBean ;
 	public boolean hasNextPage =false;//标识已经有下一个activity了
 	
 	List<Class<? extends IViewProvider>> providers;
@@ -88,12 +91,15 @@ public class MakeMenuActivity extends Activity {
 					MkMenuMenuTitle bean = (MkMenuMenuTitle)mList.get(0);
 				Toast.makeText(MakeMenuActivity.this,"菜名为" + bean.getMenuTitle(),Toast.LENGTH_SHORT).show();
 				}
+				
+				refreshSaveData();
 				}
 				
 		});
 		if(mList == null)//防止重写
 			mList = new ArrayList<IItemBean>();
 
+		uploadMenuBean = new UploadMenuBean();
 		
 		
 //        Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent  
@@ -122,18 +128,27 @@ public class MakeMenuActivity extends Activity {
 		
 
 	}
-	private void refreshData() {
+	private void refreshSaveData() {
 		// TODO Auto-generated method stub
-        Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent  
-        Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据   
-        MaterialBean bean  = (MaterialBean)bundle.get("material");
-        if (bean!= null)
+		
+		int subStuffIndex=0;
+        for(int i=0; i<mList.size();i++)
         {
-        	MkMenuMainStuff data = (MkMenuMainStuff)mList.get(editPosition);
-        	data.setMaterial(bean);
-        	adpater.notifyDataSetChanged();
+        	if(mList.get(i) instanceof MkMenuMenuTitle)//若是标题
+        	{
+        		
+        		uploadMenuBean.setTitle(((MkMenuMenuTitle)mList.get(i)).getMenuTitle());
+        	}
+        	if(mList.get(i) instanceof MkMenuMainStuff)
+        	{
+        		uploadMenuBean.setMainStuffs(((MkMenuMainStuff)mList.get(i)).getMaterial());
+        	}
+        	if(mList.get(i) instanceof MkMenuSubStuff)
+        	{
+        		uploadMenuBean.getSubStuffs().add(((MkMenuSubStuff)mList.get(i)).getMaterial());
+        	}
         }
-        
+
         
 	}
 
@@ -158,9 +173,25 @@ public class MakeMenuActivity extends Activity {
 			// TODO Auto-generated method stub
 			Intent intent = new Intent(MakeMenuActivity.this, StuffSelectActivity.class);
 			editPosition = (Integer)v.getTag();
-			intent.putExtra("pos",editPosition);
-			MakeMenuActivity.this.startActivity(intent);
-			hasNextPage = true;
+			int itemIndex = editPosition & 0x0000FFFF;
+			int sigId = (editPosition & 0xFFFF0000)>>16; 
+			if(sigId ==0)
+			{
+				intent.putExtra("pos",itemIndex);
+				MakeMenuActivity.this.startActivity(intent);
+				hasNextPage = true;
+			}
+			else
+			{
+				switch(sigId)
+				{
+				case 1:
+					mList.remove(itemIndex);
+					MakeMenuActivity.this.onResume();
+					break;
+				}
+			}
+
 
 
 			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(1,),Toast.LENGTH_SHORT).show();
