@@ -1,17 +1,23 @@
 package com.my.cookmaster;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.my.cookmaster.CookActivity.buttonClick;
 import com.my.cookmaster.bean.bus_bean.MkMenuMainStuff;
 import com.my.cookmaster.bean.bus_bean.MkMenuMenuTitle;
 import com.my.cookmaster.bean.bus_bean.MkMenuSubStuff;
 import com.my.cookmaster.bean.bus_bean.StuffAdd;
+import com.my.cookmaster.bean.bus_bean.mainStuff;
 import com.my.cookmaster.bean.bus_bean.subStuffTitle;
 import com.my.cookmaster.bean.pro_bean.MaterialBean;
 import com.my.cookmaster.bean.pro_bean.UploadMenuBean;
+import com.my.cookmaster.bean.pro_bean.UploadStuff;
 import com.my.cookmaster.view.listview.viewprovider.Callback;
 import com.my.cookmaster.view.listview.viewprovider.IItemBean;
 import com.my.cookmaster.view.listview.viewprovider.IViewProvider;
@@ -22,6 +28,7 @@ import com.my.cookmaster.view.listview.viewprovider.impl.MkMenuMainStuffProvider
 import com.my.cookmaster.view.listview.viewprovider.impl.MkMenuMenuTitleProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.SubStuffEditProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.subStuffTitleProvider;
+import com.my.cookmaster.view.util.FileService;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,6 +46,7 @@ public class MakeMenuActivity extends Activity {
 	private TextView makeMenu;
 	private ListView makeMenuList;
 	private UploadMenuBean uploadMenuBean ;
+	FileService fileSer;
 	public boolean hasNextPage =false;//标识已经有下一个activity了
 	
 	List<Class<? extends IViewProvider>> providers;
@@ -47,7 +55,7 @@ public class MakeMenuActivity extends Activity {
 	
 	public int editPosition;
 	public static MakeMenuActivity instance = null;
-	
+	public boolean isCreatMenu = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -96,26 +104,71 @@ public class MakeMenuActivity extends Activity {
 				}
 				
 		});
+		
 		if(mList == null)//防止重写
 			mList = new ArrayList<IItemBean>();
 
 		uploadMenuBean = new UploadMenuBean();
 		
-		
-//        Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent  
-//        Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据   
-//        MaterialBean bean  = (MaterialBean)bundle.get("material");
-//        if (bean!= null)
-//        {
-//        	MkMenuMainStuff data = (MkMenuMainStuff)mList.get(editPosition);
-//        	data.setMaterial(bean);
-//        }
+        Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent  
+        Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据   
+        isCreatMenu  = bundle.getBoolean("isCreate");
+		if(isCreatMenu == false)
+		{
+			String menuPath = bundle.getString("menuPath");
+			
+			LoadMenuData(menuPath);
+		}
+		else
+		{
+			CreateMenuData();
+		}
+  
 		if(mList.size() == 0)//防止重写
-			loadMenuData();
+			CreateMenuData();
 		
 		instance = this;
 	};
 	
+	private void LoadMenuData(String menuPath) {
+		// TODO Auto-generated method stub
+		fileSer = new FileService(this);
+		String content = null;
+		try {
+			content = fileSer.read(menuPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		uploadMenuBean = (UploadMenuBean)JSON.parse(content);
+		
+		
+		mList.clear();
+		MkMenuMenuTitle titleBean = new MkMenuMenuTitle();
+		mList.add(titleBean);
+		MkMenuMainStuff mainStuf = new MkMenuMainStuff();
+		mainStuf.setMaterial(uploadMenuBean.getMainStuff().getStuff());
+		mainStuf.setAmount(uploadMenuBean.getMainStuff().getAmount());
+		mList.add(mainStuf);
+		subStuffTitle subStuffTitleBean = new subStuffTitle();
+		mList.add(subStuffTitleBean);
+		for(int i=0; i< uploadMenuBean.getSubStuff().size();i++)
+		{
+			MkMenuSubStuff subStuff = new MkMenuSubStuff();
+			subStuff.setMaterial(uploadMenuBean.getSubStuff().get(i).getStuff());
+			subStuff.setAmount(uploadMenuBean.getSubStuff().get(i).getAmount());
+			mList.add(subStuff);
+		}
+
+		StuffAdd stuffAdd = new StuffAdd();
+		mList.add(stuffAdd);
+		
+		
+		
+		
+		
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -130,7 +183,14 @@ public class MakeMenuActivity extends Activity {
 	}
 	private void refreshSaveData() {
 		// TODO Auto-generated method stub
-		
+		//clear menuBean
+		if(uploadMenuBean.getSubStuff().size() != 0)
+		{
+			uploadMenuBean.getSubStuff().clear();
+		}
+		if(uploadMenuBean.getSteps().size()!=0)
+			uploadMenuBean.getSteps().clear();
+		//reload
 		int subStuffIndex=0;
         for(int i=0; i<mList.size();i++)
         {
@@ -141,18 +201,44 @@ public class MakeMenuActivity extends Activity {
         	}
         	if(mList.get(i) instanceof MkMenuMainStuff)
         	{
-        		uploadMenuBean.setMainStuffs(((MkMenuMainStuff)mList.get(i)).getMaterial());
+        		UploadStuff mainstuff = new UploadStuff();
+        		mainstuff.setStuff(((MkMenuMainStuff)mList.get(i)).getMaterial());
+        		mainstuff.setAmount(((MkMenuMainStuff)mList.get(i)).getAmount());
+        		uploadMenuBean.setMainStuff(mainstuff);
         	}
         	if(mList.get(i) instanceof MkMenuSubStuff)
         	{
-        		uploadMenuBean.getSubStuffs().add(((MkMenuSubStuff)mList.get(i)).getMaterial());
+        		UploadStuff substuff = new UploadStuff();
+        		substuff.setStuff(((MkMenuSubStuff)mList.get(i)).getMaterial());
+        		substuff.setAmount(((MkMenuSubStuff)mList.get(i)).getAmount());
+        		uploadMenuBean.getSubStuff().add(substuff);
         	}
         }
+        
+        //save to json file
+        String sendDat = JSON.toJSONString(uploadMenuBean);       
+        fileSer = new FileService(this);
+        
+        SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyyMMddHHmmss");     
+        Date   curDate   =   new   Date(System.currentTimeMillis());//获取当前时间     
+        String   str   =   formatter.format(curDate);
+        String path = Constant.DOING_MENU_PATH;
+        if(isCreatMenu == true)
+        {
+        	path = path+"/"+str+"/";
+        }
+        try {
+			fileSer.saveToSDCard(path,"json.txt", sendDat);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 
         
 	}
 
-	private void loadMenuData()
+	private void CreateMenuData()
 	{
 		MkMenuMenuTitle titleBean = new MkMenuMenuTitle();
 		mList.add(titleBean);

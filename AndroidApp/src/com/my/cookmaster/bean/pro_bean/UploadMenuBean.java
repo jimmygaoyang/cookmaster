@@ -9,8 +9,8 @@ public class UploadMenuBean {
 	private Long UserId;
 	private String Intro;
 	private String CoverUrl;
-	private MaterialBean MainStuffs;
-	private List<MaterialBean> SubStuffs = new ArrayList<MaterialBean>();
+	private UploadStuff MainStuff;
+	private List<UploadStuff> SubStuff = new ArrayList<UploadStuff>();
 	private String UserName;
 	private List<UploadStep> Steps = new ArrayList<UploadStep>();
 	private boolean checked = false;
@@ -47,18 +47,6 @@ public class UploadMenuBean {
 	public void setCoverUrl(String coverUrl) {
 		CoverUrl = coverUrl;
 	}
-	public MaterialBean getMainStuffs() {
-		return MainStuffs;
-	}
-	public void setMainStuffs(MaterialBean mainStuffs) {
-		MainStuffs = mainStuffs;
-	}
-	public List<MaterialBean> getSubStuffs() {
-		return SubStuffs;
-	}
-	public void setSubStuffs(List<MaterialBean> subStuffs) {
-		SubStuffs = subStuffs;
-	}
 	public String getUserName() {
 		return UserName;
 	}
@@ -94,6 +82,18 @@ public class UploadMenuBean {
 	}
 	public void setRecipeId(Long recipeId) {
 		RecipeId = recipeId;
+	}
+	public UploadStuff getMainStuff() {
+		return MainStuff;
+	}
+	public void setMainStuff(UploadStuff mainStuff) {
+		MainStuff = mainStuff;
+	}
+	public List<UploadStuff> getSubStuff() {
+		return SubStuff;
+	}
+	public void setSubStuff(List<UploadStuff> subStuff) {
+		SubStuff = subStuff;
 	}
 	
 	

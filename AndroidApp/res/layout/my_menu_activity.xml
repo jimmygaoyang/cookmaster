@@ -11,7 +11,7 @@
     android:layout_below="@+id/layout_titlebar"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/myUploadBox"  
+    android:id="@+id/myUploadMenu"  
     android:background="@drawable/booder"
     >      
     <TextView
@@ -21,6 +21,13 @@
     android:layout_alignParentLeft="true"
     android:layout_centerVertical="true"
     android:hint="@string/my_upload" 
+    />  
+    <TextView
+    android:id="@+id/upLoadNum"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:textSize="20sp"
+   	android:layout_centerInParent="true"
     />  
     <ImageView 
        android:layout_width="80dp" 
@@ -32,10 +39,10 @@
 	</RelativeLayout>
 
     <RelativeLayout
-    android:layout_below="@+id/myUploadBox"
+    android:layout_below="@+id/myUploadMenu"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/myDownloadBox"  
+    android:id="@+id/myDownloadMenu"  
     android:background="@drawable/booder"
     >      
     <TextView
@@ -45,6 +52,43 @@
     android:layout_alignParentLeft="true"
     android:layout_centerVertical="true"
     android:hint="@string/my_download" 
+    />  
+        <TextView
+    android:id="@+id/downLoadNum"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:textSize="20sp"
+   	android:layout_centerInParent="true" 
+    />  
+    <ImageView 
+       android:layout_width="80dp" 
+       android:layout_height="60dp"
+       android:layout_alignParentRight="true"
+       android:layout_centerVertical="true"
+       android:background="@drawable/forward_arrow"
+        />  
+</RelativeLayout>
+    <RelativeLayout
+    android:layout_below="@+id/myDownloadMenu"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/myDoingMenu"  
+    android:background="@drawable/booder"
+    >      
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:textSize="20sp"
+    android:layout_alignParentLeft="true"
+    android:layout_centerVertical="true"
+    android:hint="@string/my_download" 
+    />  
+        <TextView
+    android:id="@+id/doingNum"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:textSize="20sp"
+   	android:layout_centerInParent="true" 
     />  
     <ImageView 
        android:layout_width="80dp" 
