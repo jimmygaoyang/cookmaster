@@ -69,6 +69,16 @@ public class MyMenuActivity extends Activity{
 			}
 		});
 		
+		MenuDoing.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MyMenuActivity.this, MyMenuDoingActivity.class);
+				MyMenuActivity.this.startActivity(intent);
+			}
+		});
+		
 		
 			
 		

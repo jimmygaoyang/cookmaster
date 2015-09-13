@@ -24,13 +24,14 @@ public class MkMenuMenuTitleProvider extends IViewProvider {
 	@Override
 	public View getItemView(View convertView, LayoutInflater inflater,
 			Object data) {
-		
+		MkMenuMenuTitle item = (MkMenuMenuTitle)data;
 		ViewHolder holder = null;
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.item_view_menu_title_edit, null);
 			holder = new ViewHolder();
 			
 			holder.menuTitle = (EditText)convertView.findViewById(R.id.menu_tilte);
+			holder.menuTitle.setText(item.getMenuTitle());
 			holder.menuTitle.addTextChangedListener(new TextWatcher(){
 
 				@Override

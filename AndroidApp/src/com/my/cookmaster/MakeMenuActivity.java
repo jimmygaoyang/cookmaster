@@ -33,6 +33,7 @@ import com.my.cookmaster.view.util.FileService;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +48,7 @@ public class MakeMenuActivity extends Activity {
 	private ListView makeMenuList;
 	private UploadMenuBean uploadMenuBean ;
 	FileService fileSer;
+	String menuPath;
 	public boolean hasNextPage =false;//标识已经有下一个activity了
 	
 	List<Class<? extends IViewProvider>> providers;
@@ -115,7 +117,7 @@ public class MakeMenuActivity extends Activity {
         isCreatMenu  = bundle.getBoolean("isCreate");
 		if(isCreatMenu == false)
 		{
-			String menuPath = bundle.getString("menuPath");
+			menuPath = bundle.getString("menuID");
 			
 			LoadMenuData(menuPath);
 		}
@@ -135,16 +137,17 @@ public class MakeMenuActivity extends Activity {
 		fileSer = new FileService(this);
 		String content = null;
 		try {
-			content = fileSer.read(menuPath);
+			content = fileSer.read(Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath+"/json.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		uploadMenuBean = (UploadMenuBean)JSON.parse(content);
+		uploadMenuBean = JSON.parseObject(content,UploadMenuBean.class);
 		
 		
 		mList.clear();
 		MkMenuMenuTitle titleBean = new MkMenuMenuTitle();
+		titleBean.setMenuTitle(uploadMenuBean.getTitle());
 		mList.add(titleBean);
 		MkMenuMainStuff mainStuf = new MkMenuMainStuff();
 		mainStuf.setMaterial(uploadMenuBean.getMainStuff().getStuff());
@@ -227,6 +230,10 @@ public class MakeMenuActivity extends Activity {
         {
         	path = path+"/"+str+"/";
         }
+        else
+        {
+        	path = Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath;
+        }
         try {
 			fileSer.saveToSDCard(path,"json.txt", sendDat);
 		} catch (IOException e) {
@@ -240,6 +247,7 @@ public class MakeMenuActivity extends Activity {
 
 	private void CreateMenuData()
 	{
+		mList.clear();
 		MkMenuMenuTitle titleBean = new MkMenuMenuTitle();
 		mList.add(titleBean);
 		MkMenuMainStuff mainStuf = new MkMenuMainStuff();

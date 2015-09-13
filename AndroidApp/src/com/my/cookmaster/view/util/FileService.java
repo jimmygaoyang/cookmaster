@@ -37,10 +37,15 @@ public class FileService {
 	public void saveToSDCard(String path,String fileName, String content) throws IOException {
 		//File file = new File(new File("/mnt/sdcard"),fileName);
 		//考虑不同版本的sdCard目录不同，采用系统提供的API获取SD卡的目录
-		path = Environment.getExternalStorageDirectory()+path;
+		path = path;
         File fd = new File(path);//没有文件就创建
 		if(!fd.exists()){
 			fd.mkdirs();
+		}
+		//删掉之前json
+		File fdCheck = new File(path+"/json.txt");
+		if(fdCheck.exists()){
+			fdCheck.delete();
 		}
 		File file = new File(path,fileName);
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -54,7 +59,11 @@ public class FileService {
 	 * @throws IOException
 	 */
 	public String read(String fileName) throws IOException {
-		FileInputStream fileInputStream = context.openFileInput(fileName);
+		File file = new File(fileName);
+		if(file == null)
+			return null;
+		
+		FileInputStream fileInputStream = new FileInputStream(file);
 		if(fileInputStream == null)
 		{
 			return null;

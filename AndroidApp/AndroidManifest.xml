@@ -33,6 +33,8 @@
         <activity android:name="MyMenuActivity"/>
         <activity android:name="MakeMenuActivity"/>
         <activity android:name="StuffSelectActivity"/>
+        <activity android:name="MyMenuDoingActivity"/>
+        
         
         
         

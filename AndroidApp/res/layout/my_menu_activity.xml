@@ -81,7 +81,7 @@
     android:textSize="20sp"
     android:layout_alignParentLeft="true"
     android:layout_centerVertical="true"
-    android:hint="@string/my_download" 
+    android:hint="@string/my_doing" 
     />  
         <TextView
     android:id="@+id/doingNum"

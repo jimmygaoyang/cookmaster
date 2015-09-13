@@ -394,8 +394,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class string {
         public static final int addbox=0x7f070016;
         public static final int addboxbtn=0x7f07001a;
-        public static final int addstuff=0x7f07002d;
-        public static final int amount=0x7f070029;
+        public static final int addstuff=0x7f07002e;
+        public static final int amount=0x7f07002a;
         public static final int app_name=0x7f070000;
         public static final int ble=0x7f070002;
         public static final int brand_mame=0x7f07001e;
@@ -405,7 +405,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int corpor_tel=0x7f070020;
         public static final int corpor_url=0x7f070022;
         public static final int del_box=0x7f070024;
-        public static final int edit_menu_title=0x7f070027;
+        public static final int edit_menu_title=0x7f070028;
         public static final int fla_kind=0x7f07001d;
         public static final int fla_name=0x7f07001c;
         public static final int flavor=0x7f07000e;
@@ -416,7 +416,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int loginHint=0x7f070007;
         public static final int mactitle=0x7f070017;
         public static final int main_stuff=0x7f07000c;
-        public static final int material=0x7f070028;
+        public static final int material=0x7f070029;
+        public static final int my_doing=0x7f070027;
         public static final int my_download=0x7f070026;
         public static final int my_menu=0x7f070009;
         public static final int my_tool=0x7f07000a;
@@ -431,9 +432,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int signin=0x7f070015;
         public static final int signup=0x7f070014;
         public static final int step_title=0x7f07000f;
-        public static final int stuff_brand=0x7f07002c;
-        public static final int stuff_kind=0x7f07002b;
-        public static final int stuff_name=0x7f07002a;
+        public static final int stuff_brand=0x7f07002d;
+        public static final int stuff_kind=0x7f07002c;
+        public static final int stuff_name=0x7f07002b;
         public static final int sub_stuff=0x7f07000d;
         public static final int tool=0x7f07000b;
         public static final int user_name=0x7f070010;

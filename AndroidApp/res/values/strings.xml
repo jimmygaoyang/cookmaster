@@ -40,6 +40,7 @@
     <string name="del_box">删除</string>
     <string name="my_upload">我的作品</string>
     <string name="my_download">我的收藏</string>
+    <string name="my_doing">我的草稿</string>
     <string name="edit_menu_title">输入菜谱名称，最多15个字符</string>
     <string name="material">食材</string>
     <string name="amount">用量</string>
