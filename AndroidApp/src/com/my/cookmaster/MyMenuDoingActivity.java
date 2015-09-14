@@ -69,17 +69,17 @@ public class MyMenuDoingActivity extends Activity {
 		MyScrollListener scrollListener = new MyScrollListener(adpater);
 		menuList.setOnScrollListener(scrollListener);
 		
-		menuList.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,  
-                    int position, long id) {
-				// TODO Auto-generated method stub
-				Log.d("cook",String.format("选中了第%d个", position));
-			}
-			
-		});
+//		menuList.setOnItemClickListener(new OnItemClickListener()
+//		{
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,  
+//                    int position, long id) {
+//				// TODO Auto-generated method stub
+//				Log.d("cook",String.format("选中了第%d个", position));
+//			}
+//			
+//		});
 		
 		loadMenuData();
 	}

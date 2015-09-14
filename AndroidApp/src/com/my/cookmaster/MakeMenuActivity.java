@@ -103,6 +103,9 @@ public class MakeMenuActivity extends Activity {
 				}
 				
 				refreshSaveData();
+
+				Intent intent = new Intent(MakeMenuActivity.this, StepsEditActivity.class);
+				MakeMenuActivity.this.startActivity(intent);
 				}
 				
 		});
