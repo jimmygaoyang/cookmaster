@@ -105,6 +105,7 @@ public class MakeMenuActivity extends Activity {
 				refreshSaveData();
 
 				Intent intent = new Intent(MakeMenuActivity.this, StepsEditActivity.class);
+				intent.putExtra("menuPath", menuPath);
 				MakeMenuActivity.this.startActivity(intent);
 				}
 				
@@ -118,10 +119,9 @@ public class MakeMenuActivity extends Activity {
         Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent  
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据   
         isCreatMenu  = bundle.getBoolean("isCreate");
+        menuPath = bundle.getString("menuID");
 		if(isCreatMenu == false)
-		{
-			menuPath = bundle.getString("menuID");
-			
+		{	
 			LoadMenuData(menuPath);
 		}
 		else
@@ -228,6 +228,7 @@ public class MakeMenuActivity extends Activity {
         SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyyMMddHHmmss");     
         Date   curDate   =   new   Date(System.currentTimeMillis());//获取当前时间     
         String   str   =   formatter.format(curDate);
+        menuPath = str;
         String path = Constant.DOING_MENU_PATH;
         if(isCreatMenu == true)
         {
