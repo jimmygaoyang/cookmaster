@@ -144,8 +144,26 @@ public class StepsEditActivity extends Activity {
 			switch(sigId)
 			{
 			case StepsEditActivity.STEP_DEL:
+			{
 				uploadMenuBean.getSteps().remove(itemIndex-1);
+			    //save to json file
+		        String sendDat = JSON.toJSONString(uploadMenuBean);       
+		        fileSer = new FileService(StepsEditActivity.this);
+		        
+
+		        String path = Constant.DOING_MENU_PATH;
+
+		        path = Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath;
+
+		        try {
+					fileSer.saveToSDCard(path,"json.txt", sendDat);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+		        
 				StepsEditActivity.this.onResume();
+			}
 				break;
 			case StepsEditActivity.STEP_ADD:
 				intent.putExtra("menuPath",menuPath);

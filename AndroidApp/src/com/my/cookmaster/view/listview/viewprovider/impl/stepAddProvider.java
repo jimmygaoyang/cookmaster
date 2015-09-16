@@ -57,7 +57,7 @@ public class stepAddProvider extends IViewProvider{
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Log.d("cook",String.format("新加步骤pos=%d", pos-1));
+			Log.d("cook",String.format("新加步骤pos=%d", pos));
 			pos = pos + (StepsEditActivity.STEP_ADD<<16);
 			v.setTag(pos);
 			mCallback.click(v);

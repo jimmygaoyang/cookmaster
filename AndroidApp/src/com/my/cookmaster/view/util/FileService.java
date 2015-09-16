@@ -43,7 +43,7 @@ public class FileService {
 			fd.mkdirs();
 		}
 		//…æµÙ÷Æ«∞json
-		File fdCheck = new File(path+"/json.txt");
+		File fdCheck = new File(path+"/"+fileName);
 		if(fdCheck.exists()){
 			fdCheck.delete();
 		}

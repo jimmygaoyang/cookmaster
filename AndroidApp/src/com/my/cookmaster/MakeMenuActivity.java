@@ -120,17 +120,7 @@ public class MakeMenuActivity extends Activity {
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据   
         isCreatMenu  = bundle.getBoolean("isCreate");
         menuPath = bundle.getString("menuID");
-		if(isCreatMenu == false)
-		{	
-			LoadMenuData(menuPath);
-		}
-		else
-		{
-			CreateMenuData();
-		}
   
-		if(mList.size() == 0)//防止重写
-			CreateMenuData();
 		
 		instance = this;
 	};
@@ -183,7 +173,16 @@ public class MakeMenuActivity extends Activity {
 		makeMenuList.setAdapter(adpater);
 		MyScrollListener scrollListener = new MyScrollListener(adpater);
 		makeMenuList.setOnScrollListener(scrollListener);
-		adpater.notifyDataSetChanged();		
+		adpater.notifyDataSetChanged();	
+		
+		if(isCreatMenu == false)
+		{	
+			LoadMenuData(menuPath);
+		}
+		else
+		{
+			CreateMenuData();
+		}
 		
 
 	}
@@ -244,6 +243,7 @@ public class MakeMenuActivity extends Activity {
 			e.printStackTrace();
 		}
         
+        isCreatMenu = false;
 
         
 	}

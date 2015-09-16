@@ -68,7 +68,7 @@ public class SetpEditActivity extends Activity {
 					UploadStep stepBean = new UploadStep();
 					stepBean.setStepImgRes(null);
 					stepBean.setIntro(stepContent.getText().toString());
-					stepBean.setStepIndex(uploadMenuBean.getSteps().size());
+					stepBean.setStepIndex(uploadMenuBean.getSteps().size()+1);
 					stepBean.setUploadSuccess(false);				
 					uploadMenuBean.getSteps().add(stepBean);
 										
@@ -109,7 +109,7 @@ public class SetpEditActivity extends Activity {
         
         if(IsCreate == false)
         {
-        	StepIndex = bundle.getInt("StepIndex");
+        	StepIndex = bundle.getInt("StepIndex")-1;
         }
         
         LoadStepContent();	
