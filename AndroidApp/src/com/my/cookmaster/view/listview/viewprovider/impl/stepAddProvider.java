@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.my.cookmaster.R;
+import com.my.cookmaster.StepsEditActivity;
 import com.my.cookmaster.bean.bus_bean.MkMenuSubStuff;
 import com.my.cookmaster.bean.bus_bean.StepAdd;
 import com.my.cookmaster.bean.bus_bean.StuffAdd;
@@ -56,7 +57,8 @@ public class stepAddProvider extends IViewProvider{
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Log.d("cook",String.format("要添加步骤pos = %d", pos));
+			Log.d("cook",String.format("新加步骤pos=%d", pos-1));
+			pos = pos + (StepsEditActivity.STEP_ADD<<16);
 			v.setTag(pos);
 			mCallback.click(v);
 		}

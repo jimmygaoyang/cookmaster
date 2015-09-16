@@ -1,11 +1,15 @@
 package com.my.cookmaster;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.my.cookmaster.MakeMenuActivity.buttonClick;
 import com.my.cookmaster.bean.bus_bean.StepAdd;
 import com.my.cookmaster.bean.bus_bean.menuCoverEdit;
+import com.my.cookmaster.bean.bus_bean.stepEdit;
+import com.my.cookmaster.bean.pro_bean.UploadMenuBean;
 import com.my.cookmaster.view.listview.viewprovider.Callback;
 import com.my.cookmaster.view.listview.viewprovider.IItemBean;
 import com.my.cookmaster.view.listview.viewprovider.IViewProvider;
@@ -15,10 +19,12 @@ import com.my.cookmaster.view.listview.viewprovider.impl.MkMenuMenuTitleProvider
 import com.my.cookmaster.view.listview.viewprovider.impl.StepEditProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.menuCoverEditProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.stepAddProvider;
+import com.my.cookmaster.view.util.FileService;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,6 +36,12 @@ public class StepsEditActivity extends Activity {
 	private Button backBtn;
 	private TextView publish;
 	private ListView stepsList;
+	private String menuPath;
+	private FileService fileSer;
+	private UploadMenuBean uploadMenuBean ;
+	public static final int STEP_ADD = 1;
+	public static final int STEP_EDIT = 2;
+	public static final int STEP_DEL = 3;
 	
 	List<Class<? extends IViewProvider>> providers;
 	MiltilViewListAdapter adpater;
@@ -54,6 +66,10 @@ public class StepsEditActivity extends Activity {
 		
 		mList = new ArrayList<IItemBean>();
 		CurTile.setText("菜谱编辑");
+	    Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent  
+        Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据   
+        menuPath = bundle.getString("menuPath");
+        
 		backBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -69,9 +85,30 @@ public class StepsEditActivity extends Activity {
 	
 	private void loadStepsData() {
 		// TODO Auto-generated method stub
+		
+		fileSer = new FileService(this);
+		String content = null;
+		try {
+			content = fileSer.read(Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath+"/json.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		uploadMenuBean = JSON.parseObject(content,UploadMenuBean.class);
+		
 		mList.clear();
 		menuCoverEdit menuCover = new menuCoverEdit();
+		if(uploadMenuBean.getCoverUrl()!= null)
+			menuCover.setCoverUrl(uploadMenuBean.getCoverUrl());
 		mList.add(menuCover);
+		for(int i=0;i<uploadMenuBean.getSteps().size();i++)
+		{
+			stepEdit stepContent = new stepEdit();
+			stepContent.setPhotoURL(uploadMenuBean.getSteps().get(i).getStepImgRes());
+			stepContent.setStepNo(i+1);
+			stepContent.setIntro(uploadMenuBean.getSteps().get(i).getIntro());
+			mList.add(stepContent);
+		}
 		StepAdd stepAddBean = new  StepAdd();
 		mList.add(stepAddBean);
 		
@@ -102,21 +139,28 @@ public class StepsEditActivity extends Activity {
 			editPosition = (Integer)v.getTag();
 			int itemIndex = editPosition & 0x0000FFFF;
 			int sigId = (editPosition & 0xFFFF0000)>>16; 
-			if(sigId ==0)
+		
+
+			switch(sigId)
 			{
-				intent.putExtra("pos",itemIndex);
+			case StepsEditActivity.STEP_DEL:
+				uploadMenuBean.getSteps().remove(itemIndex-1);
+				StepsEditActivity.this.onResume();
+				break;
+			case StepsEditActivity.STEP_ADD:
+				intent.putExtra("menuPath",menuPath);
+				intent.putExtra("IsCreate", true);
 				StepsEditActivity.this.startActivity(intent);
+				break;
+			case StepsEditActivity.STEP_EDIT:
+				intent.putExtra("menuPath",menuPath);
+				intent.putExtra("IsCreate", false);
+				intent.putExtra("StepIndex", itemIndex);
+				StepsEditActivity.this.startActivity(intent);
+				break;
 			}
-			else
-			{
-				switch(sigId)
-				{
-				case 1:
-					mList.remove(itemIndex);
-					StepsEditActivity.this.onResume();
-					break;
-				}
-			}
+				
+
 
 
 

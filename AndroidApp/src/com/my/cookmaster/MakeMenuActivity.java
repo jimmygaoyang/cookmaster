@@ -194,8 +194,6 @@ public class MakeMenuActivity extends Activity {
 		{
 			uploadMenuBean.getSubStuff().clear();
 		}
-		if(uploadMenuBean.getSteps().size()!=0)
-			uploadMenuBean.getSteps().clear();
 		//reload
 		int subStuffIndex=0;
         for(int i=0; i<mList.size();i++)
@@ -225,19 +223,20 @@ public class MakeMenuActivity extends Activity {
         String sendDat = JSON.toJSONString(uploadMenuBean);       
         fileSer = new FileService(this);
         
-        SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyyMMddHHmmss");     
-        Date   curDate   =   new   Date(System.currentTimeMillis());//获取当前时间     
-        String   str   =   formatter.format(curDate);
-        menuPath = str;
+
         String path = Constant.DOING_MENU_PATH;
         if(isCreatMenu == true)
         {
+            SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyyMMddHHmmss");     
+            Date   curDate   =   new   Date(System.currentTimeMillis());//获取当前时间     
+            String   str   =   formatter.format(curDate);
         	path = path+"/"+str+"/";
         }
         else
         {
         	path = Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath;
         }
+        
         try {
 			fileSer.saveToSDCard(path,"json.txt", sendDat);
 		} catch (IOException e) {
