@@ -161,11 +161,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int StepContent=0x7f040060;
-        public static final int StepHint=0x7f0400ac;
         public static final int StepIndex=0x7f04005f;
         public static final int StepPhoto=0x7f04005e;
         public static final int Step_Del=0x7f040061;
-        public static final int StepsView=0x7f0400ae;
+        public static final int StepsView=0x7f0400ad;
         public static final int Tag=0x7f0400a6;
         public static final int Tag0=0x7f040087;
         public static final int Tag1=0x7f04008e;
@@ -194,9 +193,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int brand_title=0x7f04002f;
         public static final int btn_add=0x7f040008;
         public static final int btn_cancel=0x7f040009;
-        public static final int button_backward=0x7f0400b3;
+        public static final int button_backward=0x7f0400b2;
         public static final int button_bar=0x7f040013;
-        public static final int button_forward=0x7f0400b4;
+        public static final int button_forward=0x7f0400b3;
         public static final int cancle_btn=0x7f040015;
         public static final int content=0x7f040038;
         public static final int corpor_addr=0x7f040032;
@@ -240,11 +239,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int intro=0x7f04005d;
         public static final int kind_title=0x7f04002c;
         public static final int layout_btn=0x7f040007;
-        public static final int layout_content=0x7f0400b1;
+        public static final int layout_content=0x7f0400b0;
         public static final int layout_titlebar=0x7f04000a;
-        public static final int logBox=0x7f0400b5;
-        public static final int login=0x7f0400b8;
-        public static final int loginHint=0x7f0400b7;
+        public static final int logBox=0x7f0400b4;
+        public static final int login=0x7f0400b7;
+        public static final int loginHint=0x7f0400b6;
         public static final int login_btnbar=0x7f04006b;
         public static final int login_namebar=0x7f040068;
         public static final int login_passbar=0x7f040069;
@@ -272,10 +271,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int message=0x7f040039;
         public static final int myDoingMenu=0x7f040081;
         public static final int myDownloadMenu=0x7f04007f;
-        public static final int myMenuBox=0x7f0400b6;
+        public static final int myMenuBox=0x7f0400b5;
         public static final int myUploadMenu=0x7f04007d;
-        public static final int mysetBox=0x7f0400ba;
-        public static final int mytoolBox=0x7f0400b9;
+        public static final int mysetBox=0x7f0400b9;
+        public static final int mytoolBox=0x7f0400b8;
         public static final int name=0x7f040048;
         public static final int name_bar=0x7f04000d;
         public static final int name_flavor=0x7f040020;
@@ -290,7 +289,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int set_box=0x7f040047;
         public static final int sign_in=0x7f04006d;
         public static final int sign_up=0x7f04006c;
-        public static final int stepContent=0x7f0400ad;
+        public static final int stepContent=0x7f0400ac;
         public static final int step_no=0x7f04005c;
         public static final int step_photo=0x7f04005b;
         public static final int stroke=0x7f040000;
@@ -303,13 +302,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int stuff_list=0x7f040076;
         public static final int stuff_name_bar=0x7f040074;
         public static final int substuff=0x7f040062;
-        public static final int tab_image=0x7f0400af;
-        public static final int tab_text=0x7f0400b0;
+        public static final int tab_image=0x7f0400ae;
+        public static final int tab_text=0x7f0400af;
         public static final int tel_bar=0x7f040019;
         public static final int tel_num=0x7f04001a;
         public static final int text=0x7f04003e;
         public static final int text_mount=0x7f040005;
-        public static final int text_title=0x7f0400b2;
+        public static final int text_title=0x7f0400b1;
         public static final int ticke_expire_date_tv=0x7f040067;
         public static final int ticke_lable_tv=0x7f040065;
         public static final int ticke_type_tv=0x7f040066;
