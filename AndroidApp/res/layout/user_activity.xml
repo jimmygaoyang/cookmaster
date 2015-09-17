@@ -6,7 +6,6 @@
     
     <include layout="@layout/title_bar"
       android:id="@+id/layout_titlebar"
-      android:layout_alignParentTop="true"
       />
     <RelativeLayout 
         android:id="@+id/logBox"
@@ -51,8 +50,8 @@
         android:hint="@string/my_menu" 
         />  
         <ImageView 
-           android:layout_width="80dp" 
-           android:layout_height="60dp"
+           android:layout_width="50dp" 
+           android:layout_height="50dp"
            android:layout_alignParentRight="true"
            android:layout_centerVertical="true"
            android:background="@drawable/forward_arrow"
@@ -74,8 +73,8 @@
         android:hint="@string/my_tool" 
         />  
         <ImageView 
-           android:layout_width="80dp" 
-           android:layout_height="60dp"
+           android:layout_width="50dp" 
+           android:layout_height="50dp"
            android:layout_alignParentRight="true"
            android:layout_centerVertical="true"
            android:background="@drawable/forward_arrow"
@@ -97,8 +96,8 @@
         android:layout_centerVertical="true"
         />  
         <ImageView 
-           android:layout_width="80dp" 
-           android:layout_height="60dp"
+           android:layout_width="50dp" 
+           android:layout_height="50dp"
            android:layout_alignParentRight="true"
            android:layout_centerVertical="true"
            android:background="@drawable/forward_arrow"

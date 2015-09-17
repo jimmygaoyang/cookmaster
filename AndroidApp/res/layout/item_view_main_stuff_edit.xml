@@ -5,6 +5,7 @@
     android:orientation="vertical" 
         android:focusable="true" 
 	android:focusableInTouchMode="true"
+	android:background="#ffffff"
     >
     <TextView 
      android:layout_width="fill_parent"

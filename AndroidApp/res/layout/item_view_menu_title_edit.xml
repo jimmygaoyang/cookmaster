@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
         android:focusable="true" 
 	android:focusableInTouchMode="true"
+	android:background="#ffffff"
      >
     <EditText 
      android:id="@+id/menu_tilte"
