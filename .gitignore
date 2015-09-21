@@ -31,4 +31,5 @@ JLinkLog.txt
 *.PS
 *.SearchResults
 *.WK3
+*.class
 

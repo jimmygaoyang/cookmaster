@@ -1,12 +1,16 @@
 package com.my.cookmaster.view;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
@@ -84,12 +88,29 @@ public class LoadImage {
 	            // 文件缓存中获取
 	            result = fileCache.getImage(url);
 	            if (result == null) {
-	                // 从网络获取
+	                //先从本地获取，如果获取不到，再走网络
+	            	FileInputStream fis = null;
+					try {
+						fis = new FileInputStream(url);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                result = BitmapFactory.decodeStream(fis);
+	                if(result != null)
+	                {
+	                	memoryCache.addBitmapToCache(url, result);
+	                    fileCache.saveBmpToSd(result, url); 
+	                    return result;
+	                }
+                	// 从网络获取
 	                result = ImageGetForHttp.downloadBitmap(url);
 	                if (result != null) {
 	                    memoryCache.addBitmapToCache(url, result);
 	                    fileCache.saveBmpToSd(result, url);                    
 	                }
+	                
+	            	
 	            } else {
 	                // 添加到内存缓存
 	                memoryCache.addBitmapToCache(url, result);

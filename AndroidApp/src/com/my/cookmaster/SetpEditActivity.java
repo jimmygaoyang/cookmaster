@@ -1,6 +1,8 @@
 package com.my.cookmaster;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -42,7 +44,8 @@ public class SetpEditActivity extends Activity {
 	private boolean IsCreate;
 	private int StepIndex;
 	private Bitmap myBitmap; 
-	private byte[] mContent; 
+	private byte[] mContent;
+	private String BitMapurl = null;
 	private UploadMenuBean uploadMenuBean ;
 	
 	@Override
@@ -113,7 +116,7 @@ public class SetpEditActivity extends Activity {
 				if(IsCreate == true)
 				{
 					UploadStep stepBean = new UploadStep();
-					stepBean.setStepImgRes(null);
+					stepBean.setStepImgRes(BitMapurl);
 					stepBean.setIntro(stepContent.getText().toString());
 					stepBean.setStepIndex(uploadMenuBean.getSteps().size()+1);
 					stepBean.setUploadSuccess(false);				
@@ -122,7 +125,7 @@ public class SetpEditActivity extends Activity {
 				}
 				else
 				{
-					uploadMenuBean.getSteps().get(StepIndex).setStepImgRes(null);
+					uploadMenuBean.getSteps().get(StepIndex).setStepImgRes(BitMapurl);
 					uploadMenuBean.getSteps().get(StepIndex).setIntro(stepContent.getText().toString());
 				}
 				
@@ -179,7 +182,16 @@ public class SetpEditActivity extends Activity {
 			if(uploadMenuBean.getSteps().get(StepIndex).getStepImgRes() != null)
 			{
 			
-//				hint.setVisibility(View.INVISIBLE);
+				BitMapurl = uploadMenuBean.getSteps().get(StepIndex).getStepImgRes();
+                FileInputStream fis = null;
+				try {
+					fis = new FileInputStream(uploadMenuBean.getSteps().get(StepIndex).getStepImgRes());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                Bitmap bp = BitmapFactory.decodeStream(fis);
+                stepPhoto.setImageBitmap(bp); 
 				
 			}else
 			{
@@ -212,7 +224,7 @@ public class SetpEditActivity extends Activity {
 	        if(requestCode==0){  
 	              
 	            //方式一   
-	            /*try { 
+	           /* try { 
 	                 //获得图片的uri  
 	                Uri orginalUri = data.getData(); 
 	                  //将图片内容解析成字节数组  
@@ -220,7 +232,7 @@ public class SetpEditActivity extends Activity {
 	                 //将字节数组转换为ImageView可调用的Bitmap对象  
 	                myBitmap  =getPicFromBytes(mContent,null); 
 	                  ////把得到的图片绑定在控件上显示 
-	                imageView.setImageBitmap(myBitmap); 
+	                stepPhoto.setImageBitmap(myBitmap); 
 	            } catch (Exception e) { 
 	                e.printStackTrace(); 
 	                // TODO: handle exception 
@@ -238,7 +250,11 @@ public class SetpEditActivity extends Activity {
 	                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);  
 	                String picturePath = cursor.getString(columnIndex);  
 	                cursor.close();  
-	                stepPhoto.setImageBitmap(BitmapFactory.decodeFile(picturePath)); 
+	                FileInputStream fis = new FileInputStream(picturePath);
+	                Bitmap bp = BitmapFactory.decodeStream(fis);
+	                stepPhoto.setImageBitmap(bp); 
+	                BitMapurl = picturePath;
+//	                stepPhoto.setImageBitmap(BitmapFactory.decodeFile(picturePath)); 
 	            } catch (Exception e) {  
 	                // TODO: handle exception   
 	                e.printStackTrace();  
@@ -252,6 +268,22 @@ public class SetpEditActivity extends Activity {
 	                ByteArrayOutputStream baos = new ByteArrayOutputStream();       
 	                myBitmap.compress(Bitmap.CompressFormat.JPEG , 100, baos);       
 	                mContent=baos.toByteArray();  
+	                
+	                fileSer = new FileService(SetpEditActivity.this);
+			        
+
+			        String path = Constant.DOING_MENU_PATH;
+			        SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyyMMddHHmmss");     
+			        Date   curDate   =   new   Date(System.currentTimeMillis());//获取当前时间     
+			        String   str   =   formatter.format(curDate);
+			        path = Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath;
+
+			        try {
+						fileSer.saveToSDCard(path,str+".jpg", mContent);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
 	            } catch (Exception e) {  
 	                e.printStackTrace();  
 	                // TODO: handle exception   
