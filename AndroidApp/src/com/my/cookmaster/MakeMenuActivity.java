@@ -229,7 +229,9 @@ public class MakeMenuActivity extends Activity {
             SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyyMMddHHmmss");     
             Date   curDate   =   new   Date(System.currentTimeMillis());//获取当前时间     
             String   str   =   formatter.format(curDate);
-        	path = path+"/"+str+"/";
+        	path =Environment.getExternalStorageDirectory()+ path+"/"+str+"/";
+        	menuPath = str;
+        	
         }
         else
         {
