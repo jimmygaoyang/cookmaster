@@ -83,6 +83,35 @@ public class FileService {
 	 * @return 文件内容
 	 * @throws IOException
 	 */
+	public byte[] readBytes(String fileName) throws IOException {
+		File file = new File(fileName);
+		if(file == null)
+			return null;
+		
+		FileInputStream fileInputStream = new FileInputStream(file);
+		if(fileInputStream == null)
+		{
+			return null;
+		}
+		//把每次读取的内容写入到内存中，然后从内存中获取
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len =0;
+		//只要没读完，不断的读取
+		while((len=fileInputStream.read(buffer))!=-1){
+			outputStream.write(buffer, 0, len);
+		}
+		//得到内存中写入的所有数据
+		byte[] data = outputStream.toByteArray();
+		return data;
+	}
+	
+	/**
+	 * 读取文件内容
+	 * @param fileName 文件名称
+	 * @return 文件内容
+	 * @throws IOException
+	 */
 	public String read(String fileName) throws IOException {
 		File file = new File(fileName);
 		if(file == null)
@@ -105,4 +134,10 @@ public class FileService {
 		byte[] data = outputStream.toByteArray();
 		return new String(data);
 	}
+	
+	
+	
+	
+	
+	
 }
