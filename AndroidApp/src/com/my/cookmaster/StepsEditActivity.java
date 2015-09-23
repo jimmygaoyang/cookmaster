@@ -7,6 +7,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSON;
 import com.my.cookmaster.MakeMenuActivity.buttonClick;
 import com.my.cookmaster.bean.bus_bean.StepAdd;
+import com.my.cookmaster.bean.bus_bean.TagMessage;
 import com.my.cookmaster.bean.bus_bean.menuCoverEdit;
 import com.my.cookmaster.bean.bus_bean.stepEdit;
 import com.my.cookmaster.bean.pro_bean.UploadMenuBean;
@@ -183,6 +184,12 @@ public class StepsEditActivity extends Activity {
 
 
 			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(1,),Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void textChange(TagMessage message) {
+			// TODO Auto-generated method stub
+			
 		}
 			
 	};

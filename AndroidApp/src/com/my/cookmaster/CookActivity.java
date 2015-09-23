@@ -27,6 +27,7 @@ import com.j256.ormlite.dao.Dao;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.my.cookmaster.bean.bus_bean.Box;
 import com.my.cookmaster.bean.bus_bean.BoxOperate;
+import com.my.cookmaster.bean.bus_bean.TagMessage;
 import com.my.cookmaster.bean.pro_bean.GetBoxBean;
 import com.my.cookmaster.bean.pro_bean.GetBoxListBean;
 import com.my.cookmaster.bean.pro_bean.GetBoxListRspBean;
@@ -253,6 +254,12 @@ public class CookActivity extends BaseFragment{
 			selectedMacNum = (String)v.getTag();
 			
 			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(1,),Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void textChange(TagMessage message) {
+			// TODO Auto-generated method stub
+			
 		}
 			
 	};

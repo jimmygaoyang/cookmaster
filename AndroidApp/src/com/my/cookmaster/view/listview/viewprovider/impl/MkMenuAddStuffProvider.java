@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
+import com.my.cookmaster.MakeMenuActivity;
 import com.my.cookmaster.R;
 import com.my.cookmaster.ToolAddActivity;
 import com.my.cookmaster.bean.bus_bean.BoxAdd;
@@ -19,11 +20,12 @@ import com.my.cookmaster.view.listview.viewprovider.impl.BoxAddProvider.ViewHold
 public class MkMenuAddStuffProvider  extends IViewProvider{
 
 	private View parentView;
+	private StuffAdd item = null;
 	@Override
 	public View getItemView(View convertView, LayoutInflater inflater,
 			Object data) {
 		// TODO Auto-generated method stub
-		StuffAdd item = (StuffAdd) data;
+		item = (StuffAdd) data;
 		ViewHolder holder = null;
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.item_view_add_stuff, null);
@@ -58,9 +60,13 @@ public class MkMenuAddStuffProvider  extends IViewProvider{
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			Log.d("cook",String.format("要添加调料pos = %d", pos));
-			MkMenuSubStuff item1 = new MkMenuSubStuff();
-			adapter.mItemBeanList.add(pos,item1);
-			adapter.notifyDataSetChanged();
+			MkMenuSubStuff item1 = new MkMenuSubStuff();		
+//			adapter.mItemBeanList.add(pos,item1);
+//			adapter.notifyDataSetChanged();			
+			int message = 0 +(MakeMenuActivity.SUB_STUFF_ADD<<16);
+			v.setTag(message);
+			mCallback.click(v);
+			
 		}
 	}
 

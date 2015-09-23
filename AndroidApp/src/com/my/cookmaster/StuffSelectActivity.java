@@ -54,6 +54,7 @@ public class StuffSelectActivity extends Activity {
 	private EditText StuffName;
 	private EditText StuffKind;
 	private EditText StuffBrand;
+	private EditText StuffAmount;
 	private ListView StuffList;
 	private ListView StuffKindList;
 	private ListView StuffBrandList;
@@ -81,6 +82,7 @@ public class StuffSelectActivity extends Activity {
 	private BrandBean selectedBrand = null;
 	
 	private int position;
+	private boolean isMainStuff = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -95,7 +97,9 @@ public class StuffSelectActivity extends Activity {
 		StuffKind = (EditText)findViewById(R.id.stuff_kind);
 		StuffKindList = (ListView)findViewById(R.id.stuff_kind_list);
 		StuffBrand = (EditText)findViewById(R.id.stuff_brand);
-		StuffBrandList = (ListView)findViewById(R.id.stuff_brand_list);		
+		StuffBrandList = (ListView)findViewById(R.id.stuff_brand_list);
+		StuffAmount = (EditText)findViewById(R.id.stuff_amont);
+		
 		
 		CurTile.setText("食材选择");
 		makeMenu.setText("确定");
@@ -122,7 +126,7 @@ public class StuffSelectActivity extends Activity {
 		Intent intent=getIntent();
 		Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据  
 		position = bundle.getInt("pos");
-		 
+		isMainStuff = bundle.getBoolean("mainStuff");
 		
 		//食材交互
 		StuffName.setOnFocusChangeListener(new  View.OnFocusChangeListener()
@@ -359,7 +363,6 @@ public class StuffSelectActivity extends Activity {
 //				Intent intent = new Intent(StuffSelectActivity.this, MakeMenuActivity.class);
 //				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //				StuffSelectActivity.this.startActivity(intent);
-				MakeMenuActivity.instance.hasNextPage = false;
 				finish();
 			}
 		});
@@ -377,11 +380,22 @@ public class StuffSelectActivity extends Activity {
 					selectedMaterial.setMaterial_kind_name(StuffKind.getText().toString());
 					selectedMaterial.setBrand_name(StuffBrand.getText().toString());
 				}
-				MakeMenuActivity.instance.hasNextPage = false;
-				if(MakeMenuActivity.instance.mList.get(position) instanceof MkMenuMainStuff)
-					((MkMenuMainStuff)MakeMenuActivity.instance.mList.get(position)).setMaterial(selectedMaterial);
-				if(MakeMenuActivity.instance.mList.get(position) instanceof MkMenuSubStuff)
-					((MkMenuSubStuff)MakeMenuActivity.instance.mList.get(position)).setMaterial(selectedMaterial);
+				if(isMainStuff == true)
+				{
+					MakeMenuActivity.instance.uploadMenuBean.getMainStuff().setStuff(selectedMaterial);
+					MakeMenuActivity.instance.uploadMenuBean.getMainStuff().setAmount(StuffAmount.getText().toString());
+				}
+				else
+				{
+					MakeMenuActivity.instance.uploadMenuBean.getSubStuff().get(position).setStuff(selectedMaterial);
+					MakeMenuActivity.instance.uploadMenuBean.getSubStuff().get(position).setStuffIndex(position);
+					MakeMenuActivity.instance.uploadMenuBean.getSubStuff().get(position).setAmount(StuffAmount.getText().toString());
+				}
+					
+//				if(MakeMenuActivity.instance.mList.get(position) instanceof MkMenuMainStuff)
+//					((MkMenuMainStuff)MakeMenuActivity.instance.mList.get(position)).setMaterial(selectedMaterial);
+//				if(MakeMenuActivity.instance.mList.get(position) instanceof MkMenuSubStuff)
+//					((MkMenuSubStuff)MakeMenuActivity.instance.mList.get(position)).setMaterial(selectedMaterial);
 				finish();
 //				Intent intent = new Intent(StuffSelectActivity.this, MakeMenuActivity.class);
 //				StuffSelectActivity.this.startActivity(intent);

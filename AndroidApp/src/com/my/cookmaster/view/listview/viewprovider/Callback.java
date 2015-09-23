@@ -1,5 +1,7 @@
 package com.my.cookmaster.view.listview.viewprovider;
 
+import com.my.cookmaster.bean.bus_bean.TagMessage;
+
 import android.view.View;
 
 /**
@@ -9,4 +11,5 @@ import android.view.View;
 */
 public interface Callback{
 	public void click(View v);
+	public void textChange(TagMessage message);
 }

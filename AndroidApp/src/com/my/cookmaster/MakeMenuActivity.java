@@ -13,6 +13,7 @@ import com.my.cookmaster.bean.bus_bean.MkMenuMainStuff;
 import com.my.cookmaster.bean.bus_bean.MkMenuMenuTitle;
 import com.my.cookmaster.bean.bus_bean.MkMenuSubStuff;
 import com.my.cookmaster.bean.bus_bean.StuffAdd;
+import com.my.cookmaster.bean.bus_bean.TagMessage;
 import com.my.cookmaster.bean.bus_bean.mainStuff;
 import com.my.cookmaster.bean.bus_bean.subStuffTitle;
 import com.my.cookmaster.bean.pro_bean.MaterialBean;
@@ -46,10 +47,16 @@ public class MakeMenuActivity extends Activity {
 	private Button backBtn;
 	private TextView makeMenu;
 	private ListView makeMenuList;
-	private UploadMenuBean uploadMenuBean ;
+	public  UploadMenuBean uploadMenuBean ;
 	FileService fileSer;
 	String menuPath;
-	public boolean hasNextPage =false;//标识已经有下一个activity了
+	public static final int SUB_STUFF_ADD=0;
+	public static final int SUB_STUFF_EDIT=1;
+	public static final int SUB_STUFF_DEL=2;
+	public static final int MAIN_STUFF_EDIT=3;
+	public static final int MAIN_STUFF_AMOUNT_EDIT=4;
+	public static final int SUB_STUFF_AMOUNT_EDIT=5;
+	public static final int MENU_TITLE = 6;
 	
 	List<Class<? extends IViewProvider>> providers;
 	MiltilViewListAdapter adpater;
@@ -121,21 +128,26 @@ public class MakeMenuActivity extends Activity {
         isCreatMenu  = bundle.getBoolean("isCreate");
         menuPath = bundle.getString("menuID");
   
-		
+//        CreateMenuData();
+        LoadMenuData(menuPath);
 		instance = this;
 	};
 	
 	private void LoadMenuData(String menuPath) {
 		// TODO Auto-generated method stub
-		fileSer = new FileService(this);
-		String content = null;
-		try {
-			content = fileSer.read(Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath+"/json.txt");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		uploadMenuBean = JSON.parseObject(content,UploadMenuBean.class);
+		
+		if(menuPath != null)
+		{
+			fileSer = new FileService(this);
+			String content = null;
+			try {
+				content = fileSer.read(Environment.getExternalStorageDirectory()+Constant.DOING_MENU_PATH+menuPath+"/json.txt");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			uploadMenuBean = JSON.parseObject(content,UploadMenuBean.class);
+		}
 		
 		
 		mList.clear();
@@ -144,7 +156,10 @@ public class MakeMenuActivity extends Activity {
 		mList.add(titleBean);
 		MkMenuMainStuff mainStuf = new MkMenuMainStuff();
 		mainStuf.setMaterial(uploadMenuBean.getMainStuff().getStuff());
-		mainStuf.setAmount(uploadMenuBean.getMainStuff().getAmount());
+		if(uploadMenuBean.getMainStuff().getAmount()== null)
+			mainStuf.setAmount("用量");
+		else
+			mainStuf.setAmount(uploadMenuBean.getMainStuff().getAmount());	
 		mList.add(mainStuf);
 		subStuffTitle subStuffTitleBean = new subStuffTitle();
 		mList.add(subStuffTitleBean);
@@ -152,7 +167,11 @@ public class MakeMenuActivity extends Activity {
 		{
 			MkMenuSubStuff subStuff = new MkMenuSubStuff();
 			subStuff.setMaterial(uploadMenuBean.getSubStuff().get(i).getStuff());
-			subStuff.setAmount(uploadMenuBean.getSubStuff().get(i).getAmount());
+			subStuff.setSuffIndex(uploadMenuBean.getSubStuff().get(i).getStuffIndex());
+			if(uploadMenuBean.getSubStuff().get(i).getAmount() == null)
+				subStuff.setAmount("用量");
+			else
+				subStuff.setAmount(uploadMenuBean.getSubStuff().get(i).getAmount());
 			mList.add(subStuff);
 		}
 
@@ -175,14 +194,8 @@ public class MakeMenuActivity extends Activity {
 		makeMenuList.setOnScrollListener(scrollListener);
 		adpater.notifyDataSetChanged();	
 		
-		if(isCreatMenu == false)
-		{	
-			LoadMenuData(menuPath);
-		}
-		else
-		{
-			CreateMenuData();
-		}
+
+			LoadMenuData(null);
 		
 
 	}
@@ -274,26 +287,51 @@ public class MakeMenuActivity extends Activity {
 			editPosition = (Integer)v.getTag();
 			int itemIndex = editPosition & 0x0000FFFF;
 			int sigId = (editPosition & 0xFFFF0000)>>16; 
-			if(sigId ==0)
+
+			switch(sigId)
 			{
+			case MakeMenuActivity.MAIN_STUFF_EDIT:					
+				intent.putExtra("pos",itemIndex);
+				intent.putExtra("mainStuff", true);
+				MakeMenuActivity.this.startActivity(intent);
+				break;
+			case MakeMenuActivity.SUB_STUFF_ADD:
+				UploadStuff stuff = new UploadStuff(); 
+				stuff.setStuffIndex(uploadMenuBean.getSubStuff().size());
+				uploadMenuBean.getSubStuff().add(stuff);
+				MakeMenuActivity.this.onResume();
+				break;
+			case MakeMenuActivity.SUB_STUFF_EDIT:
+				intent.putExtra("mainStuff", false);
 				intent.putExtra("pos",itemIndex);
 				MakeMenuActivity.this.startActivity(intent);
-				hasNextPage = true;
+				break;
+		    case MakeMenuActivity.SUB_STUFF_DEL:
+				uploadMenuBean.getSubStuff().remove(itemIndex);
+				MakeMenuActivity.this.onResume();
+				break;
+				
+				
+				
+				
 			}
-			else
-			{
-				switch(sigId)
-				{
-				case 1:
-					mList.remove(itemIndex);
-					MakeMenuActivity.this.onResume();
-					break;
-				}
-			}
+
 
 
 
 			//Toast.makeText(CookActivity.this.getActivity(),"listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag(1,),Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void textChange(TagMessage message) {
+			// TODO Auto-generated method stub
+			switch(message.TagId)
+			{
+			case MakeMenuActivity.MENU_TITLE:
+				uploadMenuBean.setTitle(message.menuTitle);
+				break;
+			}
+			
 		}
 			
 	};

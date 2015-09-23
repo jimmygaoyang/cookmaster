@@ -12,9 +12,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.my.cookmaster.MakeMenuActivity;
 import com.my.cookmaster.R;
 import com.my.cookmaster.bean.bus_bean.BoxOperate;
 import com.my.cookmaster.bean.bus_bean.MkMenuMenuTitle;
+import com.my.cookmaster.bean.bus_bean.MkMenuSubStuff;
+import com.my.cookmaster.bean.bus_bean.TagMessage;
 import com.my.cookmaster.bean.bus_bean.step;
 import com.my.cookmaster.view.listview.viewprovider.IViewProvider;
 import com.my.cookmaster.view.listview.viewprovider.impl.stepProvider.ViewHolder;
@@ -52,8 +55,11 @@ public class MkMenuMenuTitleProvider extends IViewProvider {
 				public void afterTextChanged(Editable s) {
 					// TODO Auto-generated method stub
 					if (s != null && !"".equals(s.toString())) {  
-						MkMenuMenuTitle  bean =(MkMenuMenuTitle)(adapter.mItemBeanList.get(position));
-						bean.setMenuTitle(s.toString());
+						((MkMenuMenuTitle)adapter.mItemBeanList.get(position)).setMenuTitle(s.toString());
+						TagMessage message = new TagMessage();
+						message.menuTitle = s.toString();
+						message.TagId = MakeMenuActivity.MENU_TITLE;			
+    					mCallback.textChange(message);
 					}
 
 				}

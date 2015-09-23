@@ -25,7 +25,7 @@
 		     android:hint="@string/material"
 		     />
          
-    	     <EditText
+    	     <TextView
     	         android:id="@+id/amount"
 		     android:layout_weight="1"
 		     android:layout_width = "wrap_content"
@@ -33,7 +33,7 @@
 		     android:layout_gravity="center_vertical"
 		     android:textColor="#B2B2B2"
 		     android:background="@drawable/booder_right"
-		     android:hint="@string/amount"
+		     android:text="@string/amount"
 		     android:textSize="18sp"/>
     	          <ImageView 
 	         android:id="@+id/del_stuff"

@@ -9,6 +9,7 @@ import com.my.cookmaster.view.listview.viewprovider.impl.SubStuffEditProvider;
 public class MkMenuSubStuff implements IItemBean{
 	private MaterialBean material;
 	private String amount;
+	private int suffIndex;
 	@Override
 	public Class<? extends IViewProvider> getViewProviderClass() {
 		// TODO Auto-generated method stub
@@ -25,6 +26,12 @@ public class MkMenuSubStuff implements IItemBean{
 	}
 	public void setAmount(String amount) {
 		this.amount = amount;
+	}
+	public int getSuffIndex() {
+		return suffIndex;
+	}
+	public void setSuffIndex(int suffIndex) {
+		this.suffIndex = suffIndex;
 	}
 
 }

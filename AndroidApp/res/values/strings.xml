@@ -47,6 +47,7 @@
     <string name="stuff_name">食材名称</string>
     <string name="stuff_kind">食材种类</string>
     <string name="stuff_brand">食材品牌</string>
+    <string name="stuff_amount">食材用量</string>
     <string name="addstuff">添加食材</string>
     <string name="addstep">添加步骤</string>
     

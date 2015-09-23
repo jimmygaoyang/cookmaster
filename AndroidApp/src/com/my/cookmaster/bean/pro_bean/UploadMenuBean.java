@@ -9,7 +9,7 @@ public class UploadMenuBean {
 	private Long UserId;
 	private String Intro;
 	private String CoverUrl;
-	private UploadStuff MainStuff;
+	private UploadStuff MainStuff = new UploadStuff();
 	private List<UploadStuff> SubStuff = new ArrayList<UploadStuff>();
 	private String UserName;
 	private List<UploadStep> Steps = new ArrayList<UploadStep>();
